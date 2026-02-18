@@ -1,0 +1,374 @@
+/* src/index.css (Tailwind V4 Style) */
+@import "tailwindcss";
+
+@theme {
+  /*
+  |--------------------------------------------------------------------------
+  | 1. Custom Colors (Defined using HSL or RGB for use with utility classes)
+  |--------------------------------------------------------------------------
+  |
+  | The v3 HSL definitions (from Shadcn/Radix) must be defined first to be
+  | referenced by Tailwind's core color utilities (e.g., bg-primary).
+  | The RGB colors (cool-gray50, etc.) are converted to space-separated values.
+  */
+  --color-cool-gray-50: 249 250 251;
+  --color-heading-1: 29 53 87;
+  --color-primary-ak: #000000;
+  --color-text-black: 19 18 18;
+  --color-white: #FFFFFF;
+
+
+  --color-custom: #f9af46;
+  --color-ib: #7D7A7A;
+  --color-ib-1: #6193B5;
+  --color-ib-2: #1D3557;
+  --color-ib-3: "#2ecc7199";
+  --color-ib-4: "#ff6f61";
+  --color-ib-5: "#5C5C5C";
+
+  --font-ib-1: 'Montserrat', sans-serif;
+  --font-ib-2: 'Poppins', sans-serif;
+  --font-ib-3: 'Heebo', sans-serif;
+  --font-ib-4: 'IBM_Plex_Sans',Helvetica;
+  --font-ib-5: 'Nanum Brush Script';
+
+  --radius-tap: 20px 20px 0px 20px;
+  --radius-tap-2: 20px 20px 20px 0px;
+  --radius-tap-center: 20px 20px 0px 0px;
+
+  /* HSL Theme Colors (Shadcn/Radix style) */
+  
+  /* HSL Theme Colors (Shadcn/Radix style) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+
+  /* Border Radius */
+  --border-radius-DEFAULT: var(--radius);
+
+  /*
+  |--------------------------------------------------------------------------
+  | 2. Custom Animations (Defined using keyframes)
+  |--------------------------------------------------------------------------
+  |
+  | Animations are defined here to create utilities like "animate-fade-in".
+  | The 'spin' keyframe is defined first, and then the 'animate-spin' utility.
+  */
+
+  /* Spin Animation */
+
+  @keyframes spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  --animate-spin: spin 1s infinite;
+
+  @keyframes image-glow {
+    0% {
+      opacity: 0;
+      animation-timing-function: cubic-bezier(0.74, 0.25, 0.76, 1);
+    }
+
+    10% {
+      opacity: 0.7;
+      animation-timing-function: cubic-bezier(0.12, 0.01, 0.08, 0.99);
+    }
+
+    to {
+      opacity: 0.4;
+    }
+  }
+
+  --animate-image-glow: image-glow 1s;
+  /* Duration assumed as 1s, timing function handled by keyframes */
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  --animate-fade-in: fade-in 1s var(--animation-delay, 2s) ease forwards;
+
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  --animate-fade-up: fade-up 1s var(--animation-delay, 0s) ease forwards;
+
+  @keyframes shimmer {
+    0%,
+    90%,
+    to {
+      background-position: calc(-100% - var(--shimmer-width)) 0;
+    }
+
+    30%,
+    60% {
+      background-position: calc(100% + var(--shimmer-width)) 0;
+    }
+  }
+
+
+  @keyframes marquee {
+    0% {
+      transform: translate(0);
+    }
+
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+
+  --animate-marquee: marquee var(--duration) infinite linear;
+
+  @keyframes marquee-vertical {
+    0% {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+}
+
+/*
+|--------------------------------------------------------------------------
+| 3. CSS Variables for Themes (Outside @theme to be global)
+|--------------------------------------------------------------------------
+|
+| The variables for theming (Shadcn/Radix) must remain in CSS blocks so
+| JavaScript or Media Queries can toggle them (e.g., switching from light to dark).
+*/
+:root {
+  /* Akila's custom animations variable */
+  --animate-spin: spin 1s linear infinite;
+
+  /* HSL Theme Variables (Light Mode) */
+  --background: #5c5c5c;
+  --foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --card: transparent;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 215 20.2% 65.1%;
+  --radius: 0.5rem;
+}
+
+/* Dark Theme */
+.dark {
+  --background: 224 71% 4%;
+  --foreground: 213 31% 91%;
+  --muted: 223 47% 11%;
+  --muted-foreground: 215.4 16.3% 56.9%;
+  --accent: 216 34% 17%;
+  --accent-foreground: 210 40% 98%;
+  --popover: 224 71% 4%;
+  --popover-foreground: 215 20.2% 65.1%;
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  --card: transparent;
+  --card-foreground: 213 31% 91%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 1.2%;
+  --secondary: 222.2 47.4% 11.2%;
+  --secondary-foreground: 210 40% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 216 34% 17%;
+  --radius: 0.5rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| 4. Base Element Overrides and Custom Utilities
+|--------------------------------------------------------------------------
+*/
+
+/* Base element styles (equivalent to @layer base in v3) */
+
+
+
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  letter-spacing: 0.2px;
+}
+
+/* Custom utility (equivalent to @layer components in v3) */
+.all-\[unset\] {
+  all: unset;
+}
+
+section.slide {
+  background: url("assets/image/3-1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #818181;
+}
+
+input, textarea {
+  text-indent: 8px;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 42px;
+}
+
+h3 {
+  font-size: 36px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h6 {
+  font-size: 14px;
+}
+
+body {
+  color: #5c5c5c;
+  font-family: 'Poppins', sans-serif;
+}
+
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  animation: spin 0.6s linear infinite;
+}
+
+.spinner-ib-1 {
+  border-color: #245f86;
+  border-top-color: #6193b5;
+}
+
+/* sidebar */
+
+.overlay-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #fff;
+  z-index: 100000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#svg-spinner {
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1.2s;
+  -webkit-animation-name: rotate;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+
+  -moz-transition-property: -moz-transform;
+  -moz-animation-name: rotate;
+  -moz-animation-duration: 1.2s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+
+  transition-property: transform;
+  animation-name: rotate;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
