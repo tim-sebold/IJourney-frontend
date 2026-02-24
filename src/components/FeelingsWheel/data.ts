@@ -371,7 +371,6 @@ export const emotions: EmotionNode = {
                     "level": 2,
                     "description": "Experiencing unease, nervousness, or worry about an uncertain or potentially negative event in the future. Anxiety can be persistent and often lacks a specific or immediate cause, leading to feelings of apprehension and tension.",
                     "children": [
-                        { "id": "overwhelmed", "name": "Overwhelmed", "color": "#3FA9C6", "level": 3, "description": "Feeling unable to cope with or manage the demands placed upon oneself, resulting in a sense of being overloaded and stressed. This emotion often occurs when there are too many tasks, responsibilities, or emotional pressures to handle effectively." },
                         { "id": "worried", "name": "Worried", "color": "#3FA9C6", "level": 3, "description": "Feeling uneasy or concerned about potential problems or negative outcomes in the future. Worry is a persistent and often nagging emotion that focuses on uncertainties and possible dangers." }
                     ]
                 },
@@ -383,7 +382,6 @@ export const emotions: EmotionNode = {
                     "description": "Feeling uncertain, lacking confidence, or self-assurance, often due to perceived inadequacies or fear of failure and rejection. This emotion can lead to self-doubt and a constant need for reassurance from others.",
                     "children": [
                         { "id": "inadequate", "name": "Inadequate", "color": "#3FA9C6", "level": 3, "description": "Feeling insufficient, lacking, or not good enough, often in comparison to others or to certain standards. This emotion can lead to feelings of self-doubt and inferiority." },
-                        { "id": "inferior", "name": "Inferior", "color": "#3FA9C6", "level": 3, "description": "Feeling less valuable, capable, or worthy compared to others. This emotion is often accompanied by a sense of low self-esteem and can result in feeling subordinate or lesser in some way." }
                     ]
                 },
                 {

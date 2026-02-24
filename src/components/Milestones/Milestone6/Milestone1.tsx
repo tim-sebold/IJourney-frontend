@@ -1,40 +1,23 @@
+import { MilestonePageShell } from '../MilestonePageShell';
+import { useMilestoneNav } from '../../../hooks/useMilestoneNav';
 
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
-import { unlockNext } from '../../../controllers/courseController';
-import toast from 'react-hot-toast';
-
-import { CustomButton } from "../../../elements/buttons";
-import { Clock, Target, Users, Star, Heart,GraduationCap, Flag } from 'lucide-react';
+import { Clock, Target, Users, Star, Heart, GraduationCap, Flag } from 'lucide-react';
 
 function EnvisioningFuture() {
-    const navigate = useNavigate();
-    const { user } = useAuth();
-    const next = async () => {
-        if (user) {
-            try {
-                const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone6/2", prevMilestoneId: "milestone6/1" });
-                toast.success(result.message);
-            } catch (error: any) {
-                console.log(error);
-                toast.error(error.message);
-            }
-            navigate('/milestones/milestone6/2');
-        } else {
-            toast.error("You need to log in to unlock the next milestone.");
-        }
-    }
-
-    const previous = () => {
-        navigate('/milestones/milestone5/5');
-    };
+    const { previous, next, isNextLoading } = useMilestoneNav({
+        previousRoute: "/milestones/milestone5/5",
+        nextRoute: "/milestones/milestone6/2",
+        unlock: { milestoneId: "milestone6/2", prevMilestoneId: "milestone6/1" },
+    });
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M6.1: Envisioning Your Future</h3>
-                <h6>Creating Your Personal Vision for a Purpose-Driven Life</h6>
-            </div>
+        <MilestonePageShell
+            title="M6.1: Envisioning Your Future"
+            subtitle="Creating Your Personal Vision for a Purpose-Driven Life"
+            onPrevious={previous}
+            onNext={next}
+            isNextLoading={isNextLoading}
+        >
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
@@ -80,11 +63,7 @@ function EnvisioningFuture() {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between w-full gap-2 text-center">
-                <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
-                <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move'></CustomButton>
-            </div>
-        </div>
+        </MilestonePageShell>
     )
 }
 

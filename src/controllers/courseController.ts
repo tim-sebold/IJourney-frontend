@@ -1,4 +1,4 @@
-import { api } from '../lib/api';
+import { api, apiBlob } from '../lib/api';
 
 export type Milestone = {
     id: string;
@@ -22,35 +22,47 @@ export const getMilestone = (milestoneId: string) =>
 export const getMilestoneContent = (milestoneId: string) =>
     api<Milestone>(`/api/courses/${milestoneId}`);
 
-export const introduce = (payload: {
+export const introduce = async (payload: {
     userId: string;
     responses: Record<string, unknown>;
 }) =>
-    api<{ message: string }>(`/api/courses/introduction`, {
+    await api<{ message: string }>(`/api/courses/introduction`, {
         method: "POST",
         body: JSON.stringify(payload),
-})
+    })
 
-export const submitMilestone = (milestoneId: string, payload: {
+export const submitMilestone = async (milestoneId: string, payload: {
     userId: string;
     responses: Record<string, unknown>;
 }) =>
-    api<{ message: string }>(`/api/courses/${milestoneId}/submit`, {
+    await api<{ message: string }>(`/api/courses/${milestoneId}/submit`, {
         method: "POST",
         body: JSON.stringify(payload),
     });
 
-export const saveDraft = (milestoneId: string, payload: {
+export const saveDraft = async (milestoneId: string, payload: {
     userId: string;
     responses: Record<string, unknown>;
 }) =>
-    api<{ message: string }>(`/api/courses/${milestoneId}/draft`, {
+    await api<{ message: string }>(`/api/courses/${milestoneId}/draft`, {
         method: "POST",
         body: JSON.stringify(payload),
     });
 
-export const unlockNext = (payload: { userId: string; milestoneId: string, prevMilestoneId: string }) =>
-    api<{ message: string }>("/api/courses/unlock", {
+export const unlockNext = async (payload: { userId: string; milestoneId: string, prevMilestoneId: string }) =>
+    await api<{ message: string }>("/api/courses/unlock", {
         method: "POST",
         body: JSON.stringify(payload),
     });
+
+export const downloadCertificate = async (): Promise<Blob> => {
+    return apiBlob("/api/certificates/download", {
+        method: "POST",
+    });
+};
+
+export const makeCertificateId = async () => {
+    const year = new Date().getFullYear;
+    const rand = Math.floor(100000 + Math.random() * 900000);
+    return `IJ-${year}-${rand}`;
+}

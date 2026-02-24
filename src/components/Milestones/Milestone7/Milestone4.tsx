@@ -1,60 +1,64 @@
 
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { unlockNext } from '../../../controllers/courseController';
-import toast from 'react-hot-toast';
 
+import { MilestonePageShell } from '../MilestonePageShell';
+import { useMilestoneNav } from '../../../hooks/useMilestoneNav';
 import { CompletionCard } from './components/CompletionCard';
 import { CertificateCard } from './components/CertificateCard';
 import { NextStepsCard } from './components/NextStepCard';
-import { CustomButton } from "../../../elements/buttons";
+import toast from 'react-hot-toast';
+import { downloadCertificate } from '../../../controllers/courseController';
 
 function CelebrationCompletion() {
-    const navigate = useNavigate();
     const { user } = useAuth();
 
-    const next = async () => {
-        if (user) {
-            try {
-                const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone7/5", prevMilestoneId: "milestone7/4" });
-                toast.success(result.message);
-            } catch (error: any) {
-                console.log(error);
-                toast.error(error.message);
-            }
-            navigate('/milestones/milestone7/5');
-        } else {
-            toast.error("You need to log in to unlock the next milestone.");
+    const download = async () => {
+        if (!user) {
+            toast.error("Please check authentication and retry.");
+            return;
         }
-    }
 
-    const previous = () => {
-        navigate('/milestones/milestone7/3');
+        try {
+            const blob = await downloadCertificate();
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "iJourney-Certificate.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+            toast.success("Certificate downloaded!");
+        } catch (e) {
+            const message = e instanceof Error ? e.message : "Download failed.";
+            toast.error(message);
+        }
     };
 
-    const download = async () => {
-        console.log("download");
-    }
+    const { previous, next, isNextLoading } = useMilestoneNav({
+        previousRoute: "/milestones/milestone7/3",
+        nextRoute: "/milestones/milestone7/5",
+        unlock: { milestoneId: "milestone7/5", prevMilestoneId: "milestone7/4" },
+    });
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M7.4: Celebration & Completion</h3>
-                <h6>Congratulations on Completing Your iJourney!</h6>
-            </div>
+        <MilestonePageShell
+            title="M7.4: Celebration & Completion"
+            subtitle="Finalizing Your Growth Plan"
+            onPrevious={previous}
+            onNext={next}
+            isNextLoading={isNextLoading}
+        >
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <CompletionCard />
                     <CertificateCard name={user?.displayName} downloadFunc={download} />
                     <NextStepsCard />
-
                 </div>
             </div>
-            <div className="flex justify-between w-full gap-2 text-center">
-                <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
-                <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move'></CustomButton>
-            </div>
-        </div>
+        </MilestonePageShell>
     )
 }
 

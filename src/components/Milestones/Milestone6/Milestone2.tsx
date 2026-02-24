@@ -1,40 +1,23 @@
+import { MilestonePageShell } from '../MilestonePageShell';
+import { useMilestoneNav } from '../../../hooks/useMilestoneNav';
 
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
-import { unlockNext } from '../../../controllers/courseController';
-import toast from 'react-hot-toast';
-
-import { CustomButton } from "../../../elements/buttons";
 import { Lightbulb } from 'lucide-react';
 
 function JourneyerStatement() {
-    const navigate = useNavigate();
-    const { user } = useAuth();
-    const next = async () => {
-        if (user) {
-            try {
-                const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone6/3", prevMilestoneId: "milestone6/2" });
-                toast.success(result.message);
-            } catch (error: any) {
-                console.log(error);
-                toast.error(error.message);
-            }
-            navigate('/milestones/milestone6/3');
-        } else {
-            toast.error("You need to log in to unlock the next milestone.");
-        }
-    }
-
-    const previous = () => {
-        navigate('/milestones/milestone6/1');
-    };
+    const { previous, next, isNextLoading } = useMilestoneNav({
+        previousRoute: "/milestones/milestone6/1",
+        nextRoute: "/milestones/milestone6/3",
+        unlock: { milestoneId: "milestone6/3", prevMilestoneId: "milestone6/2" },
+    });
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M6.2: Your Journeyer's Statement</h3>
-                <h6>Crafting Your Personal Mission Statement</h6>
-            </div>
+        <MilestonePageShell
+            title="M6.2: Your Journeyer's Statement"
+            subtitle="Crafting Your Personal Mission Statement"
+            onPrevious={previous}
+            onNext={next}
+            isNextLoading={isNextLoading}
+        >
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
@@ -110,11 +93,7 @@ function JourneyerStatement() {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between w-full gap-2 text-center">
-                <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
-                <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move'></CustomButton>
-            </div>
-        </div>
+        </MilestonePageShell>
     )
 }
 

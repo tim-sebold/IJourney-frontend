@@ -8,7 +8,6 @@ export const useSunburst = (
     const root = d3
         .hierarchy<EmotionNode>(data)
         .sum(d => (d.children ? 0 : 1))
-        // .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
     const partition = d3
         .partition<EmotionNode>()
