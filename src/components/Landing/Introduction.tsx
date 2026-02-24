@@ -1,11 +1,10 @@
 import { ArrowRightIcon } from 'lucide-react';
-import { Avatar, AvatarImage } from '../../elements/avatar';
 import { Button } from '../../elements/buttons/button';
 import { Card, CardContent } from '../../elements/card';
 
-import ImagePlayButton from '../../assets/image/play-btn.svg';
+import { UserCircle2Icon } from 'lucide-react';
+
 import ImageFrame from '../../assets/image/frame.svg';
-import ImageAvatar from '../../assets/image/avatar/avatar3.jfif';
 
 function Introduction() {
     return (
@@ -20,12 +19,6 @@ function Introduction() {
                         </div>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-10 relative">
-                        <div className="flex flex-col flex-1 gap-6">
-                            <div className="flex flex-col relative w-full justify-center items-center">
-                                <iframe className="aspect-video bg-[#D9D9D9] w-full h-auto rounded-2xl" src=""></iframe>
-                                <img src={ImagePlayButton} alt="" className="absolute left-4 bottom-4 cursor-pointer hover:opacity-70" />
-                            </div>
-                        </div>
                         <div className="flex-col gap-6 flex-1 flex items-start">
                             <div className="flex-col items-start gap-6 w-full flex">
                                 <div className="flex flex-col items-start gap-12 w-full">
@@ -76,12 +69,7 @@ function Introduction() {
                                         </CardContent>
                                         <div className="inline-flex items-center absolute top-[-30px] left-[-5px]">
                                             <div className="inline-flex items-start gap-3 p-1 rounded-full overflow-hidden">
-                                                <Avatar className="w-12 h-12">
-                                                    <AvatarImage
-                                                        src={ImageAvatar}
-                                                        alt="Author avatar"
-                                                    />
-                                                </Avatar>
+                                                <UserCircle2Icon />
                                             </div>
                                         </div>
                                     </Card>

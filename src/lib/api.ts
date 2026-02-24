@@ -18,3 +18,26 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
     }
     return res.json();
 }
+
+export async function apiBlob(path: string, init?: RequestInit): Promise<Blob> {
+  const token = await auth.currentUser?.getIdToken();
+
+  const res = await fetch(`${API_URL}${path}`, {
+    ...init,
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers || {}),
+    },
+  });
+
+  if (!res.ok) {
+    let msg = res.statusText;
+    try {
+      const body = await res.json();
+      msg = body?.error ?? body?.message ?? msg;
+    } catch {}
+    throw new Error(msg);
+  }
+
+  return res.blob();
+}

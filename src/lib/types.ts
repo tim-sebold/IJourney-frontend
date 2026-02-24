@@ -43,6 +43,23 @@ export interface UserProfile {
 }
 
 // src/types/courses.ts
+export interface UnlockParams {
+  milestoneId: string;
+  prevMilestoneId: string;
+}
+
+export interface SubmitParams<TResponse> {
+  milestoneKey: string;
+  responses: TResponse;
+}
+
+export interface UseMilestoneNavOptions<TResponse> {
+  previousRoute: string;
+  nextRoute: string;
+  unlock?: UnlockParams;
+  submit?: SubmitParams<TResponse>;
+  requireAuth?: boolean;
+}
 export interface Milestone {
   id: string;
   title: string;

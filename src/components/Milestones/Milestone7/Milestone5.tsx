@@ -4,6 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import toast from 'react-hot-toast';
 import { unlockNext } from '../../../controllers/courseController';
 
+import { MilestonePageShell } from '../MilestonePageShell';
 import { CustomButton } from "../../../elements/buttons";
 import { Star, Heart, Target, Users, Lightbulb } from 'lucide-react';
 
@@ -29,7 +30,7 @@ function RoadAhead() {
     }
 
     const complete = async () => {
-        if(user) {
+        if (user) {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "completed", prevMilestoneId: "milestone7/5" });
                 toast.success(result.message);
@@ -44,11 +45,13 @@ function RoadAhead() {
     }
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M7.5: The Road Ahead</h3>
-                <h6>Your Continued Journey of Purpose and Growth</h6>
-            </div>
+        <MilestonePageShell
+            title="M7.5: The Road Ahead"
+            subtitle="Your Continued Journey of Purpose and Growth"
+            onPrevious={previous}
+            onNext={complete}
+            isNextLoading={false}
+        >
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
@@ -93,11 +96,8 @@ function RoadAhead() {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between w-full gap-2 text-center">
-                <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
-                <CustomButton onClickFunc={complete} title='complete' className='rounded-none justify-end' type='move'></CustomButton>
-            </div>
-        </div>
+        </MilestonePageShell>
+
     )
 }
 

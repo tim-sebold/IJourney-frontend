@@ -13,7 +13,7 @@ import {
     Textarea
 } from '../../../elements';
 
-import UserAvatar from "../../../assets/image/avatar/avatar5.jfif";
+import { UserCircle2Icon } from 'lucide-react';
 
 function StartingStatement() {
     const { user } = useAuth();
@@ -84,7 +84,7 @@ function StartingStatement() {
             </div>
             <div className="flex items-start space-x-4 p-4 bg-white rounded-lg shadow-xl">
                 <Avatar className="w-10 h-10">
-                    <AvatarImage src={UserAvatar} alt="user-avatar" />
+                    <UserCircle2Icon />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
 
