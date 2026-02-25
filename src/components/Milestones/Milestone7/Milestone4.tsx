@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 
 import { MilestonePageShell } from '../MilestonePageShell';
@@ -11,6 +12,7 @@ import { downloadCertificate } from '../../../controllers/courseController';
 
 function CelebrationCompletion() {
     const { user } = useAuth();
+    const [loading, setLoading] = useState<boolean>(false);
 
     const download = async () => {
         if (!user) {
@@ -19,6 +21,7 @@ function CelebrationCompletion() {
         }
 
         try {
+            setLoading(true);
             const blob = await downloadCertificate();
 
             const url = window.URL.createObjectURL(blob);
@@ -34,6 +37,8 @@ function CelebrationCompletion() {
         } catch (e) {
             const message = e instanceof Error ? e.message : "Download failed.";
             toast.error(message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -54,7 +59,7 @@ function CelebrationCompletion() {
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <CompletionCard />
-                    <CertificateCard name={user?.displayName} downloadFunc={download} />
+                    <CertificateCard name={user?.displayName} downloadFunc={download} loading={loading} />
                     <NextStepsCard />
                 </div>
             </div>

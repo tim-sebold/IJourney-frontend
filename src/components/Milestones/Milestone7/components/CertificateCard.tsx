@@ -1,11 +1,12 @@
 import { Award, Sparkles, Stars } from 'lucide-react';
-import { CustomButton } from '../../../../elements';
+import { CustomButton, Button } from '../../../../elements';
 
 type Props = {
     name?: string | null;
     dateLabel?: string;
     signatureLabel?: string;
-    downloadFunc: () => Promise<void>
+    downloadFunc: () => Promise<void>;
+    loading: boolean;
 };
 
 export function CertificateCard({
@@ -13,6 +14,7 @@ export function CertificateCard({
     dateLabel = new Date().toLocaleDateString(),
     signatureLabel = "Asha McMillan, LPC",
     downloadFunc,
+    loading,
 }: Props) {
     const displayName = name?.trim() || "—";
 
@@ -90,7 +92,18 @@ export function CertificateCard({
                 </div>
             </div>
             <div className="flex justify-center mt-4">
-                <CustomButton onClickFunc={downloadFunc} title='Download Certificate' className='rounded-none uppercase justify-end bg-ib-2 hover:bg-ib-2/80' type='sky'></CustomButton>
+                <Button onClick={downloadFunc} >
+                    <span className="font-bold text-xl tracking-[0] leading-[30px]">
+                        {
+                            loading ?
+                                <div className='flex flex-col sm:flex-row justify-center items-center gap-2'>
+                                    <svg className="spinner spinner-ib-1" viewBox="0 0 24 24"></svg>
+                                    Downloading...
+                                </div>
+                                : "Download Certificate"
+                        }
+                    </span>
+                </Button>
             </div>
         </div>
 
