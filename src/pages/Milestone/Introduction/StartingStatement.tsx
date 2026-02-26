@@ -8,7 +8,6 @@ import { unlockNext } from '../../../controllers/courseController';
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
     CustomButton,
     Textarea
 } from '../../../elements';

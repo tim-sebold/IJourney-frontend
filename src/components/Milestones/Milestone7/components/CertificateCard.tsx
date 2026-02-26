@@ -1,5 +1,5 @@
 import { Award, Sparkles, Stars } from 'lucide-react';
-import { CustomButton, Button } from '../../../../elements';
+import { Button } from '../../../../elements';
 
 type Props = {
     name?: string | null;
