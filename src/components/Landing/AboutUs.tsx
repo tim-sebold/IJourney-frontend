@@ -32,10 +32,8 @@ function AboutUs() {
                                     </h5>
                                     <p>
                                         <span className="font-bold text-ib-1">You'll find our team at:</span>
-
-                                        <span>3104 Grandview Drive</span>
-                                        <span>Suite B</span>
-                                        <span>Simpsonville, SC 29680</span>
+                                        <span>218 New Neely Ferry Rd</span>
+                                        <span>Mauldin, SC 29662</span>
                                     </p>
                                     <h5 className="font-bold italic">Together, let's discover the purpose that's been within you all along.</h5>
                                 </div>
