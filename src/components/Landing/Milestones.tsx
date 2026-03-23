@@ -7,27 +7,9 @@ import { Card, CardContent } from '../../elements/card';
 
 import { milestoneData } from '../../datas/landingData';
 
-function isMilestoneUnlocked(args: {
-    userLoggedIn: boolean;
-    index: number;
-    currentMilestone: number | null;
-    currentMilestoneChild: number | null;
-    percent?: number;
-}) {
-    const { userLoggedIn, index, currentMilestone, currentMilestoneChild, percent } = args;
-
-    if (!userLoggedIn) return false;
-
-    if (currentMilestone && currentMilestoneChild) {
-        return index < currentMilestone;
-    }
-
-    return Math.floor(percent ?? 0) === 100;
-}
-
 function Milestones() {
     const navigate = useNavigate();
-    const { progress, currentMilestone, currentMilestoneChild } = useProgress();
+    const { currentMilestoneChild } = useProgress();
 
     console.log(currentMilestoneChild);
     
