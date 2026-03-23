@@ -1,15 +1,39 @@
 import { useNavigate } from 'react-router-dom';
+import { useProgress } from '../../context/ProgressContext';
 
+import CircularProgress from './components/Progress';
 import { Badge } from '../../elements/badge';
 import { Card, CardContent } from '../../elements/card';
 
 import { milestoneData } from '../../datas/landingData';
 
+function isMilestoneUnlocked(args: {
+    userLoggedIn: boolean;
+    index: number;
+    currentMilestone: number | null;
+    currentMilestoneChild: number | null;
+    percent?: number;
+}) {
+    const { userLoggedIn, index, currentMilestone, currentMilestoneChild, percent } = args;
+
+    if (!userLoggedIn) return false;
+
+    if (currentMilestone && currentMilestoneChild) {
+        return index < currentMilestone;
+    }
+
+    return Math.floor(percent ?? 0) === 100;
+}
+
 function Milestones() {
     const navigate = useNavigate();
+    const { progress, currentMilestone, currentMilestoneChild } = useProgress();
+
+    console.log(currentMilestoneChild);
+    
 
     const goToMilestonePage = (milestoneId: number) => {
-        navigate(`/milestones/${milestoneId}/1`);
+        navigate(`/milestones/milestone${milestoneId}/1`);
     }
 
     return (
@@ -53,47 +77,7 @@ function Milestones() {
                                             {milestone.description}
                                         </p>
                                     </div>
-                                    <div className="animate-fade-in opacity-0 [--animation-delay:200ms] flex justify-center items-center pt-10">
-                                        <div className="w-[250px] h-[316px] relative">
-                                            <div className="flex flex-col items-center justify-center absolute top-[calc(50.00%-105px)] left-[calc(50.00%-36px)]">
-                                                <div className="flex items-start relative">
-                                                    <div className="relative w-fit font-['Roboto',Helvetica] font-medium text-[62px] tracking-[0] leading-[normal] whitespace-nowrap">
-                                                        00
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="absolute w-[9.60%] h-[13.29%] top-[14.87%] left-[69.20%] flex items-center justify-center font-['Roboto',Helvetica] font-medium text-neutral-1 text-[32px] text-center tracking-[0] leading-[42.0px] whitespace-nowrap">
-                                                %
-                                            </div>
-
-                                            <div className="absolute top-0 left-0 w-[250px] h-[250px]">
-                                                <div className="absolute top-0 left-0 w-[250px] h-[250px]">
-                                                    <div className="absolute top-[124px] left-[124px] w-px h-px bg-[#f6a200] rounded-[0.5px]" />
-
-                                                    <div className="absolute top-[124px] left-[124px] w-px h-px bg-[#7b61ff] rounded-[0.5px]" />
-                                                </div>
-
-                                                <div className="absolute top-0 left-0 w-[250px] h-[250px]">
-                                                    <div className="absolute top-[124px] left-[124px] w-px h-px bg-[#0080f6] rounded-[0.5px]" />
-
-                                                    <div className="bg-[#fff50d] absolute top-[124px] left-[124px] w-px h-px rounded-[0.5px]" />
-                                                </div>
-
-                                                <div className="absolute top-0 left-0 w-[250px] h-[250px]">
-                                                    <div className="absolute top-[124px] left-[124px] w-px h-px bg-[#c50606] rounded-[0.5px] rotate-[-90.77deg]" />
-
-                                                    <div className="bg-[#8de300] rotate-[-90.77deg] absolute top-[124px] left-[124px] w-px h-px rounded-[0.5px]" />
-                                                </div>
-                                            </div>
-
-                                            <div className="absolute top-0 left-0 w-[250px] h-[250px] flex bg-[url(https://c.animaapp.com/mhc1tscrMoE84t/img/ring-1.svg)] bg-position-[100%_100%]">
-                                                <div className="mt-[133.0px] w-[197.94px] h-[37.99px] ml-[26.0px] font-['Roboto',Helvetica]  font-medium text-white text-base text-center tracking-[-0.32px] leading-[normal]">
-                                                    In progress please wait a moment...
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <CircularProgress value={70} />
                                 </CardContent>
                             </Card>
                         ))}
