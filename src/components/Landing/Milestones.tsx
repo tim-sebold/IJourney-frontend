@@ -68,7 +68,7 @@ function Milestones() {
                         <div className="px-4 py-6 flex flex-col justify-center items-end border-2 bg-ib-1 border-ib-1 rounded-2xl">
                             <div className="flex justify-end items-center p-6">
                                 <p className='text-white text-xl'>We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our
-                                    I-Journey program and the broader RIZE Prevention mission. Their commitment to community service empowers us
+                                    iJourney program and the broader RIZE Prevention mission. Their commitment to community service empowers us
                                     to provide vital resources and mentorship to youth, helping them navigate life's challenges with resilience.</p>
                             </div>
                             <div className="flex justify-end items-end">
