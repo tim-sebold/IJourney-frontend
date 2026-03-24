@@ -6,13 +6,14 @@ import { Badge } from '../../elements/badge';
 import { Card, CardContent } from '../../elements/card';
 
 import { milestoneData } from '../../datas/landingData';
+import RotaryLogoImage from "../../assets/image/rotary-logo.png";
 
 function Milestones() {
     const navigate = useNavigate();
     const { currentMilestoneChild } = useProgress();
 
     console.log(currentMilestoneChild);
-    
+
 
     const goToMilestonePage = (milestoneId: number) => {
         navigate(`/milestones/milestone${milestoneId}/1`);
@@ -63,6 +64,16 @@ function Milestones() {
                                 </CardContent>
                             </Card>
                         ))}
+                    <div className="col-span-2 flex flex-col justify-center">
+                        <div className="flex justify-end items-center">
+                            <p className='text-black/80 text-2xl'>We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our
+                                I-Journey program and the broader RIZE Prevention mission. Their commitment to community service empowers us
+                                to provide vital resources and mentorship to youth, helping them navigate life's challenges with resilience.</p>
+                        </div>
+                        <div className="flex justify-end items-end">
+                            <img src={RotaryLogoImage} alt="" className="w-1/2" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

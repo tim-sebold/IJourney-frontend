@@ -1,5 +1,4 @@
 import GoogleMapView from '../../components/GoogleMapView';
-import ImageAboutUs from '../../assets/image/aboutus.png';
 
 function AboutUs() {
   const handelScrollTop = () => {
@@ -20,7 +19,7 @@ function AboutUs() {
             </div>
             <div className="flex flex-col md:flex-row gap-20">
               <div className="py-2 flex-1 cursor-pointer hover:scale-105 transition-all">
-                <img src={ImageAboutUs} alt="" />
+                <img src="https://i.postimg.cc/Gmbcfd55/Untitled-design.png" alt="" />
               </div>
               <div className="py-2 flex-1 text-black flex flex-col gap-6">
                 <h5 className="font-medium">
@@ -28,7 +27,6 @@ function AboutUs() {
                   Our program was created to offer thoughtful guidance, emotional support, and practical tools that help individuals of all ages connect with their values,
                   strengths, and goals.
                   From our home in Mauldin, South Carolina, we're proud to serve people seeking growth, healing, or direction.
-                  We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our I-Journey program and the broader RIZE Prevention mission. Their commitment to community service empowers us to provide vital resources and mentorship to youth, helping them navigate life's challenges with resilience.
                 </h5>
 
                 <h5>
