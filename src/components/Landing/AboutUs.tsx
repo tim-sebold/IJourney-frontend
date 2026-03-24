@@ -27,7 +27,7 @@ function AboutUs() {
                                         Our program was created to offer thoughtful guidance, emotional support, and practical tools that help individuals of all ages connect with their values,
                                         strengths, and goals.
                                         From our home in Simpsonville, South Carolina, we're proud to serve people seeking growth, healing, or direction. <br />
-                                        We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our I-Journey program and the broader RIZE Prevention mission. Their commitment to community service empowers us to provide vital resources and mentorship to youth, helping them navigate life's challenges with resilience.
+                                        We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our iJourney program and the broader RIZE Prevention mission. Their commitment to community service empowers us to provide vital resources and mentorship to youth, helping them navigate life's challenges with resilience.
                                     </h5>
                                     <p>
                                         <span className="font-bold text-ib-1">You'll find our team at:</span>
