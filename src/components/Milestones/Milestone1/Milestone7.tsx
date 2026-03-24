@@ -74,7 +74,7 @@ function StatementBuilder() {
                         className="border-0 inline-flex w-auto shadow-none border-b-2 border-ib border-dashed rounded-none px-2 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                     &nbsp;Officially declare that I have approached the creation of my Journeyers Statement with careful thought and reflection before
-                    deciding to proceed on my IJourney path. I recognize that my personal journey has left me feeling both &nbsp;
+                    deciding to proceed on my iJourney path. I recognize that my personal journey has left me feeling both &nbsp;
                     <Input
                         value={value2}
                         type="text"
