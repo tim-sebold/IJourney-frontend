@@ -25,7 +25,7 @@ function Introduction() {
                                     <div className="flex flex-col items-start gap-5 w-full">
                                         <h2 className="w-full whitespace-pre-wrap">
                                             <p className="text-[#fcb332] text-[40px] font-ib-4 font-bold w-full">
-                                                &quot;IJourney: Path to Purpose&quot;&nbsp;
+                                                &quot;iJourney: Path to Purpose&quot;&nbsp;
                                             </p>
                                             <p className="text-[#3498db] text-[40px] font-ib-4 font-bold w-full">
                                                 will help you find the purpose.

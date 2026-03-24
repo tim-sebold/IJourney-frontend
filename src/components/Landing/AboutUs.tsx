@@ -23,7 +23,7 @@ function AboutUs() {
                             <div className="flex flex-1">
                                 <div className="py-2 flex-1 text-black flex flex-col gap-6">
                                     <h5 className="font-medium">
-                                        At IJourney, we believe everyone deserves the chance to understand themselves and move toward a future filled with purpose.
+                                        At iJourney, we believe everyone deserves the chance to understand themselves and move toward a future filled with purpose.
                                         Our program was created to offer thoughtful guidance, emotional support, and practical tools that help individuals of all ages connect with their values,
                                         strengths, and goals.
                                         From our home in Simpsonville, South Carolina, we're proud to serve people seeking growth, healing, or direction. <br />
