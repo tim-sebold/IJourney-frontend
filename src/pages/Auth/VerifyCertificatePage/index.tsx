@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../../../config/config";
 
 type VerifyResponse =
     | { valid: true; certificateId: string; courseTitle: string; issuedToName: string; issuedAt: string | null }
@@ -11,9 +12,18 @@ export default function VerifyCertificatePage() {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`/api/certificates/verify/${certificateId}`);
-            const json = (await res.json()) as VerifyResponse;
-            setData(json);
+            if (!certificateId) {
+                setData({ valid: false, error: "Certificate ID is missing." });
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/api/certificates/verify/${encodeURIComponent(certificateId)}`);
+                const json = (await res.json()) as VerifyResponse;
+                setData(json);
+            } catch {
+                setData({ valid: false, error: "Unable to reach the certificate service." });
+            }
         })();
     }, [certificateId]);
 
