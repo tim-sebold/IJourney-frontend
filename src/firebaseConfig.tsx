@@ -4,13 +4,15 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  // Firebase web configuration is public metadata. Keep it together here so a
+  // stale hosting-provider environment cannot silently point Auth at another project.
+  apiKey: 'AIzaSyCzDMQ5NoRUXtUc4EpHXTN9r96IMh9dK-M',
+  authDomain: 'i-journey-7d945.firebaseapp.com',
+  projectId: 'i-journey-7d945',
+  storageBucket: 'i-journey-7d945.firebasestorage.app',
+  messagingSenderId: '1028710854249',
+  appId: '1:1028710854249:web:e3bd187fbcffb06fe9fcf8',
+  measurementId: 'G-5EK2FHV1BY',
 };
 
 const app = initializeApp(firebaseConfig);
