@@ -9,7 +9,7 @@ export const login = async (idToken: string) => {
         return data;
     } catch (error: any) {
         console.error("Error Log In:", error);
-        throw new Error("Failed to save introduction", {
+        throw new Error(error?.message ?? "Failed to log in", {
             cause: error,
         });
     }
@@ -30,7 +30,7 @@ export const register = async (name: string, email: string, password: string, ro
     } catch (error: any) {
         console.error("Error Sign Up:", error);
 
-        throw new Error("Failed to sign up", {
+        throw new Error(error?.message ?? "Failed to sign up", {
             cause: error,
         });
     }

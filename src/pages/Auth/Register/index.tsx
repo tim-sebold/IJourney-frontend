@@ -54,13 +54,14 @@ function Register() {
 
                 await loginWithEmailPassword(email, password);
                 setInputValues({ name: "", email: "", password: "", confirmPassword: "" });
+                navigate('/');
             } else {
                 toast.error(data.message);
             }
-
-            navigate('/');
         } catch (error: any) {
-            console.log("Firebase error:", error);
+            const message = error?.cause?.message ?? error?.message ?? "Unable to create your account.";
+            toast.error(message);
+            console.error("Sign-up error:", error);
         } finally {
             setLoading(false);
         }
