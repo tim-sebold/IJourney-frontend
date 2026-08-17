@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type CircularProgressProps = {
     value: number;
@@ -19,8 +19,22 @@ const CircularProgress = ({
 }: CircularProgressProps) => {
     const targetValue = Math.max(0, Math.min(100, value));
     const [animatedValue, setAnimatedValue] = useState(0);
+    const [isVisible, setIsVisible] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        const element = containerRef.current;
+        if (!element) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.25 }
+        );
+        observer.observe(element);
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isVisible) return;
         let frameId = 0;
         let startTime: number | null = null;
 
@@ -43,7 +57,7 @@ const CircularProgress = ({
         frameId = requestAnimationFrame(animate);
 
         return () => cancelAnimationFrame(frameId);
-    }, [targetValue, duration]);
+    }, [targetValue, duration, isVisible]);
 
     const { center, radius, circumference, dashOffset } = useMemo(() => {
         const center = size / 2;
@@ -61,12 +75,14 @@ const CircularProgress = ({
     }, [size, strokeWidth, animatedValue]);
 
     return (
-        <div className="relative flex items-center justify-center overflow-hidden">
+        <div ref={containerRef} className="relative mx-auto flex aspect-square w-full max-w-[340px] items-center justify-center overflow-hidden">
             <svg
-                width={size}
-                height={size}
                 viewBox={`0 0 ${size} ${size}`}
-                className="-rotate-90"
+                className="h-full w-full -rotate-90"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(animatedValue)}
             >
                 {/* dark track */}
                 <circle
