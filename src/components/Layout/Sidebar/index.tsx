@@ -5,18 +5,20 @@ import toast from 'react-hot-toast';
 import { Progress, Button } from '../../../elements';
 
 import { sidebarData, headerData } from '../../../datas/layoutData';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ArrowLeftFromLine, ArrowRightFromLine, AlarmClock, AlarmClockCheck, AlarmClockMinusIcon } from "lucide-react";
 
 import { control_scroll } from '../../../lib/utils';
-import useIsDesktop from '../../../hooks/useIsDesktop';
 
-function Sidebar() {
-    const isDesktop = useIsDesktop();
+interface SidebarProps {
+    collapsed: boolean;
+    onToggle: () => void;
+}
+
+function Sidebar({ collapsed, onToggle }: SidebarProps) {
     const navigate = useNavigate();
-    const [collapsed, setCollapsed] = useState(false);
     const { currentMilestone, currentMilestoneChild, refreshProgress, progress } = useProgress();
 
     const url = document.baseURI.split('/');
@@ -31,14 +33,6 @@ function Sidebar() {
         navigate(menu.url);
     }
 
-    useEffect(() => {
-        if (!isDesktop) {
-            setCollapsed(true);
-        } else {
-            setCollapsed(false);
-        }
-    }, [isDesktop]);
-
     const handleMilestone1 = (menu: any, index: number) => {
         if (currentMilestone && currentMilestoneChild && index < currentMilestoneChild) {
             navigate(menu.url);
@@ -48,14 +42,17 @@ function Sidebar() {
     }
 
     return (
-        <aside className={`fixed top-0 left-0 z-2 pt-24 h-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.25)] text-gray-600 transition-all duration-500 px-3 py-5 ${collapsed ? "w-16" : "w-92"}`}>
+        <aside className={`fixed top-0 left-0 z-2 pt-24 h-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.25)] text-gray-600 transition-[width] duration-300 ease-in-out px-3 py-5 ${collapsed ? "w-16" : "w-92 max-w-[85vw]"}`}>
             <div className="relative my-4 flex items-center">
                 <Button
                     type="button"
-                    aria-label="Toggle sidebar"
-                    onClick={() => setCollapsed((prev) => !prev)}
-                    className={`absolute top-1/2 -translate-y-1/2 p-2 rounded-none border border-custom cursor-pointer right-1 hover:bg-custom hover:text-white group lg:hidden`}>
-                    {collapsed ? <ArrowRightFromLine size={20} className="group-hover:text-white text-custom" /> : <ArrowLeftFromLine size={20} className="group-hover:text-white text-custom" />}
+                    aria-label={collapsed ? "Expand milestone sidebar" : "Collapse milestone sidebar"}
+                    aria-expanded={!collapsed}
+                    title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    onClick={onToggle}
+                    className="absolute top-2 -right-8 z-30 h-10 w-10 rounded-full border border-custom bg-white p-0 shadow-md cursor-pointer hover:bg-custom hover:text-white group"
+                >
+                    {collapsed ? <ArrowRightFromLine size={20} className="text-ib-2 group-hover:text-white" /> : <ArrowLeftFromLine size={20} className="text-ib-2 group-hover:text-white" />}
                 </Button>
             </div>
             <div className={`transition-opacity mt-10 mb-4 text-center px-2 duration-500 ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
@@ -78,13 +75,13 @@ function Sidebar() {
                 <h4 className="px-2 py-1 cursor-pointer text-center font-bold absolute right-1 bg-ib-2 w-[34px] text-white">M</h4>
             </div>
 
-            <ul className="flex flex-col list-none h-full">
+            <ul className="flex h-[calc(100%-15rem)] flex-col overflow-y-auto pb-8 list-none">
                 {sidebarData.milestoneMenus[parseInt(url[url.length - 2].replace("milestone", "")) - 1].map((menu, index) => (
                     Math.floor(progress?.summary.percent) === 100 ||
                         currentMilestone && parseInt(url[url.length - 2].replace("milestone", "")) < currentMilestone ?
-                        <li key={index} className={`relative cursor-pointer p-2 overflow-hidden leading-8 whitespace-nowrap hover:bg-gray-200 ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"}`} onClick={() => handleMilestone(menu)} >
+                        <li key={index} className={`relative flex items-start cursor-pointer p-2 overflow-hidden leading-8 hover:bg-gray-200 ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"}`} onClick={() => handleMilestone(menu)} >
                             <AlarmClockCheck size={25} className="inline-block" />
-                            <span className={`ml-4 font-bold transition-opacity duration-500 w-full ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`} >
+                            <span className={`ml-4 min-w-0 flex-1 whitespace-normal font-bold leading-5 ${collapsed ? "hidden" : "block"}`} >
                                 {menu.title}
                             </span>
                             {collapsed && (
@@ -95,11 +92,11 @@ function Sidebar() {
                         </li>
                         :
                         parseInt(url[url.length - 2].replace("milestone", "")) === currentMilestone ?
-                            <li key={index} className={`relative whitespace-nowrap overflow-hidden p-2 leading-[1.8rem] ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"} ${currentMilestoneChild && currentMilestoneChild > index ? " hover:bg-gray-200 cursor-pointer" : "opacity-50 cursor-not-allowed"}`} onClick={() => handleMilestone1(menu, index)} >
+                            <li key={index} className={`relative flex items-start overflow-hidden p-2 leading-[1.8rem] ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"} ${currentMilestoneChild && currentMilestoneChild > index ? " hover:bg-gray-200 cursor-pointer" : "opacity-50 cursor-not-allowed"}`} onClick={() => handleMilestone1(menu, index)} >
                                 {currentMilestoneChild && index + 1 < currentMilestoneChild && <AlarmClockCheck size={25} className="inline-block" />}
                                 {index + 1 === currentMilestoneChild && <AlarmClock size={25} className="inline-block" />}
                                 {currentMilestoneChild && index + 1 > currentMilestoneChild && <AlarmClockMinusIcon size={25} className="inline-block" />}
-                                <span className={`ml-4 font-bold transition-opacity duration-500 ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`} >
+                                <span className={`ml-4 min-w-0 flex-1 whitespace-normal font-bold leading-5 ${collapsed ? "hidden" : "block"}`} >
                                     {menu.title}
                                 </span>
                                 {collapsed && (
@@ -109,9 +106,9 @@ function Sidebar() {
                                 )}
                             </li>
                             :
-                            <li key={index} className={`relative whitespace-nowrap overflow-hidden p-2 leading-[1.8rem] cursor-not-allowed`} onClick={() => handleMilestone(menu)} >
+                            <li key={index} className="relative flex items-start overflow-hidden p-2 leading-[1.8rem] cursor-not-allowed" onClick={() => handleMilestone(menu)} >
                                 <AlarmClockCheck size={25} className="inline-block" />
-                                <span className={`ml-4 font-bold transition-opacity duration-500 ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`} >
+                                <span className={`ml-4 min-w-0 flex-1 whitespace-normal font-bold leading-5 ${collapsed ? "hidden" : "block"}`} >
                                     {menu.title}
                                 </span>
                                 {collapsed && (

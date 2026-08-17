@@ -50,8 +50,12 @@ function EQTreasuredSecret() {
         if (user) {
             const getResponse = async () => {
                 const response = await getMilestone('milestone2_6');
-                if (response) {
-                    setEmotion(response.responses.emotion as string);
+                if (response?.responses) {
+                    const savedEmotion = response.responses.emotion as string | undefined;
+                    setEmotion(savedEmotion ?? "");
+                    // A persisted response means this activity was already saved. Restore
+                    // the navigation state as well as the field value when revisiting it.
+                    setNextButtonDisabledState(!savedEmotion?.trim());
                 }
             };
             getResponse();
