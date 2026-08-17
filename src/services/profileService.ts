@@ -1,13 +1,5 @@
-import { auth } from "../firebaseConfig";
-
-function fileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(new Error("Failed to read file"));
-        reader.onload = () => resolve(String(reader.result));
-        reader.readAsDataURL(file);
-    });
-}
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { auth, storage } from "../firebaseConfig";
 
 export async function uploadAvatar(file: File): Promise<string> {
     const user = auth.currentUser;
@@ -16,7 +8,8 @@ export async function uploadAvatar(file: File): Promise<string> {
     if (!file.type.startsWith("image/")) throw new Error("Only image files are allowed");
     if (file.size > 5 * 1024 * 1024) throw new Error("Image must be under 5MB");
 
-    const base64 = await fileToBase64(file);
-
-    return base64;
+    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const avatarRef = ref(storage, `avatars/${user.uid}/profile.${extension}`);
+    await uploadBytes(avatarRef, file, { contentType: file.type });
+    return getDownloadURL(avatarRef);
 }

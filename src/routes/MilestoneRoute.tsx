@@ -1,5 +1,7 @@
 import React from 'react';
 import { MilestoneLayout } from '../layouts';
+import ProtectedRoute from './ProtectedRoute';
+import LoadingSpinner from '../components/Loader';
 
 const milestoneModules = import.meta.glob("../components/Milestones/Milestone*/Milestone*.tsx");
 
@@ -20,7 +22,7 @@ export function generateMilestoneRoutes() {
             element: (() => {
                 const Component = React.lazy(milestoneModules[path] as any);
                 return (
-                    <React.Suspense fallback={<div>Loading...</div>}>
+                    <React.Suspense fallback={<LoadingSpinner />}>
                         <Component />
                     </React.Suspense>
                 );
@@ -30,7 +32,7 @@ export function generateMilestoneRoutes() {
 
     return Object.entries(routesMap).map(([group, children]) => ({
         path: `milestones/milestone${group}`,
-        element: <MilestoneLayout />,
+        element: <ProtectedRoute><MilestoneLayout /></ProtectedRoute>,
         children: children.sort((a, b) => Number(a.path) - Number(b.path)),
     }));
 }

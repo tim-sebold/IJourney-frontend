@@ -15,6 +15,7 @@ import { forgotPassword } from '../../../controllers/authController';
 
 function ForgotPassword() {
     const [email, setEmail] = useState<string>('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,17 +25,14 @@ function ForgotPassword() {
             toast.error(validationData);
             return;
         } else {
+            setLoading(true);
             try {
-                const res: any = await forgotPassword(email);
-                
-                if (res?.link) {
-                    console.log("Password reset link:", res.link);
-                    window.open(res.link, '_blank');
-                }
-
+                await forgotPassword(email);
                 toast.success("If this email exists, a reset link has been sent.");
             } catch (err: any) {
                 toast.error(err.message || "Something went wrong.");
+            } finally {
+                setLoading(false);
             }
         }
     }
@@ -87,9 +85,9 @@ function ForgotPassword() {
 
                                     </div>
                                 </div>
-                                <Button type='submit' className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:300ms]">
+                                <Button type='submit' loading={loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:300ms]">
                                     <span className="w-fit -mt-px font-bold text-xl tracking-[0] leading-[30px] whitespace-nowrap">
-                                        Send
+                                        {loading ? "Sending..." : "Send"}
                                     </span>
                                 </Button>
                             </div>

@@ -50,7 +50,7 @@ function Oasis() {
     const [nextButtonDisabledState, setnextButtonDisabledState] = useState<boolean>(true);
 
     useEffect(() => {
-        var count = 0;
+        let count = 0;
 
         accessments.map((item: any) => {
             item.sqs.map((itemJ: any) => {

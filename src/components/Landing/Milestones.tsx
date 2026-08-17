@@ -64,8 +64,8 @@ function Milestones() {
                                 </CardContent>
                             </Card>
                         ))}
-                    <div className="md:col-span-2 flex items-end">
-                        <div className="px-4 py-6 flex flex-col justify-center items-end border-2 bg-ib-1 border-ib-1 rounded-2xl">
+                    <div className="md:col-span-2 flex items-end justify-center">
+                        <div className="w-full max-w-2xl px-4 py-6 flex flex-col justify-center items-end border-2 bg-ib-1 border-ib-1 rounded-2xl">
                             <div className="flex justify-end items-center p-6">
                                 <p className='text-white text-xl'>We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our
                                     iJourney program and the broader RIZE Prevention mission. Their commitment to community service empowers us

@@ -82,7 +82,7 @@ export function ProviderList({
                     try {
                         await unlinkAsync.run(unlinkId);
                         setUnlinkId(null);
-                    } catch { }
+                    } catch { /* The async action already surfaces its own error. */ }
                 }}
             />
         </section>

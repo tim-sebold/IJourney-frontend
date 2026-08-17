@@ -32,7 +32,7 @@ export const introduce = async (payload: {
     })
 
 export const submitMilestone = async (milestoneId: string, payload: {
-    userId: string;
+    userId?: string;
     responses: Record<string, unknown>;
 }) =>
     await api<{ message: string }>(`/api/courses/${milestoneId}/submit`, {
@@ -41,7 +41,7 @@ export const submitMilestone = async (milestoneId: string, payload: {
     });
 
 export const saveDraft = async (milestoneId: string, payload: {
-    userId: string;
+    userId?: string;
     responses: Record<string, unknown>;
 }) =>
     await api<{ message: string }>(`/api/courses/${milestoneId}/draft`, {
@@ -49,11 +49,29 @@ export const saveDraft = async (milestoneId: string, payload: {
         body: JSON.stringify(payload),
     });
 
-export const unlockNext = async (payload: { userId: string; milestoneId: string, prevMilestoneId: string }) =>
-    await api<{ message: string }>("/api/courses/unlock", {
+export const unlockNext = async (payload: { userId?: string; milestoneId: string, prevMilestoneId: string }) => {
+    const requestUnlock = () => api<{ message: string }>("/api/courses/unlock", {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+            milestoneId: payload.milestoneId,
+            prevMilestoneId: payload.prevMilestoneId,
+        }),
     });
+
+    try {
+        return await requestUnlock();
+    } catch (error) {
+        if (error instanceof Error &&
+            error.message.includes("Submit the current milestone") &&
+            payload.prevMilestoneId !== "start") {
+            await submitMilestone(payload.prevMilestoneId.replaceAll('/', '_'), {
+                responses: { viewed: true },
+            });
+            return requestUnlock();
+        }
+        throw error;
+    }
+};
 
 export const downloadCertificate = async (): Promise<Blob> => {
     return apiBlob("/api/certificates/download", {

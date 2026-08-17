@@ -1,10 +1,9 @@
 
-import { Outlet } from "react-router-dom";
-
 import Header from '../components/Layout/Header';
 import Chatbot from "../components/Chatbot";
 
 import LogoImage from "../assets/image/milestones/logo.png";
+import RouteTransition from "../components/Loader/RouteTransition";
 
 function IntroductionLayout() {
     return (
@@ -17,7 +16,7 @@ function IntroductionLayout() {
                             <div className="flex flex-col items-start">
                                 <img src={LogoImage} alt="Logo" className="" />
                             </div>
-                            <Outlet />
+                            <RouteTransition />
                         </div>
                     </div>
                 </div>

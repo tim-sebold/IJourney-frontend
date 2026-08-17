@@ -16,17 +16,17 @@ type NetworkPerson = {
     contactGoal: string;
 };
 
+const initialNetwork = [
+    { id: 1, name: '', role: '' },
+    { id: 2, name: '', role: '' },
+    { id: 3, name: '', role: '' },
+    { id: 4, name: '', role: '' },
+    { id: 5, name: '', role: '' }
+];
+
 function DefiningRoles() {
     const { user } = useAuth();
     const navigate = useNavigate();
-
-    const initialNetwork = [
-        { id: 1, name: '', role: '' },
-        { id: 2, name: '', role: '' },
-        { id: 3, name: '', role: '' },
-        { id: 4, name: '', role: '' },
-        { id: 5, name: '', role: '' }
-    ];
 
     const [network, setNetwork] = useState(
         initialNetwork.map(person => ({

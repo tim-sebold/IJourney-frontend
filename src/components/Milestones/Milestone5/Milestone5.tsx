@@ -144,7 +144,7 @@ const EducationalPlan: React.FC = () => {
         } finally {
             setIsSubmitting(false);
         }
-    }, [user, isFormComplete, navigate]);
+    }, [user, isFormComplete, navigate, plan]);
 
     return (
         <div className="flex flex-col gap-6">

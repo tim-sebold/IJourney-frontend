@@ -16,9 +16,9 @@ function RoadAhead() {
         navigate('/milestones/milestone7/4');
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         if (user) {
-            logout();
+            await logout();
             navigate('/');
         } else {
             toast.error("You need to log in to unlock the next milestone.");

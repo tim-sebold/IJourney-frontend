@@ -36,7 +36,7 @@ export function SessionList({
     useEffect(() => {
         if (loading) return;
         if (sessions == null) onLoad();
-    }, [loading]);
+    }, [loading, sessions, onLoad]);
 
     return (
         <section className="rounded-2xl border border-black/5 bg-white p-5 sm:p-6">
@@ -121,7 +121,7 @@ export function SessionList({
                     try {
                         await logoutAll.run();
                         setConfirmOpen(false);
-                    } catch { }
+                    } catch { /* The async action already surfaces its own error. */ }
                 }}
             />
         </section>

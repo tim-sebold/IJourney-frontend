@@ -71,7 +71,7 @@ export function DangerZone({
                     try {
                         await exportAsync.run();
                         setExportConfirmOpen(false);
-                    } catch { }
+                    } catch { /* The async action already surfaces its own error. */ }
                 }}
             />
 
@@ -115,7 +115,7 @@ export function DangerZone({
                                 try {
                                     await deleteAsync.run(confirmText);
                                     setDeleteOpen(false);
-                                } catch { }
+                                } catch { /* The async action already surfaces its own error. */ }
                             }}
                             className={[
                                 "rounded-xl px-4 py-2 text-sm font-medium text-white",

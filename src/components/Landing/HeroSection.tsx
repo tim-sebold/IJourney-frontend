@@ -54,20 +54,20 @@ function HeroSection() {
         setLoading(true);
 
         try {
-            const data = await register(name, email, password, "user");
+            const data = await register(name, email, password);
 
             if (data.success) {
                 toast.success(data.message);
 
                 await loginWithEmailPassword(email, password);
                 setInputValues({ name: "", email: "", password: "", confirmPassword: "" });
+                navigate('/');
             } else {
                 toast.error(data.message);
             }
-
-            navigate('/');
         } catch (error: any) {
-            console.log("Firebase error:", error);
+            toast.error(error?.cause?.message ?? error?.message ?? "Unable to create your account.");
+            console.error("Sign-up error:", error);
         } finally {
             setLoading(false);
         }
@@ -170,7 +170,7 @@ function HeroSection() {
                                                 {errors[field.id] && <Badge className='text-red-600'>{errors[field.id]}</Badge>}
                                             </div>
                                         ))}
-                                    <Button type="submit" className="flex w-full h-auto cursor-pointer gap-3 px-6 py-3 bg-[#ff6f61] items-center justify-center relative rounded-full hover:bg-[#ff6f61]/80 transition-colors">
+                                    <Button type="submit" disabled={loading} className="flex w-full h-auto cursor-pointer gap-3 px-6 py-3 bg-[#ff6f61] items-center justify-center relative rounded-full hover:bg-[#ff6f61]/80 transition-colors">
                                         <span className="relative flex items-center justify-center font-ib-3 text-[16px] font-medium tracking-[1.2px] text-white whitespace-pre-wrap">
                                             {
                                                 loading ?

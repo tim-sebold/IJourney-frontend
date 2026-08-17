@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import RouteTransition from "../components/Loader/RouteTransition";
 
 function AuthLayout() {
     return (
@@ -6,7 +6,7 @@ function AuthLayout() {
             <div className="flex justify-center items-center min-h-screen">
                 <div className="max-w-7xl w-full p-10">
                     <section className="text-white bg-custom shadow-2xl font-ib-1 overflow-hidden">
-                        <Outlet />
+                        <RouteTransition />
                     </section>
                 </div>
             </div>

@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
     onAuthStateChanged,
-    onIdTokenChanged,
     signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
     signOut
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
@@ -18,6 +19,7 @@ type AuthContextValue = {
     loading: boolean;
     getIdToken: () => Promise<string | null>;
     loginWithEmailPassword: (email: string, password: string) => Promise<void>;
+    loginWithGoogle: () => Promise<void>;
     logout: () => Promise<void>;
 
     refreshProfile: () => Promise<void>;
@@ -31,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const refreshProfile = async () => {
+    const refreshProfile = useCallback(async () => {
         if (!auth.currentUser) return;
         try {
             const profile = await getProfile();
@@ -39,37 +41,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } catch (err) {
             console.error("Failed to refresh profile:", err);
         }
-    }
+    }, []);
 
     const patchUserProfile = (patch: Partial<UserProfile>) => {
         setUserProfile((prev) => (prev ? { ...prev, ...patch } : prev));
     }
 
     useEffect(() => {
-        const unsub1 = onAuthStateChanged(auth, async (u) => {
+        const unsubscribe = onAuthStateChanged(auth, async (u) => {
+            setLoading(true);
             setUser(u);
-            setLoading(false);
-
-            if (u) {
-                try {
+            try {
+                if (u) {
                     const profile = await getProfile();
-
                     setUserProfile(profile as UserProfile);
-                } catch (err) {
-                    console.error("Failed to fetch backend profile:", err);
+                } else {
+                    setUserProfile(null);
                 }
-            } else {
+            } catch (err) {
+                console.error("Failed to fetch backend profile:", err);
                 setUserProfile(null);
+            } finally {
+                setLoading(false);
             }
         });
-        const unsub2 = onIdTokenChanged(auth, (u) => setUser(u));
-        return () => {
-            unsub1();
-            unsub2();
-        };
+        return unsubscribe;
     }, []);
 
-    const getIdToken = async () => (user ? user.getIdToken() : null);
+    const getIdToken = useCallback(async () => (user ? user.getIdToken() : null), [user]);
 
     const loginWithEmailPassword = async (email: string, password: string) => {
         setLoading(true);
@@ -78,15 +77,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const idToken = await cred.user.getIdToken();
 
             const data = await login(idToken);
-            setUserProfile(data.user as UserProfile);
 
             if (data.success) {
                 toast.success(data.message);
             } else {
                 toast.error(data.message);
             }
-        } finally {
+        } catch (error) {
             setLoading(false);
+            throw error;
+        }
+    };
+
+    const loginWithGoogle = async () => {
+        setLoading(true);
+        try {
+            const credential = await signInWithPopup(auth, new GoogleAuthProvider());
+            const data = await login(await credential.user.getIdToken());
+            toast.success(data.message);
+        } catch (error) {
+            setLoading(false);
+            throw error;
         }
     };
 
@@ -116,11 +127,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             loading,
             getIdToken,
             loginWithEmailPassword,
+            loginWithGoogle,
             logout,
             patchUserProfile,
             refreshProfile
         }),
-        [user, userProfile, loading]
+        [user, userProfile, loading, getIdToken, refreshProfile]
     );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

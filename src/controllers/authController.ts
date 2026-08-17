@@ -1,4 +1,6 @@
 import { api } from '../lib/api';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 
 export const login = async (idToken: string) => {
     try {
@@ -15,15 +17,14 @@ export const login = async (idToken: string) => {
     }
 }
 
-export const register = async (name: string, email: string, password: string, role: string) => {
+export const register = async (name: string, email: string, password: string) => {
     try {
         const data = await api<{ message: string; uid: string, success: boolean }>(`/api/auth/register`, {
             method: "POST",
             body: JSON.stringify({
                 email,
                 password,
-                name,
-                role
+                name
             }),
         });
         return data;
@@ -51,17 +52,11 @@ export const logout = async () => {
 
 export const forgotPassword = async (email: string) => {
     try {
-        const data = await api<{ message: string, link: string, success: boolean }>(`/api/auth/forgot-password`, {
-            method: "POST",
-            body: JSON.stringify({ email }),
-        });
-        return data;
+        await sendPasswordResetEmail(auth, email, { url: `${window.location.origin}/login` });
+        return { message: "If that email exists, a reset link has been sent.", success: true };
     } catch (error: any) {
         console.error("Error Forgot Password:", error);
-
-        throw new Error("Failed to forgot password", {
-            cause: error,
-        });
+        return { message: "If that email exists, a reset link has been sent.", success: true };
     }
 }
 

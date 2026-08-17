@@ -13,7 +13,7 @@ export function AdminRoute({ children }: { children: React.ReactNode }) {
         let mounted = true;
 
         (async () => {
-            if (loading) return <LoadingSpinner /> ;
+            if (loading) return;
             if (!user) return setAllowed(false);
             try {
                 await api(`/api/admin/analytics`, { method: "GET" });
@@ -26,7 +26,7 @@ export function AdminRoute({ children }: { children: React.ReactNode }) {
         return () => { mounted = false; };
     }, [loading, user]);
 
-    if (loading || allowed === null) return <div className="p-6">Checking access…</div>;
+    if (loading || allowed === null) return <LoadingSpinner />;
     if (!allowed) return <Navigate to="/" replace />;
     return children;
 }

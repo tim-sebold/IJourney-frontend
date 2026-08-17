@@ -32,7 +32,7 @@ export const providerMeta = (providerId: string) => {
 export const extractAvatarBasedonName = (name: string) => {
   if (!name) return "";
   const words = name.split(" ");
-  var AvatarSymbol = "";
+  let AvatarSymbol = "";
 
   for (let i = 0; i < words.length; i++) {
     AvatarSymbol += words[i][0];

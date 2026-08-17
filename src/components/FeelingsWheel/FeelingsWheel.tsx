@@ -4,7 +4,8 @@ import { useSunburst, getNodeColor, getTextTransform } from "./useSunburst";
 import { EmotionDetails } from "./EmotionDetails";
 import type { FeelingsWheelProps } from "../../lib/types";
 import { Button } from "../../elements";
-import { ArrowRightFromLineIcon, X } from "lucide-react";
+import { X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const VIEWBOX_SIZE = 620;
 const RADIUS = VIEWBOX_SIZE / 2;
@@ -119,8 +120,29 @@ export const FeelingsWheel = ({
                 </div>
 
                 {/* Desktop side card */}
-                <div className="hidden w-full max-w-sm lg:block">
-                    <EmotionDetails emotion={selectedEmotion} />
+                <div className="hidden min-h-32 w-full max-w-sm overflow-hidden lg:block">
+                    <AnimatePresence mode="wait">
+                        {selectedEmotion ? (
+                            <motion.div
+                                key={selectedEmotion.id}
+                                initial={{ x: -80, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                exit={{ x: 24, opacity: 0 }}
+                                transition={{ duration: 0.35, ease: "easeOut" }}
+                            >
+                                <EmotionDetails emotion={selectedEmotion} />
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="emotion-placeholder"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="italic text-gray-400"
+                            >
+                                Click an emotion to see details
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
 
@@ -146,23 +168,6 @@ export const FeelingsWheel = ({
                         </Button>
                     </div>
 
-                    <EmotionDetails emotion={selectedEmotion} />
-                </div>
-            </div>
-
-            {/* Desktop floating close button if you still want modal behavior there */}
-            <div
-                className={`fixed top-20 z-40 hidden w-full max-w-sm transition-all lg:block ${showModal ? "right-6 opacity-100" : "-right-[420px] opacity-0"
-                    }`}
-            >
-                <div className="relative">
-                    <Button
-                        onClick={() => setShowModal(false)}
-                        title="close"
-                        className="absolute right-2 top-2 z-10 text-white hover:text-gray-300"
-                    >
-                        <ArrowRightFromLineIcon />
-                    </Button>
                     <EmotionDetails emotion={selectedEmotion} />
                 </div>
             </div>

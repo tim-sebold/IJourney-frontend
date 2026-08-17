@@ -1,8 +1,7 @@
-import { Outlet } from 'react-router-dom';
-
 import Header from '../components/Layout/Header';
 import Sidebar from '../components/Layout/Sidebar';
 import Chatbot from '../components/Chatbot';
+import RouteTransition from '../components/Loader/RouteTransition';
 
 function MilestoneLayout() {
     return (
@@ -12,7 +11,7 @@ function MilestoneLayout() {
                 <div className={`lg:flex lg:justify-between gap-10`}>
                     <Sidebar />
                     <main className='relative w-full lg:ml-90 mt-10 pr-2 pl-18 lg:px-8 py-10 px-10'>
-                        <Outlet />
+                        <RouteTransition />
                     </main>
                 </div>
             </div>

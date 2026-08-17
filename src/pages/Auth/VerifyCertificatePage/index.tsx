@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { API_URL } from "../../../config/config";
+import { api } from "../../../lib/api";
 
 type VerifyResponse =
     | { valid: true; certificateId: string; courseTitle: string; issuedToName: string; issuedAt: string | null }
@@ -18,8 +18,7 @@ export default function VerifyCertificatePage() {
             }
 
             try {
-                const res = await fetch(`${API_URL}/api/certificates/verify/${encodeURIComponent(certificateId)}`);
-                const json = (await res.json()) as VerifyResponse;
+                const json = await api<VerifyResponse>(`/api/certificates/verify/${encodeURIComponent(certificateId)}`);
                 setData(json);
             } catch {
                 setData({ valid: false, error: "Unable to reach the certificate service." });
