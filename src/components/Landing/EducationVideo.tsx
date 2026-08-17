@@ -12,14 +12,20 @@ function Video() {
                                     </div>
                                 </div>
                             </div>
-                            <p className='text-center'>At <span className="font-bold text-red-500 uppercase">Rize</span>&nbsp;<span className="font-bold text-green-500">Prevention</span>, we want to inspire and equip you to make smart choices and have a strong purpose on 
+                            <p className='text-center'>At <span className="font-bold text-red-500 uppercase">Rize</span>&nbsp;<span className="font-bold text-green-500">Prevention</span>, we want to inspire and equip you to make smart choices and have a strong purpose on
                                 the path in lifee</p>
                         </div>
-                        <div className="flex flex-col justify-center items-center w-3/5 z-3">
+                        <div className="flex w-full max-w-5xl flex-col items-center justify-center px-4 z-3">
                             <div className="flex flex-col relative w-full justify-center items-center">
-                                <video className="aspect-video bg-[#D9D9D9] w-full h-auto" src="https://vidplay.io/stream/utbNYHNCNzqtf6xEzJ3idw" controls>
-                                    Your browser does not support the video tag.
-                                </video>
+                                <iframe
+                                    src="https://viddler.com/embed/player?id=16541&color=default"
+                                    width="100%"
+                                    className="aspect-video w-full"
+                                    frameBorder="0"
+                                    allow="autoplay; fullscreen"
+                                    allowFullScreen
+                                    title="iJOURNEY Educational Program: Enhancing Student Experience">
+                                </iframe>
                             </div>
                         </div>
                         <div className="w-full bg-custom absolute bottom-0 left-0 h-2/5"></div>
