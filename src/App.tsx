@@ -1,4 +1,5 @@
-import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProgressProvider } from './context/ProgressContext';
@@ -25,6 +26,21 @@ import { IAM, StartingStatement } from './pages';
 import { generateMilestoneRoutes } from './routes/MilestoneRoute';
 import VerifyCertificatePage from './pages/Auth/VerifyCertificatePage';
 import ProtectedRoute from './routes/ProtectedRoute';
+
+const MAX_VISIBLE_TOASTS = 3;
+
+function ToastLimit() {
+  const { toasts } = useToasterStore();
+
+  useEffect(() => {
+    toasts
+      .filter((item) => item.visible)
+      .slice(MAX_VISIBLE_TOASTS)
+      .forEach((item) => toast.remove(item.id));
+  }, [toasts]);
+
+  return null;
+}
 
 const router = createBrowserRouter([
   {
@@ -74,6 +90,7 @@ export default function App() {
       <ProgressProvider>
         <RouterProvider router={router} />
       </ProgressProvider>
+      <ToastLimit />
       <Toaster
         position="top-right"
         toastOptions={{
