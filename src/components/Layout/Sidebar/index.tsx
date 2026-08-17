@@ -25,7 +25,7 @@ function Sidebar() {
     useEffect(() => {
         control_scroll("top");
         refreshProgress();
-    }, [params])
+    }, [params, refreshProgress])
 
     const handleMilestone = (menu: any) => {
         navigate(menu.url);

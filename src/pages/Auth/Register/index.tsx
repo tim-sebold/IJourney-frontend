@@ -46,7 +46,7 @@ function Register() {
         setLoading(true);
 
         try {
-            const data = await register(name, email, password, "user");
+            const data = await register(name, email, password);
             setInputValues({ name: "", email: "", password: "", confirmPassword: "" });
 
             if (data.success) {
@@ -116,7 +116,7 @@ function Register() {
                                         </div>
                                     ))
                                 }
-                                <Button type="submit" className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:500ms]">
+                                <Button type="submit" disabled={loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:500ms]">
                                     <span className="font-bold text-xl tracking-[0] leading-[30px]">
                                         {
                                             loading ?

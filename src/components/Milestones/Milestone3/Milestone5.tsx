@@ -27,11 +27,6 @@ function CareerResearchLog() {
                     careersMilestone?.responses?.careers || {}
                 );
 
-                setResearchData(researchData.map((item: any, index: number) => ({
-                    ...item,
-                    career: careerList[index] || ""
-                })));
-
                 const researchMilestone = await getMilestone('milestone3_5');
 
                 if (researchMilestone?.responses?.researchData) {

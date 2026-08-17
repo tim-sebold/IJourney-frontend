@@ -19,7 +19,7 @@ import IconLeftArrow from "../../../assets/image/left-arrow.svg";
 
 function Login() {
     const navigate = useNavigate();
-    const { loginWithEmailPassword } = useAuth();
+    const { loginWithEmailPassword, loginWithGoogle } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [inputValues, setInputValues] = useState({
         email: "",
@@ -57,6 +57,15 @@ function Login() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setInputValues((prev) => ({ ...prev, [id]: value }));
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            await loginWithGoogle();
+            navigate('/');
+        } catch (error: any) {
+            toast.error(error?.message || "Google sign-in failed.");
+        }
     };
 
     return (
@@ -116,7 +125,7 @@ function Login() {
                                         </div>
                                     ))
                                 }
-                                <Button type="submit" className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:450ms]">
+                                <Button type="submit" disabled={loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:450ms]">
                                     <span className="font-bold text-xl tracking-[0] leading-[30px]">
                                         {
                                             loading ?
@@ -137,7 +146,7 @@ function Login() {
                                     </Link>
                                 </div>
                                 <div className="flex justify-center items-center w-full z-0">
-                                    <Button variant="outline" className="flex cursor-pointer w-[194px] h-auto items-center justify-center p-[12.61px] relative z-0 bg-[#f4f7ff] rounded-[7.88px] border-0 hover:bg-[#f4f7ff]/80 transition-colors opacity-0 animate-fade-in [animation-delay:750ms]">
+                                    <Button type="button" onClick={handleGoogleLogin} variant="outline" className="flex cursor-pointer w-[194px] h-auto items-center justify-center p-[12.61px] relative z-0 bg-[#f4f7ff] rounded-[7.88px] border-0 hover:bg-[#f4f7ff]/80 transition-colors opacity-0 animate-fade-in [animation-delay:750ms]">
                                         <div className="inline-flex items-center justify-center gap-2 relative flex-[0_0_auto]">
                                             <img
                                                 className="relative w-[18.92px] h-[18.92px]"

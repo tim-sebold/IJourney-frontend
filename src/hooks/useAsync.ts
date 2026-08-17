@@ -13,8 +13,6 @@ export function useAsync<TArgs extends any[], TResult>(fn: (...args: TArgs) => P
             } catch (e: unknown) {
                 const message =
                     e instanceof Error ? e.message : "Something went wrong";
-                console.log("error:", error);
-                
                 setError(message);
                 throw new Error(message);
             } finally {

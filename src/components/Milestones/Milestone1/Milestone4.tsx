@@ -87,7 +87,7 @@ function InteractiveFeelingsWheel() {
         } else {
             setbuttonDisabledStatus(true);
         }
-    }, [savedEntry?.length])
+    }, [savedEntry])
 
     const save = async () => {
         if (user) {

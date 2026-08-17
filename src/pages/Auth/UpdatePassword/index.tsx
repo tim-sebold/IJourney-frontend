@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { confirmPasswordReset } from "firebase/auth";
+import toast from "react-hot-toast";
 
 import { Button } from "../../../elements/buttons/button";
 import { Input } from "../../../elements/input";
@@ -10,16 +12,45 @@ import Auth1 from "../../../assets/image/auth1.png";
 import leftArrow from "../../../assets/image/left-arrow.svg";
 import BlindEye from "../../../assets/image/blind-eye.svg";
 import BlindEyeOpen from "../../../assets/image/blind-eye-open.svg";
+import { auth } from "../../../firebaseConfig";
+import { validateConfirmPassword, validatePassword } from "../../../lib/validation";
 
 function UpdatePassword() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const [showPassword, setShowPassword] = useState([false, false]);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const sendPassword = () => {
-        navigate("/state");
+    const sendPassword = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const passwordError = validatePassword(password);
+        const confirmationError = validateConfirmPassword(password, confirmPassword);
+        if (passwordError || confirmationError) {
+            toast.error(passwordError || confirmationError);
+            return;
+        }
+
+        const oobCode = searchParams.get("oobCode");
+        if (!oobCode) {
+            toast.error("This password-reset link is invalid or incomplete.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            await confirmPasswordReset(auth, oobCode, password);
+            toast.success("Your password has been updated.");
+            navigate("/login", { replace: true });
+        } catch (error: any) {
+            toast.error(error?.code === "auth/expired-action-code"
+                ? "This password-reset link has expired."
+                : "Unable to update the password. Request a new reset link.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -44,13 +75,13 @@ function UpdatePassword() {
                             <div className="bg-[#ffffff] rounded-[70px_0px_0px_60px] flex-4 md:flex-1">
                                 <div className="mx-auto flex flex-col justify-center items-center h-full max-w-[600px] px-4 py-10 sm:px-6 lg:px-10">
                                     <div className="flex justify-start my-4 w-full">
-                                        <a href="" className="flex gap-3 cursor-pointer hover:opacity-80">
+                                        <Link to="/login" className="flex gap-3 cursor-pointer hover:opacity-80">
                                             <img src={leftArrow} alt="" className="w-3" />
                                             <span className="text-ib-2 text-[16px] font-bold">Back</span>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="flex justify-center items-center w-full h-full">
-                                        <form className="p-6 text-center flex flex-col gap-10">
+                                        <form className="p-6 text-center flex flex-col gap-10" onSubmit={sendPassword}>
                                             <div className="flex flex-col gap-0 text-center text-ib-2 animate-fade-in [animation-delay:0ms] opacity-0">
                                                 <h1 className="z-6 font-bold text-[32px] text-center">
                                                     Update Password
@@ -88,9 +119,9 @@ function UpdatePassword() {
                                                         <img src={BlindEyeOpen} onClick={() => { setShowPassword([showPassword[0], !showPassword[1]]) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[1] ? "show" : "hidden"}`} />
                                                     </div>
                                                 </div>
-                                                <Button onClick={sendPassword} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:300ms]">
+                                                <Button type="submit" loading={loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:300ms]">
                                                     <span className="font-bold text-xl tracking-[0] leading-[30px]">
-                                                        Confirm
+                                                        {loading ? "Updating..." : "Confirm"}
                                                     </span>
                                                 </Button>
                                             </div>

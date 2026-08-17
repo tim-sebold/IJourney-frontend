@@ -24,6 +24,7 @@ import { IAM, StartingStatement } from './pages';
 
 import { generateMilestoneRoutes } from './routes/MilestoneRoute';
 import VerifyCertificatePage from './pages/Auth/VerifyCertificatePage';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -32,14 +33,15 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Landing /> },
       { path: "aboutus", element: <AboutUs /> },
-      { path: "user-profile", element: <ProfilePage /> },
-      { path: "verify-certificate", element: <VerifyCertificatePage /> }
+      { path: "user-profile", element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
+      { path: "verify/:certificateId", element: <VerifyCertificatePage /> },
+      { path: "verify-certificate/:certificateId", element: <VerifyCertificatePage /> }
     ]
   },
-  { path: "/welcome", element: <Welcome /> },
+  { path: "/welcome", element: <ProtectedRoute><Welcome /></ProtectedRoute> },
   {
     path: "milestones",
-    element: <IntroductionLayout />,
+    element: <ProtectedRoute><IntroductionLayout /></ProtectedRoute>,
     children: [
       { path: "milestone0/1", element: <IAM /> },
       { path: "milestone0/2", element: <StartingStatement /> },

@@ -78,6 +78,7 @@ function StartingStatement() {
             <div className="flex flex-col items-center text-center">
                 <div className="text-ib-5 font-bold">
                     <h5>Before we begin the Milestones, reflect on where you are now.</h5>
+                    {/* eslint-disable-next-line no-irregular-whitespace */}
                     <p className="text-[#13930C]">You're not just on this journey—you are the journey. And oh, what adventure lies ahead!</p>
                 </div>
             </div>

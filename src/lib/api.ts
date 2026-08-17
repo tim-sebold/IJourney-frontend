@@ -13,7 +13,7 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
     });
     if (!res.ok) {
         let msg = res.statusText;
-        try { msg = (await res.json()).error ?? msg; } catch { }
+        try { msg = (await res.json()).error ?? msg; } catch { /* Preserve the HTTP status text. */ }
         throw new Error(msg);
     }
     return res.json();
@@ -35,7 +35,7 @@ export async function apiBlob(path: string, init?: RequestInit): Promise<Blob> {
     try {
       const body = await res.json();
       msg = body?.error ?? body?.message ?? msg;
-    } catch {}
+    } catch { /* Preserve the HTTP status text. */ }
     throw new Error(msg);
   }
 

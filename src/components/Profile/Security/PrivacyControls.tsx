@@ -118,7 +118,7 @@ export function PrivacyControls({
                                     dataRetention: local.dataRetention,
                                     consentUpdatedAt: new Date().toISOString(),
                                 });
-                            } catch { }
+                            } catch { /* The async action already surfaces its own error. */ }
                         }}
                         className={[
                             "rounded-xl px-4 py-2 text-sm font-medium text-white",

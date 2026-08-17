@@ -2,11 +2,12 @@
 import { Button } from './button';
 
 
-function CustomButton({ onClickFunc, title, className, type, disabled }: { onClickFunc: () => void, title: string, className: string, type: string, disabled?: boolean }) {
+function CustomButton({ onClickFunc, title, className, type, disabled, loading = false }: { onClickFunc: () => void | Promise<void>, title: string, className: string, type: string, disabled?: boolean, loading?: boolean }) {
     return (
         <Button 
             onClick={onClickFunc}
-            disabled = {disabled}
+            disabled={disabled || loading}
+            loading={loading}
             className={
                 `cursor-pointer h-auto uppercase ${className}
                 ${type === 'move' && '  text-white bg-custom border-custom  hover:bg-white border-2 hover:text-custom disabled:bg-custom disabled:text-white disabled:border-custom disabled:hover:bg-white disabled:hover:text-custom disabled:hover:border-custom'}

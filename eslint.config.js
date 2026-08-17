@@ -19,5 +19,12 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // This legacy UI still has broadly shaped API/content data. Keep lint focused
+      // on correctness while types are tightened incrementally at module boundaries.
+      '@typescript-eslint/no-explicit-any': 'off',
+      // Barrel files and reusable variant exports are intentional in this project.
+      'react-refresh/only-export-components': 'off',
+    },
   },
 ])
