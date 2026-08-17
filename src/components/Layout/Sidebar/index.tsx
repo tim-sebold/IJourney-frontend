@@ -55,13 +55,22 @@ function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     {collapsed ? <ArrowRightFromLine size={20} className="text-ib-2 group-hover:text-white" /> : <ArrowLeftFromLine size={20} className="text-ib-2 group-hover:text-white" />}
                 </Button>
             </div>
-            <div className={`transition-opacity mt-10 mb-4 text-center px-2 duration-500 ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
-                <span className="whitespace-nowrap font-bold text-[#5197ff] text-2xl">{headerData.solutions[parseInt(url[url.length - 2].replace("milestone", "")) - 1].title}</span>
-            </div>
-            <div className="w-full px-2 relative">
+            {!collapsed && (
+                <div className="mt-10 mb-4 overflow-hidden px-2 text-center">
+                    <span className="block truncate whitespace-nowrap font-bold text-[#5197ff] text-2xl">
+                        {headerData.solutions[parseInt(url[url.length - 2].replace("milestone", "")) - 1].title}
+                    </span>
+                </div>
+            )}
+            <div className={`w-full px-2 relative ${collapsed ? "pt-5" : ""}`}>
                 <div className="flex justify-between">
-                    <span className={`text-left font-bold text-xl sm:text-[14px] transition-opacity duration-500 ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`}>{Math.floor(progress?.summary.percent)}%</span>
-                    <span className='font-bold absolute top-2 p-3 -translate-y-1/2 right-1 text-center'>{sidebarData.milestoneMenus[parseInt(url[url.length - 2].replace("milestone", "")) - 1].length}</span>
+                    {!collapsed && <span className="text-left font-bold text-xl sm:text-[14px]">{Math.floor(progress?.summary.percent)}%</span>}
+                    {!collapsed && <span className='font-bold absolute top-2 p-3 -translate-y-1/2 right-1 text-center'>{sidebarData.milestoneMenus[parseInt(url[url.length - 2].replace("milestone", "")) - 1].length}</span>}
+                    {collapsed && (
+                        <span className="absolute top-0 left-1/2 -translate-x-1/2 text-sm font-bold text-ib-2">
+                            {sidebarData.milestoneMenus[parseInt(url[url.length - 2].replace("milestone", "")) - 1].length}
+                        </span>
+                    )}
                 </div>
                 <div className="relative w-full h-2 bg-[#385581] rounded-full overflow-hidden">
                     <Progress
@@ -70,8 +79,8 @@ function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     />
                 </div>
             </div>
-            <div className="relative flex mt-8 mb-2">
-                <h4 className={`font-bold px-2 py-1 text-center text-ib-2 transition-opacity duration-500 ${collapsed ? "opacity-0 pointer-events-none" : "opacity-100"}`}>Milestones</h4>
+            <div className={`relative flex mt-8 mb-2 ${collapsed ? "h-10" : ""}`}>
+                {!collapsed && <h4 className="font-bold px-2 py-1 text-center text-ib-2">Milestones</h4>}
                 <h4 className="px-2 py-1 cursor-pointer text-center font-bold absolute right-1 bg-ib-2 w-[34px] text-white">M</h4>
             </div>
 
@@ -79,43 +88,28 @@ function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 {sidebarData.milestoneMenus[parseInt(url[url.length - 2].replace("milestone", "")) - 1].map((menu, index) => (
                     Math.floor(progress?.summary.percent) === 100 ||
                         currentMilestone && parseInt(url[url.length - 2].replace("milestone", "")) < currentMilestone ?
-                        <li key={index} className={`relative flex items-start cursor-pointer p-2 overflow-hidden leading-8 hover:bg-gray-200 ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"}`} onClick={() => handleMilestone(menu)} >
-                            <AlarmClockCheck size={25} className="inline-block" />
-                            <span className={`ml-4 min-w-0 flex-1 whitespace-normal font-bold leading-5 ${collapsed ? "hidden" : "block"}`} >
+                        <li key={index} title={collapsed ? menu.title : undefined} className={`relative flex items-center cursor-pointer p-2 overflow-hidden leading-8 hover:bg-gray-200 ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"}`} onClick={() => handleMilestone(menu)} >
+                            <AlarmClockCheck size={25} className="h-[25px] w-[25px] min-w-[25px] shrink-0" />
+                            {!collapsed && <span className="ml-4 min-w-0 flex-1 truncate whitespace-nowrap font-bold leading-5" >
                                 {menu.title}
-                            </span>
-                            {collapsed && (
-                                <span className="pointer-events-none absolute left-16 top-1/2 -translate-y-1/2 rounded-[0.4rem] bg-white px-[0.9rem] py-1 text-[1.4rem] text-[#17171e] opacity-0 shadow-[0_5px_10px_rgba(0,0,0,0.2)] transition-opacity duration-500">
-                                    {menu.title}
-                                </span>
-                            )}
+                            </span>}
                         </li>
                         :
                         parseInt(url[url.length - 2].replace("milestone", "")) === currentMilestone ?
-                            <li key={index} className={`relative flex items-start overflow-hidden p-2 leading-[1.8rem] ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"} ${currentMilestoneChild && currentMilestoneChild > index ? " hover:bg-gray-200 cursor-pointer" : "opacity-50 cursor-not-allowed"}`} onClick={() => handleMilestone1(menu, index)} >
-                                {currentMilestoneChild && index + 1 < currentMilestoneChild && <AlarmClockCheck size={25} className="inline-block" />}
-                                {index + 1 === currentMilestoneChild && <AlarmClock size={25} className="inline-block" />}
-                                {currentMilestoneChild && index + 1 > currentMilestoneChild && <AlarmClockMinusIcon size={25} className="inline-block" />}
-                                <span className={`ml-4 min-w-0 flex-1 whitespace-normal font-bold leading-5 ${collapsed ? "hidden" : "block"}`} >
+                            <li key={index} title={collapsed ? menu.title : undefined} className={`relative flex items-center overflow-hidden p-2 leading-[1.8rem] ${parseInt(url[url.length - 1]) === index + 1 && "bg-white text-custom"} ${currentMilestoneChild && currentMilestoneChild > index ? " hover:bg-gray-200 cursor-pointer" : "opacity-50 cursor-not-allowed"}`} onClick={() => handleMilestone1(menu, index)} >
+                                {currentMilestoneChild && index + 1 < currentMilestoneChild && <AlarmClockCheck size={25} className="h-[25px] w-[25px] min-w-[25px] shrink-0" />}
+                                {index + 1 === currentMilestoneChild && <AlarmClock size={25} className="h-[25px] w-[25px] min-w-[25px] shrink-0" />}
+                                {currentMilestoneChild && index + 1 > currentMilestoneChild && <AlarmClockMinusIcon size={25} className="h-[25px] w-[25px] min-w-[25px] shrink-0" />}
+                                {!collapsed && <span className="ml-4 min-w-0 flex-1 truncate whitespace-nowrap font-bold leading-5" >
                                     {menu.title}
-                                </span>
-                                {collapsed && (
-                                    <span className="pointer-events-none absolute left-16 top-1/2 -translate-y-1/2 rounded-[0.4rem] bg-white px-[0.9rem] py-1 text-[1.4rem] text-[#17171e] opacity-0 shadow-[0_5px_10px_rgba(0,0,0,0.2)] transition-opacity duration-500">
-                                        {menu.title}
-                                    </span>
-                                )}
+                                </span>}
                             </li>
                             :
-                            <li key={index} className="relative flex items-start overflow-hidden p-2 leading-[1.8rem] cursor-not-allowed" onClick={() => handleMilestone(menu)} >
-                                <AlarmClockCheck size={25} className="inline-block" />
-                                <span className={`ml-4 min-w-0 flex-1 whitespace-normal font-bold leading-5 ${collapsed ? "hidden" : "block"}`} >
+                            <li key={index} title={collapsed ? menu.title : undefined} className="relative flex items-center overflow-hidden p-2 leading-[1.8rem] cursor-not-allowed" onClick={() => handleMilestone(menu)} >
+                                <AlarmClockCheck size={25} className="h-[25px] w-[25px] min-w-[25px] shrink-0" />
+                                {!collapsed && <span className="ml-4 min-w-0 flex-1 truncate whitespace-nowrap font-bold leading-5" >
                                     {menu.title}
-                                </span>
-                                {collapsed && (
-                                    <span className="pointer-events-none absolute left-16 top-1/2 -translate-y-1/2 rounded-[0.4rem] bg-white px-[0.9rem] py-1 text-[1.4rem] text-[#17171e] opacity-0 shadow-[0_5px_10px_rgba(0,0,0,0.2)] transition-opacity duration-500">
-                                        {menu.title}
-                                    </span>
-                                )}
+                                </span>}
                             </li>
                 ))}
             </ul>
