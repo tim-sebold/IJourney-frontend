@@ -11,7 +11,6 @@ import { CustomButton } from "../../../elements/buttons";
 function CareerResearchLog() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const careers = ['', '', ''];
     const [researchData, setResearchData] = useState<Array<object>>([
         { career: '', outlook: '', education: '', skills: '', prosCons: '' },
         { career: '', outlook: '', education: '', skills: '', prosCons: '' },
@@ -27,7 +26,10 @@ function CareerResearchLog() {
                     careersMilestone?.responses?.careers || {}
                 );
 
-                const researchMilestone = await getMilestone('milestone3_5');
+                // On the first visit there is no M3.5 response yet, so the API
+                // returns 404. That is expected and must not prevent the careers
+                // loaded above from being rendered.
+                const researchMilestone = await getMilestone('milestone3_5').catch(() => null);
 
                 if (researchMilestone?.responses?.researchData) {
                     const savedResearch = researchMilestone.responses.researchData;
@@ -55,7 +57,14 @@ function CareerResearchLog() {
                     prosCons: ""
                 }));
 
-                setResearchData(initial);
+                // Keep the table at three rows even if older data is incomplete.
+                setResearchData([0, 1, 2].map(index => initial[index] || ({
+                    career: "",
+                    outlook: "",
+                    education: "",
+                    skills: "",
+                    prosCons: ""
+                })));
             };
 
             loadData();
@@ -63,7 +72,7 @@ function CareerResearchLog() {
     }, [user])
 
     const isFormComplete = () => {
-        return researchData.every((row: any) =>
+        return researchData.length === 3 && researchData.every((row: any) =>
             row.career.trim() !== '' &&
             row.outlook.trim() !== '' &&
             row.education.trim() !== '' &&
@@ -79,7 +88,7 @@ function CareerResearchLog() {
     const next = async () => {
         if (user) {
             try {
-                await submitMilestone('milestone3_5', { userId: user?.uid, responses: { careers, researchData } });
+                await submitMilestone('milestone3_5', { userId: user?.uid, responses: { researchData } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone3/6", prevMilestoneId: "milestone3/5" });
                 toast.success(result.message);
             } catch (error: any) {
