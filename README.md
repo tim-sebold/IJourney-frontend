@@ -1,5 +1,22 @@
 # React + TypeScript + Vite
 
+## Local development
+
+On Windows, double-click `start-dev.cmd`, or run it from a terminal:
+
+```bat
+start-dev.cmd
+```
+
+This launcher deliberately uses `npm.cmd`. Some PowerShell configurations block
+the `npm.ps1` wrapper and make a newly opened command window close immediately.
+
+Alternatively, from Command Prompt use:
+
+```bat
+npm run dev
+```
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
