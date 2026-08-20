@@ -46,17 +46,21 @@ function DraftStatement() {
     };
 
     const next = async () => {
-        if (user) {
-            try {
-                const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone6/4", prevMilestoneId: "milestone6/3" });
-                toast.success(result.message);
-            } catch (error: any) {
-                console.log(error);
-                toast.error(error.message);
-            }
-            navigate('/milestones/milestone6/4');
-        } else {
+        if (!user) {
             toast.error("You need to log in to unlock the next milestone.");
+            return;
+        }
+
+        try {
+            // Next is enabled by a complete form, not by having pressed Save, so
+            // submit the statement here too rather than unlocking against nothing.
+            await submitMilestone('milestone6_3', { userId: user.uid, responses: { journeyerStatement } });
+            const result = await unlockNext({ userId: user.uid, milestoneId: "milestone6/4", prevMilestoneId: "milestone6/3" });
+            toast.success(result.message);
+            navigate('/milestones/milestone6/4');
+        } catch (error: any) {
+            console.error(error);
+            toast.error(error.message);
         }
     }
 

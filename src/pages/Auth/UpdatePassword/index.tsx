@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { confirmPasswordReset } from "firebase/auth";
+import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
 import toast from "react-hot-toast";
 
 import { Button } from "../../../elements/buttons/button";
@@ -23,19 +23,39 @@ function UpdatePassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [codeStatus, setCodeStatus] = useState<"checking" | "valid" | "invalid">("checking");
+
+    const oobCode = searchParams.get("oobCode");
+
+    // Validate the reset code up front so an expired or hand-typed link says so
+    // immediately, instead of after the user has filled in both password fields.
+    useEffect(() => {
+        let active = true;
+
+        if (!oobCode) {
+            setCodeStatus("invalid");
+            return;
+        }
+
+        verifyPasswordResetCode(auth, oobCode)
+            .then(() => { if (active) setCodeStatus("valid"); })
+            .catch(() => { if (active) setCodeStatus("invalid"); });
+
+        return () => { active = false; };
+    }, [oobCode]);
 
     const sendPassword = async (event: React.FormEvent) => {
         event.preventDefault();
+
+        if (!oobCode || codeStatus === "invalid") {
+            toast.error("This password-reset link is invalid or has expired. Request a new one.");
+            return;
+        }
+
         const passwordError = validatePassword(password);
         const confirmationError = validateConfirmPassword(password, confirmPassword);
         if (passwordError || confirmationError) {
             toast.error(passwordError || confirmationError);
-            return;
-        }
-
-        const oobCode = searchParams.get("oobCode");
-        if (!oobCode) {
-            toast.error("This password-reset link is invalid or incomplete.");
             return;
         }
 
@@ -87,6 +107,12 @@ function UpdatePassword() {
                                                     Update Password
                                                 </h1>
                                                 <p className="text-[16px]">Your password must contain at least one lowercase letter and one uppercase letter.</p>
+                                                {codeStatus === "invalid" && (
+                                                    <p className="mt-3 text-[14px] font-bold text-red-600">
+                                                        This password-reset link is invalid or has expired.{" "}
+                                                        <Link to="/forgot-password" className="underline">Request a new one</Link>.
+                                                    </p>
+                                                )}
                                             </div>
                                             <div className="flex flex-col gap-8 text-center">
                                                 <div className="w-full justify-between z-4 flex flex-col max-w-[800px] items-start relative opacity-0 animate-fade-in [animation-delay:100ms]">
@@ -119,9 +145,9 @@ function UpdatePassword() {
                                                         <img src={BlindEyeOpen} onClick={() => { setShowPassword([showPassword[0], !showPassword[1]]) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[1] ? "show" : "hidden"}`} />
                                                     </div>
                                                 </div>
-                                                <Button type="submit" loading={loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1  transition-colors animate-fade-in [animation-delay:300ms]">
+                                                <Button type="submit" loading={loading} disabled={codeStatus !== "valid" || loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1 disabled:opacity-60 disabled:cursor-not-allowed transition-colors animate-fade-in [animation-delay:300ms]">
                                                     <span className="font-bold text-xl tracking-[0] leading-[30px]">
-                                                        {loading ? "Updating..." : "Confirm"}
+                                                        {loading ? "Updating..." : codeStatus === "checking" ? "Checking link..." : "Confirm"}
                                                     </span>
                                                 </Button>
                                             </div>
