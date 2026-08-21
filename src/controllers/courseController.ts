@@ -64,7 +64,10 @@ export type StatementSectionFeedback = {
     label: string;
     status: "empty" | "needs-work" | "strong";
     wordCount: number;
+    /** Blocking: what has to change before the section reads as finished. */
     suggestions: string[];
+    /** Worth trying, but the section is not wrong without it. */
+    optional: string[];
 };
 
 export type StatementFeedback = {
