@@ -234,14 +234,29 @@ function RefineFinalize() {
                                                 {STATUS_ICON[section.status]}
                                                 <div className="flex-1">
                                                     <p className="text-sm font-bold">{section.label}</p>
-                                                    {section.suggestions.length === 0 ? (
+                                                    {section.suggestions.length === 0 && (
                                                         <p className="text-sm text-gray-600">
                                                             Specific and committed — leave this as it is.
                                                         </p>
-                                                    ) : (
+                                                    )}
+                                                    {section.suggestions.length > 0 && (
                                                         <ul className="mt-1 list-disc space-y-1 pl-4 text-sm text-gray-700">
                                                             {section.suggestions.map((s) => (
                                                                 <li key={s}>{s}</li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {/* Visibly secondary: a green-ticked section must not
+                                                        look as though it still has something wrong with it. */}
+                                                    {section.optional?.length > 0 && (
+                                                        <ul className="mt-2 space-y-1 border-t border-dashed border-gray-200 pt-2 pl-0 text-xs text-gray-500">
+                                                            {section.optional.map((s) => (
+                                                                <li key={s}>
+                                                                    <span className="font-semibold uppercase tracking-wide">
+                                                                        Optional
+                                                                    </span>{" "}
+                                                                    — {s}
+                                                                </li>
                                                             ))}
                                                         </ul>
                                                     )}
