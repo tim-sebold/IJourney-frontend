@@ -8,10 +8,14 @@ import toast from 'react-hot-toast';
 import { CustomButton } from '../../../elements/buttons';
 import { Input } from '../../../elements/input';
 import { Textarea } from '../../../elements/textarea';
+import { FeelingsWheel } from '../../FeelingsWheel/FeelingsWheel';
+import type { EmotionNode } from '../../../lib/types';
 
 import ImageMentalHealth from "../../../assets/image/milestones/mental-health.png";
 import ImageLamp from "../../../assets/image/milestones/lamp.png";
 import IconSparker from "../../../assets/image/milestones/sparker.svg";
+
+const INTENSITY_LABELS = ["Moderate", "Significant", "Distressing", "Acute", "Overwhelming"];
 
 function GuidingQuestions() {
     const navigate = useNavigate();
@@ -20,6 +24,11 @@ function GuidingQuestions() {
     const [emotion2, setEmotion2] = useState<string>("");
     const [associateFeeling1, setAssociateFeeling1] = useState<string>("");
     const [associateFeeling2, setAssociateFeeling2] = useState<string>("");
+    // The copy tells the reader to use the feelings wheel, so the wheel and the
+    // emotions they logged on M1.4 have to be reachable from this page.
+    const [wheelEntries, setWheelEntries] = useState<EmotionNode[]>([]);
+    const [showWheel, setShowWheel] = useState<boolean>(false);
+    const [wheelSelection, setWheelSelection] = useState<EmotionNode | null>(null);
     const next = async () => {
         if (user) {
             try {
@@ -51,6 +60,19 @@ function GuidingQuestions() {
         }
     }, [user])
 
+    useEffect(() => {
+        if (!user) return;
+        const getWheelEntries = async () => {
+            try {
+                const result = await getMilestone('milestone1_4');
+                const entries = result?.responses?.entries;
+                if (Array.isArray(entries)) setWheelEntries(entries as EmotionNode[]);
+            } catch {
+                // M1.4 has no saved entries yet — the wheel is still available below.
+            }
+        };
+        getWheelEntries();
+    }, [user])
 
     const previous = () => {
         navigate('/milestones/milestone1/5');
@@ -81,6 +103,61 @@ function GuidingQuestions() {
                 <h6>The <span className='font-bold text-ib-1'>Feelings Wheel</span> is structured with core emotions in the center (like joy, fear, anger, sadness, disgust, and surprise).
                     Radiating outward from each core emotion are increasingly specific emotions that help you pinpoint exactly what you're feeling.
                     The more specific you can be about your emotions, the better you can understand and address them.</h6>
+            </div>
+            <div className="flex flex-col gap-4 p-6 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h4 className='font-bold'>The emotions you chose on M1.4</h4>
+                    <CustomButton
+                        onClickFunc={() => setShowWheel((open) => !open)}
+                        title={showWheel ? 'hide the feelings wheel' : 'open the feelings wheel'}
+                        className='rounded-full'
+                        type='sky'
+                    />
+                </div>
+
+                {wheelEntries.length === 0 ? (
+                    <p className="text-gray-500">
+                        You haven't saved any emotions yet.{" "}
+                        <button
+                            type="button"
+                            onClick={() => navigate('/milestones/milestone1/4')}
+                            className="font-bold text-ib-1 underline cursor-pointer"
+                        >
+                            Go back to M1.4
+                        </button>{" "}
+                        to log them, or explore the wheel below.
+                    </p>
+                ) : (
+                    <ul className="flex flex-col gap-3">
+                        {wheelEntries.map((entry, index) => (
+                            <li
+                                key={`${entry.id ?? entry.name}-${index}`}
+                                className="flex flex-col gap-1 border-2 border-dashed border-gray-300 px-5 py-3"
+                            >
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {entry.emoji && <span className="text-xl">{entry.emoji}</span>}
+                                    <span className="font-bold text-[#0B93CD]">{entry.name}</span>
+                                    {entry.level !== undefined && (
+                                        <span className="text-gray-600">
+                                            — {INTENSITY_LABELS[entry.level - 1] ?? `level ${entry.level}`}
+                                        </span>
+                                    )}
+                                </div>
+                                {entry.experience && <p className="text-gray-700">{entry.experience}</p>}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
+                {showWheel && (
+                    <div className="flex items-center justify-center pt-2">
+                        <FeelingsWheel
+                            selection={true}
+                            selectedEmotion={wheelSelection}
+                            onSelectEmotion={setWheelSelection}
+                        />
+                    </div>
+                )}
             </div>
             <div className="flex flex-col gap-4 px-6 pt-6 pb-8 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                 <h4 className='font-bold'>Locating your finisher's spark</h4>

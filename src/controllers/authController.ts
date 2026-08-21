@@ -50,6 +50,17 @@ export const logout = async () => {
     }
 }
 
+/**
+ * Firebase delivers the reset link out-of-band and the result is deliberately
+ * identical whether or not the account exists, so this cannot be used to
+ * enumerate users.
+ *
+ * The `oobCode` lands on the action URL configured in Firebase Console →
+ * Authentication → Templates. Leave it at the default and Firebase hosts the
+ * reset form itself; point it at `https://<origin>/update-password` to use the
+ * in-app `UpdatePassword` page instead. `url` below is only the "continue"
+ * destination shown after the reset completes.
+ */
 export const forgotPassword = async (email: string) => {
     try {
         await sendPasswordResetEmail(auth, email, { url: `${window.location.origin}/login` });

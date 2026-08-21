@@ -14,6 +14,9 @@ import { Card, CardContent } from '../../../elements/card';
 import { FeelingsWheel } from '../../FeelingsWheel/FeelingsWheel';
 import type { EmotionNode } from '../../../lib/types';
 
+/** Save stays disabled until this many entries are logged; the directions say so too. */
+const REQUIRED_ENTRIES = 5;
+
 function InteractiveFeelingsWheel() {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -24,18 +27,17 @@ function InteractiveFeelingsWheel() {
     const intensity = ["Moderate", "Significant", "Distressing", "Acute", "Overwhelming"];
 
     useEffect(() => {
-        console.log("selected emotion:", selectedEmotion);
-
-    }, [selectedEmotion]);
-
-    useEffect(() => {
         if (user) {
             const getResponse = async () => {
-                const result = await getMilestone('milestone1_4');
-                if (result) {
-                    setSavedEntry(result.responses.entries as EmotionNode[]);
-                    setbuttonDisabledStatus(false);
-                    setnextButtonDisabledState(false);
+                try {
+                    const result = await getMilestone('milestone1_4');
+                    if (result) {
+                        setSavedEntry(result.responses.entries as EmotionNode[]);
+                        setbuttonDisabledStatus(false);
+                        setnextButtonDisabledState(false);
+                    }
+                } catch {
+                    // Nothing saved yet: the API 404s until the first submission.
                 }
             }
             getResponse();
@@ -82,7 +84,7 @@ function InteractiveFeelingsWheel() {
     }
 
     useEffect(() => {
-        if (savedEntry !== undefined && savedEntry?.length >= 5) {
+        if (savedEntry !== undefined && savedEntry?.length >= REQUIRED_ENTRIES) {
             setbuttonDisabledStatus(false);
         } else {
             setbuttonDisabledStatus(true);
@@ -109,6 +111,19 @@ function InteractiveFeelingsWheel() {
             <div className="flex flex-col items-center">
                 <h3 className="font-bold text-center">M1.4: The Interactive Feelings Wheel</h3>
                 <h6>Click on specific emotions to explore and reflect on your feelings</h6>
+            </div>
+            <div className="flex flex-col gap-2 border-l-4 border-[#0B93CD] bg-[#0B93CD]/5 p-5">
+                <h4 className="font-bold">Directions</h4>
+                <ol className="list-decimal list-inside flex flex-col gap-1">
+                    <li>Click an emotion on the wheel to select it.</li>
+                    <li>Describe when you last felt it in the box below the wheel.</li>
+                    <li>Press <span className="font-bold">Save Entry</span> to add it to your progress list.</li>
+                    <li>
+                        Repeat until you have logged{" "}
+                        <span className="font-bold">{REQUIRED_ENTRIES} different emotions</span>. Only
+                        then can you press <span className="font-bold">save</span> and continue to M1.5.
+                    </li>
+                </ol>
             </div>
             <div className="flex items-center justify-center">
                 <FeelingsWheel
@@ -165,8 +180,15 @@ function InteractiveFeelingsWheel() {
                 </div>
                 <div className="flex flex-col gap-4 p-6 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                     <h4 className="font-bold flex flex-row justify-between">
-                        <span>Progress:</span><span>{savedEntry?.length}</span>
+                        <span>Progress:</span>
+                        <span>{savedEntry?.length ?? 0} of {REQUIRED_ENTRIES} emotions saved</span>
                     </h4>
+                    <div className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <Progress
+                            value={Math.min(100, ((savedEntry?.length ?? 0) / REQUIRED_ENTRIES) * 100)}
+                            className="h-full bg-gray-200 [&>div]:bg-[#0B93CD]"
+                        />
+                    </div>
                     {
                         savedEntry?.map((item: EmotionNode, index: number) => (
                             <Card key={index} className="flex flex-col w-full rounded-none items-start overflow-hidden border-2 border-gray-300 border-dashed">
@@ -189,8 +211,15 @@ function InteractiveFeelingsWheel() {
                             </Card>
                         ))
                     }
-                    {savedEntry?.length === 0 || savedEntry === undefined && <p className="text-gray-500">No entries saved.</p>}
-                    <div className="flex justify-end gap-2">
+                    {!savedEntry?.length && <p className="text-gray-500">No entries saved.</p>}
+                    <div className="flex flex-col sm:flex-row items-center justify-end gap-3">
+                        {buttonDisabledStatus && (
+                            <p className="text-gray-600 text-right">
+                                Save {REQUIRED_ENTRIES - (savedEntry?.length ?? 0)} more{" "}
+                                {REQUIRED_ENTRIES - (savedEntry?.length ?? 0) === 1 ? "emotion" : "emotions"} to
+                                unlock save.
+                            </p>
+                        )}
                         <CustomButton onClickFunc={save} title='save' className='rounded-none' type='red' disabled={buttonDisabledStatus}></CustomButton>
                     </div>
                 </div>

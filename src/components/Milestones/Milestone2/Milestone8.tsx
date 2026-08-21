@@ -17,28 +17,76 @@ import Image37 from "../../../assets/image/png/37.png";
 import Image18 from "../../../assets/image/png/18.png";
 import Image19 from "../../../assets/image/png/19.png";
 
-const tableTraits: any = [
-    [
-        "May demand special treatment or expect others to do things for them.",
-        "May not show gratitude",
-        "May only see their own needs and feel the rules don't apply to them",
-        "May feel like they deserve something they haven't earned. May have a constant need to be the center of attention."
-    ],
-    [
-        "Comfortable in expressing needs and opinions",
-        "Confident in ability to make decisions",
-        "Able to form secure and honest relationships , and stop unhealthy ones Able to deal with life's curveballs and setbacks"
-    ],
-    [
-        "You see things as either all good or all bad",
-        "You assume that one negative fact or event creates a general rule for your life",
-        "You focus only on the negative aspects of life, dwell on them",
-        "Turning positives into negatives",
-        "You assume the worst, even when you have no evidence to support it",
-        "Mistaking feelings for facts. You feel stupid, lazy, or ugly, so determine that it's true",
-        "You assume everything negative has something to do with you"
-    ]
-]
+type Trait = {
+    /** The bolded name shown in the reference table; the checkbox shows `text` only. */
+    lead?: string;
+    text: string;
+};
+
+type ConfidenceGroup = {
+    /** Firestore key this group is stored under. */
+    id: 'overlyHigh' | 'healthy' | 'low';
+    label: string;
+    description: string;
+    traits: Trait[];
+};
+
+/**
+ * One source for both tables on this page: the checkbox list and the "Degrees of
+ * Confidence" reference table below it. They used to be two hand-maintained copies,
+ * which is how the two HEALTHY traits below ended up merged into one checkbox.
+ */
+const CONFIDENCE_GROUPS: ConfidenceGroup[] = [
+    {
+        id: 'overlyHigh',
+        label: 'OVERLY HIGH',
+        description:
+            'Feeling "better than" others. Overly focused on their self-importance and overlook their flaws. ' +
+            'May act entitled. This attitude leads them to criticize others while seeking validation.',
+        traits: [
+            { lead: 'Demanding', text: 'May demand special treatment or expect others to do things for them.' },
+            { lead: 'Ungrateful', text: 'May not show gratitude' },
+            { lead: 'Selfish', text: "May only see their own needs and feel the rules don't apply to them" },
+            { lead: 'Deserving', text: "May feel like they deserve something they haven't earned." },
+            { lead: 'Need for attention', text: 'May have a constant need to be the center of attention.' },
+        ],
+    },
+    {
+        id: 'healthy',
+        label: 'HEALTHY',
+        description:
+            'In humility, having a clear and balanced self-view. Believe that everyone has strengths and weaknesses. ' +
+            'They have realistic expectations and normalize not succeeding at everything. They embrace their own unique ' +
+            'abilities and appreciate the gifts of others.',
+        traits: [
+            { text: 'Comfortable in expressing needs and opinions' },
+            { text: 'Confident in ability to make decisions' },
+            { text: 'Able to form secure and honest relationships, and stop unhealthy ones' },
+            { text: "Able to deal with life's curveballs and setbacks" },
+        ],
+    },
+    {
+        id: 'low',
+        label: 'LOW',
+        description:
+            'Feeling "less than" others. Care more about what others think than their own feelings. They often find it ' +
+            'hard to accept compliments, focus on their flaws, and worry about failing. This can make them feel like ' +
+            'others are better than they are.',
+        traits: [
+            { lead: 'All-or-nothing thinking', text: 'You see things as either all good or all bad' },
+            { lead: 'Overgeneralization', text: 'You assume that one negative fact or event creates a general rule for your life' },
+            { lead: 'Mental filtering', text: 'You focus only on the negative aspects of life, dwell on them' },
+            { text: 'Turning positives into negatives' },
+            { lead: 'Jumping to negative conclusions', text: 'You assume the worst, even when you have no evidence to support it' },
+            { lead: 'Mistaking feelings for facts', text: "You feel stupid, lazy, or ugly, so determine that it's true" },
+            { lead: 'Personalizing everything', text: 'You assume everything negative has something to do with you' },
+        ],
+    },
+];
+
+const GROUP_INDEX_BY_ID: Record<string, number> = Object.fromEntries(
+    CONFIDENCE_GROUPS.map((group, index) => [group.id, index])
+);
 
 function Confidence() {
     const navigate = useNavigate();
@@ -48,47 +96,31 @@ function Confidence() {
     useEffect(() => {
         if (user) {
             const getResponse = async () => {
-                const response = await getMilestone('milestone2_8');
+                // Nothing saved yet: the API 404s until the first submission.
+                const response = await getMilestone('milestone2_8').catch(() => null);
+                if (!response) return;
 
-                if (response) {
-                    console.log("response:", response);
+                const selected = (response.responses.selected ?? {}) as Record<string, unknown>;
+                const preChecked: { [groupIndex: number]: number[] } = {};
 
-                    const selected = response.responses.selected as {
-                        healthy?: string[];
-                        low?: string[];
-                        overlyHigh?: string[];
-                    };
+                Object.entries(selected).forEach(([groupId, traits]) => {
+                    const groupIndex = GROUP_INDEX_BY_ID[groupId];
+                    if (groupIndex === undefined || !Array.isArray(traits)) return;
 
-                    // Map group names from API → index in tableTraits
-                    const groupNameToIndex: Record<string, number> = {
-                        overlyHigh: 0,
-                        healthy: 1,
-                        low: 2,
-                    };
+                    // Match saved trait text back to its checkbox; wording that has since
+                    // changed simply doesn't match and is left unchecked.
+                    preChecked[groupIndex] = traits
+                        .map((trait) =>
+                            CONFIDENCE_GROUPS[groupIndex].traits.findIndex((t) => t.text === trait)
+                        )
+                        .filter((i) => i !== -1);
+                });
 
-                    const preChecked: { [groupIndex: number]: number[] } = {};
-
-                    Object.entries(selected).forEach(([groupName, traits]) => {
-                        const groupIndex = groupNameToIndex[groupName];
-                        if (groupIndex === undefined || !Array.isArray(traits)) return;
-
-                        // For each saved trait string, find its index in the tableTraits array
-                        const indices = traits
-                            .map((trait) => tableTraits[groupIndex].indexOf(trait))
-                            .filter((i) => i !== -1); // ignore if text changed and doesn't match
-
-                        preChecked[groupIndex] = indices;
-                    });
-
-                    setCheckedItems(preChecked);
-                }
+                setCheckedItems(preChecked);
             }
             getResponse();
         }
     }, [user])
-
-    console.log(checkedItems);
-
 
     const handleCheckboxChange = (groupIndex: number, itemIndex: number) => {
         setCheckedItems(prev => {
@@ -101,15 +133,13 @@ function Confidence() {
         });
     };
 
-    const getSelectedTraits = () => {
-        const selected = {
-            overlyHigh: (checkedItems[0] || []).map(index => tableTraits[0][index]),
-            healthy: (checkedItems[1] || []).map(index => tableTraits[1][index]),
-            low: (checkedItems[2] || []).map(index => tableTraits[2][index]),
-        };
-
-        return selected;
-    };
+    const getSelectedTraits = () =>
+        Object.fromEntries(
+            CONFIDENCE_GROUPS.map((group, groupIndex) => [
+                group.id,
+                (checkedItems[groupIndex] || []).map((i) => group.traits[i].text),
+            ])
+        );
     const next = async () => {
         const selected = getSelectedTraits();
 
@@ -170,15 +200,15 @@ function Confidence() {
                     </tr>
                 </thead>
                 <tbody className='border-2'>
-                    {tableTraits.map((tableTrait: any, groupIndex: number) => (
-                        <tr key={groupIndex}>
+                    {CONFIDENCE_GROUPS.map((group, groupIndex) => (
+                        <tr key={group.id}>
                             <td className='p-3 border-2 text-center'>
                                 {(checkedItems[groupIndex] || []).length}
                             </td>
                             <td className='p-3 border-2'>
                                 <ul className='list-decimal list-inside'>
-                                    {tableTrait.map((trait: any, itemIndex: number) => (
-                                        <li key={itemIndex} className="flex flex-row gap-3 items-start">
+                                    {group.traits.map((trait, itemIndex) => (
+                                        <li key={trait.text} className="flex flex-row gap-3 items-start">
                                             <Input
                                                 type="checkbox"
                                                 id={`group-${groupIndex}-item-${itemIndex}`}
@@ -187,7 +217,7 @@ function Confidence() {
                                                 className="border-0 w-auto shadow-none border-b border-ib rounded-none px-0 h-auto pb-1 focus-visible:ring-0 focus-visible:ring-offset-0"
                                             />
                                             <label htmlFor={`group-${groupIndex}-item-${itemIndex}`} className="text-left">
-                                                {trait}
+                                                {trait.text}
                                             </label>
                                         </li>
                                     ))}
@@ -205,58 +235,24 @@ function Confidence() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className='p-3 border-2 text-right'>
-                            <h6 className='font-bold'>OVERLY HIGH</h6>
-                            Feeling ”better than” others.
-                            Overly focused on their self-importance and overlook their flaws. May act entitled. This attitude
-                            leads them to criticize others while seeking validation.
-                        </td>
-                        <td className='p-3 border-2'>
-                            <ul>
-                                <li> Demanding: May demand special treatment or expect others to do things for them</li>
-                                <li> Ungrateful May not show gratitude</li>
-                                <li> Selfish: May only see their own needs and feel the rules don't apply to them</li>
-                                <li> Deserving:May feel like they deserve something they haven't earned.
-                                    Need for Attention: May have a constant need to be the center of attention.</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className='p-3 border-2 text-right'>
-                            <h6 className='font-bold'>HEALTHY:</h6>
-                            In humility, having a clear and balanced self-view. Believe that everyone has strengths and weaknesses. They have realistic expectations and
-                            normalize not succeeding at everything. They embrace their own unique abilities and appreciate the gifts of others
-                        </td>
-                        <td className='p-3 border-2'>
-                            <ul>
-                                <li> Comfortable inexpressing needs and opinions</li>
-                                <li> Confident in ability to make decisions</li>
-                                <li> Able to form secure and honest relationships,and stop unhealthy ones</li>
-                                <li> More resilienti better able to deal with life'scurveballs and setbacks</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className='p-3 border-2 text-right'>
-                            <h6 className='font-bold'>LOW:</h6>
-                            Feeling "less than” others. Care more about what others think than their
-                            own feelings. They often find it hard to accept compliments focus on their
-                            flaws, and worry about failing. This can make them feel like others are better than they are.
-                        </td>
-                        <td className='p-3 border-2'>
-                            <ul>
-                                <li> All-or-nothing thinking. You see things as either all good or all bad.</li>
-                                <li> Overgeneralization. You assume that one negative fact or event creates a general rule for your life.</li>
-                                <li> Mental filtering. You focus only on the negative aspects of life, dwell on them, and magnify them.</li>
-                                <li> Turning positives into negatives.</li>
-                                <li> Jumping to negative conclusions. You assume the worst, even when you have no evidence to support it.</li>
-                                <li> Mistaking feelings for facts. You feel stupid, lazy, or ugly, so determine that
-                                    it's true. Personalizing everything.You assume everything negative has something to do with you.
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
+                    {CONFIDENCE_GROUPS.map((group) => (
+                        <tr key={group.id}>
+                            <td className='p-3 border-2 text-right'>
+                                <h6 className='font-bold'>{group.label}</h6>
+                                {group.description}
+                            </td>
+                            <td className='p-3 border-2'>
+                                <ul>
+                                    {group.traits.map((trait) => (
+                                        <li key={trait.text}>
+                                            {trait.lead && <span className='font-bold'>{trait.lead}: </span>}
+                                            {trait.text}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             <div className="flex flex-col sm:flex-row justify-center items-center">

@@ -30,9 +30,11 @@ function DefiningStrength() {
     useEffect(() => {
         if (user) {
             const getResponse = async () => {
-                const response = await getMilestone('milestone2_11');
-                if (response) {
-                    setAnswers(response.responses.answers as Record<string, string>);
+                // Nothing saved yet: the API 404s until the first submission.
+                const response = await getMilestone('milestone2_11').catch(() => null);
+                const saved = response?.responses?.answers as Record<string, string> | undefined;
+                if (saved) {
+                    setAnswers((prev) => ({ ...prev, ...saved }));
                 }
             };
             getResponse();
@@ -76,7 +78,7 @@ function DefiningStrength() {
         navigate('/milestones/milestone2/10');
     };
 
-    const allFilled = Object.values(answers).every(text => text.trim() !== "");
+    const allFilled = EQMatters.every(item => (answers[item.title] ?? "").trim() !== "");
 
     return (
         <div className="flex flex-col gap-6">
@@ -127,12 +129,15 @@ function DefiningStrength() {
                     {EQMatters.map((item, index) => (
                         <li key={index} className='flex flex-col gap-2'>
                             <h5 className='font-bold'>{`${index + 1}. ${item.title}`}</h5>
+                            {/* The space after </strong> has to be explicit: JSX drops
+                                whitespace that sits either side of a newline. */}
                             <h6>
-                                Think about the past week. How did you demonstrate <strong>{item.title}</strong>
+                                Think about the past week. How did you demonstrate{" "}
+                                <strong>{item.title}</strong>{" "}
                                 through your actions, words, or decisions?
                             </h6>
                             <Textarea
-                                value={answers[item.title]}
+                                value={answers[item.title] ?? ""}
                                 onChange={(e) => handleTextareaChange(item.title, e.target.value)}
                                 placeholder={`Describe a specific situation where you showed ${item.title}...`}
                                 rows={5}

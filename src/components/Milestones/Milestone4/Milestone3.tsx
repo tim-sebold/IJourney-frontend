@@ -132,7 +132,7 @@ function DefiningRoles() {
     }
 
     const previous = () => {
-
+        navigate('/milestones/milestone4/2');
     }
 
     return (
