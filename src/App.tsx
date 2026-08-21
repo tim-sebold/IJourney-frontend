@@ -21,7 +21,7 @@ import {
   Welcome,
   ProfilePage
 } from './pages';
-import { IAM, StartingStatement } from './pages';
+import { IAM, StartingStatement, Complete } from './pages';
 
 import { generateMilestoneRoutes } from './routes/MilestoneRoute';
 import VerifyCertificatePage from './pages/Auth/VerifyCertificatePage';
@@ -61,6 +61,9 @@ const router = createBrowserRouter([
     children: [
       { path: "milestone0/1", element: <IAM /> },
       { path: "milestone0/2", element: <StartingStatement /> },
+      // The single final state of the programme; also the permanent home of the
+      // certificate download, so finishing never means walking back into a milestone.
+      { path: "complete", element: <Complete /> },
     ]
   },
   {

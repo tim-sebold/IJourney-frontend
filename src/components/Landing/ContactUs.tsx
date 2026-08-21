@@ -19,7 +19,11 @@ function ContactUs() {
                     We can help you&nbsp;&nbsp;- guide, some question...
                 </p>
 
-                <Button className="inline-flex cursor-pointer gap-3 px-6 py-3 bg-[#ff6f61] items-center justify-center relative h-auto rounded-full hover:bg-[#ff6f61]/90 transition-colors">
+                <Button
+                    onClick={() =>
+                        document.getElementById("contactForm")?.scrollIntoView({ behavior: "smooth" })
+                    }
+                    className="inline-flex cursor-pointer gap-3 px-6 py-3 bg-[#ff6f61] items-center justify-center relative h-auto rounded-full hover:bg-[#ff6f61]/90 transition-colors">
                     <span className="relative flex items-center justify-center text-white">
                         Contact Us
                     </span>

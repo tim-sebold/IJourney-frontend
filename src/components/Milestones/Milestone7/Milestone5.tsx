@@ -3,44 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import toast from 'react-hot-toast';
 import { unlockNext } from '../../../controllers/courseController';
+import { useCertificateDownload } from '../../../hooks/useCertificateDownload';
 
 import { MilestonePageShell } from '../MilestonePageShell';
 import { CustomButton } from "../../../elements/buttons";
-import { Star, Heart, Target, Users, Lightbulb } from 'lucide-react';
+import { Star, Heart, Target, Users, Lightbulb, Award } from 'lucide-react';
 
 function RoadAhead() {
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
+    const { download, loading } = useCertificateDownload();
 
     const previous = () => {
         navigate('/milestones/milestone7/4');
     };
 
-    const handleLogout = async () => {
-        if (user) {
-            await logout();
-            navigate('/');
-        } else {
-            toast.error("You need to log in to unlock the next milestone.");
-        }
-    }
-
-    const handleStartAI = () => {
-
-    }
-
     const complete = async () => {
-        if (user) {
-            try {
-                const result = await unlockNext({ userId: user?.uid, milestoneId: "completed", prevMilestoneId: "milestone7/5" });
-                toast.success(result.message);
-                navigate('/');
-            } catch (error: any) {
-                console.log(error);
-                toast.error(error.message);
-            }
-        } else {
+        if (!user) {
             toast.error("You need to log in to finish all milestone.");
+            return;
+        }
+
+        try {
+            const result = await unlockNext({ userId: user.uid, milestoneId: "completed", prevMilestoneId: "milestone7/5" });
+            toast.success(result.message);
+            // The completion page is the single final state, and it carries the
+            // certificate download so nobody has to re-enter the module for it.
+            navigate('/milestones/complete');
+        } catch (error: unknown) {
+            toast.error(error instanceof Error ? error.message : "Could not complete your journey.");
         }
     }
 
@@ -50,6 +41,7 @@ function RoadAhead() {
             subtitle="Your Continued Journey of Purpose and Growth"
             onPrevious={previous}
             onNext={complete}
+            nextLabel="finish my journey"
             isNextLoading={false}
         >
             <div className="flex flex-col gap-6">
@@ -69,16 +61,23 @@ function RoadAhead() {
                         </div>
                     </div>
 
-                    <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
-                        <h4 className="text-xl font-bold text-yellow-800 mb-3">AI Companion for Your Future</h4>
-                        <p className="mb-4">Even after completing the program, our AI chatbot remains available to support you:</p>
-                        <div className="space-y-2">
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Check in on your SMART goals and adjust them as needed</div>
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Get personalized recommendations for learning resources</div>
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Help you navigate new challenges and opportunities</div>
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Provide encouragement and celebrate your successes</div>
+                    <div className="bg-emerald-50 p-6 rounded-lg border-l-4 border-emerald-500">
+                        <div className="flex items-start gap-4">
+                            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-400 text-white ring-4 ring-white">
+                                <Award className="h-6 w-6" />
+                            </div>
+                            <div className="flex-1">
+                                <h4 className="text-xl font-bold text-emerald-900 mb-2">Your Certificate</h4>
+                                <p className="mb-4">Your certificate of completion is ready. You can download it here, and again from your completion page any time — you never need to come back into the module for it.</p>
+                                <CustomButton
+                                    title='Download Certificate'
+                                    onClickFunc={download}
+                                    className='rounded-full justify-end'
+                                    type='green'
+                                    loading={loading}
+                                />
+                            </div>
                         </div>
-                        <CustomButton title='Start AI Companion' onClickFunc={handleStartAI} className='rounded-full mt-4 justify-end' type='red'></CustomButton>
                     </div>
 
                     <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
@@ -89,10 +88,7 @@ function RoadAhead() {
                                 <p className="text-sm text-purple-600">— Asha McMillan, LPC</p>
                             </div>
                         </div>
-                        <p className="mb-4">Thank you for embarking on this transformative journey with us. We believe in your potential and look forward to seeing the incredible impact you'll make in the world.</p>
-                        <div className="flex justify-center space-x-4">
-                            <CustomButton title='Log Out' onClickFunc={handleLogout} className='rounded-full justify-end' type='red'></CustomButton>
-                        </div>
+                        <p>Thank you for embarking on this transformative journey with us. We believe in your potential and look forward to seeing the incredible impact you'll make in the world.</p>
                     </div>
                 </div>
             </div>

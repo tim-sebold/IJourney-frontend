@@ -30,9 +30,11 @@ function DraftStatement() {
     useEffect(() => {
         if(user) {
             const getResponse = async () => {
-                const response = await getMilestone('milestone6_3');
-                if (response) {
-                    setJourneyerStatement(response.responses.journeyerStatement as JourneyerStatement);
+                // Nothing saved yet: the API 404s until the first submission.
+                const response = await getMilestone('milestone6_3').catch(() => null);
+                const saved = response?.responses?.journeyerStatement as Partial<JourneyerStatement> | undefined;
+                if (saved) {
+                    setJourneyerStatement((prev) => ({ ...prev, ...saved }));
                 }
             }
             getResponse();

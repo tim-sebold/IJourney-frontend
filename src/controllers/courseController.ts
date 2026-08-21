@@ -51,6 +51,35 @@ export const unlockNext = async (payload: { userId?: string; milestoneId: string
         }),
     });
 
+export type JourneyerStatement = {
+    iAm: string;
+    iBelieve: string;
+    iWill: string;
+    iAmConfident: string;
+    iAmCapable: string;
+};
+
+export type StatementSectionFeedback = {
+    key: keyof JourneyerStatement;
+    label: string;
+    status: "empty" | "needs-work" | "strong";
+    wordCount: number;
+    suggestions: string[];
+};
+
+export type StatementFeedback = {
+    score: number;
+    summary: string;
+    strengths: string[];
+    sections: StatementSectionFeedback[];
+};
+
+export const getStatementFeedback = async (statement: JourneyerStatement) =>
+    api<{ feedback: StatementFeedback }>("/api/courses/statement-feedback", {
+        method: "POST",
+        body: JSON.stringify({ statement }),
+    });
+
 export const downloadCertificate = async (): Promise<Blob> => {
     return apiBlob("/api/certificates/download", {
         method: "POST",

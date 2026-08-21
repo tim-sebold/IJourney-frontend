@@ -4,13 +4,44 @@ import { Separator } from "../../../elements/separator";
 import { Label } from "../../../elements";
 import { Textarea } from "../../../elements";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 import LandingLogo from "../../../assets/image/landing-logo.png";
 
 import { footerData } from "../../../datas/layoutData";
+import { CONTACT_EMAIL } from "../../../config/config";
+
+const EMPTY_CONTACT = { name: "", email: "", subject: "", message: "" };
 
 function Footer() {
     const navigate = useNavigate();
+    const [contact, setContact] = useState(EMPTY_CONTACT);
+
+    const updateContact = (field: keyof typeof EMPTY_CONTACT, value: string) =>
+        setContact((prev) => ({ ...prev, [field]: value }));
+
+    /**
+     * There is no transactional-email service behind this app, so rather than a Send
+     * button that silently does nothing, this hands the message to the visitor's own
+     * mail client. Swap for a POST when a mail provider is wired up.
+     */
+    const handleContactSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (!contact.name.trim() || !contact.email.trim() || !contact.message.trim()) {
+            toast.error("Please add your name, email and a message.");
+            return;
+        }
+
+        const subject = contact.subject.trim() || `Website enquiry from ${contact.name.trim()}`;
+        const body = `${contact.message.trim()}\n\n—\n${contact.name.trim()}\n${contact.email.trim()}`;
+
+        window.location.href =
+            `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        setContact(EMPTY_CONTACT);
+    };
 
     const handleFeatures = (feature: any) => {
         const element = document.getElementById(feature.href);
@@ -47,21 +78,29 @@ function Footer() {
                     <div className="flex flex-col lg:flex-row gap-10 lg:gap-x-20 xl:gap-x-40">
                         <div className="flex flex-col items-start gap-15 flex-1 w-full">
                             <div className="flex flex-col items-start gap-10 w-full">
-                                <div className="inline-flex flex-col gap-5 w-full">
+                                <form
+                                    id="contactForm"
+                                    onSubmit={handleContactSubmit}
+                                    className="inline-flex flex-col gap-5 w-full scroll-mt-24"
+                                >
                                     <div className="flex items-start justify-start gap-4 w-full flex-col lg:flex-row">
                                         <div className="flex-1 w-full">
-                                            <Label className="">FullName</Label>
+                                            <Label htmlFor="contactName">FullName</Label>
                                             <Input
-                                                defaultValue=""
+                                                id="contactName"
+                                                value={contact.name}
+                                                onChange={(e) => updateContact("name", e.target.value)}
                                                 type="text"
                                                 placeholder="FullName"
                                                 className="border mt-1 border-solid shadow-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 p-0 h-auto border-white flex items-center gap-3 px-2 py-4"
                                             />
                                         </div>
                                         <div className="flex-1 w-full">
-                                            <Label>E-Mail</Label>
+                                            <Label htmlFor="contactEmail">E-Mail</Label>
                                             <Input
-                                                defaultValue=""
+                                                id="contactEmail"
+                                                value={contact.email}
+                                                onChange={(e) => updateContact("email", e.target.value)}
                                                 type="email"
                                                 placeholder="E-Mail"
                                                 className="border mt-1 border-solid shadow-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 p-0 h-auto border-white flex items-center gap-3 px-2 py-4"
@@ -69,29 +108,36 @@ function Footer() {
                                         </div>
                                     </div>
                                     <div className="flex-1 w-full">
-                                        <Label>Subject</Label>
+                                        <Label htmlFor="contactSubject">Subject</Label>
                                         <Input
-                                            defaultValue=""
+                                            id="contactSubject"
+                                            value={contact.subject}
+                                            onChange={(e) => updateContact("subject", e.target.value)}
                                             type="text"
                                             placeholder="Subject"
                                             className="border mt-1 border-solid shadow-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 p-0 h-auto border-white flex items-center gap-3 px-2 py-4"
                                         />
                                     </div>
                                     <div className="flex-1 w-full">
-                                        <Label>Message</Label>
+                                        <Label htmlFor="contactMessage">Message</Label>
                                         <Textarea
-                                            defaultValue=""
+                                            id="contactMessage"
+                                            value={contact.message}
+                                            onChange={(e) => updateContact("message", e.target.value)}
                                             rows={5}
                                             placeholder="Type Message"
                                             className="border mt-1 border-solid shadow-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 p-0 h-auto border-white flex items-center gap-3 px-2 py-4"
                                         />
                                     </div>
-                                    <Button className="flex mt-2 cursor-pointer gap-3 px-6 py-4 bg-[#ff6f61] items-center justify-center relative h-auto rounded-[100px] hover:bg-[#ff6f61]/90 transition-colors">
+                                    <Button type="submit" className="flex mt-2 cursor-pointer gap-3 px-6 py-4 bg-[#ff6f61] items-center justify-center relative h-auto rounded-[100px] hover:bg-[#ff6f61]/90 transition-colors">
                                         <span className="relative flex items-center justify-center font-subheading-as-typed-s7">
                                             Send
                                         </span>
                                     </Button>
-                                </div>
+                                    <p className="text-sm text-white/70">
+                                        Sending opens a message to {CONTACT_EMAIL} in your email app.
+                                    </p>
+                                </form>
                             </div>
                         </div>
 

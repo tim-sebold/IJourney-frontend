@@ -3,12 +3,15 @@ import { Trophy, CheckCircle, Sparkles } from "lucide-react";
 type Props = {
     title?: string;
     subtitle?: string;
+    /** Says what still remains, so "Graduate!" doesn't read as the end of the road. */
+    footnote?: string;
     accomplishments?: string[];
 };
 
 export function CompletionCard({
     title = "You've Completed Your iJourney!",
     subtitle = `You've successfully completed "iJourney: A Path to Purpose" and have created a powerful foundation for your future.`,
+    footnote = "One page to go — M7.5: The Road Ahead closes out your journey. Your certificate stays available there and on your completion page, so you never have to come back here for it.",
     accomplishments = [
         "Completed all 7 milestones of self-discovery",
         "Created your personal Journeyer's Statement",
@@ -51,6 +54,12 @@ export function CompletionCard({
                     <p className="mt-2 max-w-2xl text-base text-zinc-700">
                         {subtitle}
                     </p>
+
+                    {footnote && (
+                        <p className="mt-4 max-w-2xl rounded-xl border border-amber-200 bg-white/70 px-4 py-3 text-sm font-medium text-amber-900">
+                            {footnote}
+                        </p>
+                    )}
                 </div>
             </div>
 
