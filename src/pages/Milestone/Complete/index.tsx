@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Award, GraduationCap, Home, Sparkles, User } from 'lucide-react';
+import { Award, BookOpenCheck, GraduationCap, Home, Sparkles, User } from 'lucide-react';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCertificateDownload } from '../../../hooks/useCertificateDownload';
@@ -69,6 +69,12 @@ function Complete() {
                                 <Sparkles className="h-5 w-5" /> Where to next
                             </h3>
                             <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                                <Link
+                                    to="/recap"
+                                    className="flex items-center gap-3 rounded-xl border border-black/5 bg-white px-4 py-3 text-sm font-semibold text-zinc-800 shadow-sm transition-transform hover:-translate-y-0.5"
+                                >
+                                    <BookOpenCheck className="h-5 w-5 text-emerald-600" /> Read your full journey recap
+                                </Link>
                                 <Link
                                     to="/user-profile"
                                     className="flex items-center gap-3 rounded-xl border border-black/5 bg-white px-4 py-3 text-sm font-semibold text-zinc-800 shadow-sm transition-transform hover:-translate-y-0.5"

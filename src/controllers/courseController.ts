@@ -22,6 +22,22 @@ export const getMilestone = (milestoneId: string) =>
 export const getMilestoneContent = (milestoneId: string) =>
     api<Milestone>(`/api/courses/${milestoneId}`);
 
+export type RecapEntry = {
+    responses: Record<string, unknown>;
+    status: 'draft' | 'submitted';
+    submittedAt: string | null;
+};
+
+export type RecapPayload = {
+    /** Keyed by progress-form milestone key (`milestone1/4`). */
+    responses: Record<string, RecapEntry>;
+    /** Milestones that collect work, so unanswered ones can be called out. */
+    required: string[];
+};
+
+/** Every saved answer in one request — what the recap page renders. */
+export const getAllResponses = () => api<RecapPayload>("/api/courses/responses");
+
 // `userId` is accepted for call-site compatibility but never sent: the backend
 // derives the acting user from the verified token and ignores any client-supplied id.
 export const submitMilestone = async (milestoneId: string, payload: {

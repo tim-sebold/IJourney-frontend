@@ -13,6 +13,7 @@ import {
 import Landing from './pages/Landing';
 import NotFound from './pages/NotFound';
 import AboutUs from './pages/AboutUs';
+import Recap from './pages/Recap';
 import {
   Login,
   Register,
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
       { index: true, element: <Landing /> },
       { path: "aboutus", element: <AboutUs /> },
       { path: "user-profile", element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
+      { path: "recap", element: <ProtectedRoute><Recap /></ProtectedRoute> },
       { path: "verify/:certificateId", element: <VerifyCertificatePage /> },
       { path: "verify-certificate/:certificateId", element: <VerifyCertificatePage /> }
     ]
