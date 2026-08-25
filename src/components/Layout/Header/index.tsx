@@ -15,6 +15,7 @@ import {
     LockKeyhole,
     LockKeyholeOpen,
     UserCircle2,
+    BookOpenCheck,
     LucideChartNoAxesCombined,
     Settings,
     LogOut,
@@ -140,6 +141,8 @@ export default function Header() {
 
     const goToProfile = () => navigate("/user-profile");
 
+    const goToRecap = () => navigate("/recap");
+
     const goToProgressSection = () => {
         navigate("/");
         setTimeout(() => {
@@ -236,6 +239,14 @@ export default function Header() {
                                         >
                                             <UserCircle2 size={20} />
                                             <span>My Progress</span>
+                                        </li>
+
+                                        <li
+                                            className="group relative flex cursor-pointer items-center gap-x-4 px-6 py-3 text-gray-500 hover:bg-gray-200"
+                                            onClick={goToRecap}
+                                        >
+                                            <BookOpenCheck size={20} />
+                                            <span>My Recap</span>
                                         </li>
 
                                         <li className="group relative flex items-center gap-x-4 px-6 py-3 text-gray-500 hover:bg-gray-200">

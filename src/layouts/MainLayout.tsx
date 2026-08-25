@@ -11,12 +11,17 @@ function Layout() {
     if (loading) return <LoadingSpinner />;
     return (
         <div className="flex flex-col min-h-screen bg-gray-100 ">
-            <Header />
+            {/* Chrome is for the screen only — printing the recap should yield the recap. */}
+            <div className="recap-no-print">
+                <Header />
+            </div>
             <main className='relative'>
                 <RouteTransition />
             </main>
-            <Footer />
-            <Chatbot />
+            <div className="recap-no-print">
+                <Footer />
+                <Chatbot />
+            </div>
         </div>
     );
 };

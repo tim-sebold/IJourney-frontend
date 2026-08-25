@@ -372,3 +372,30 @@ body {
     transform: rotate(360deg);
   }
 }
+/*
+|--------------------------------------------------------------------------
+| Journey recap — print / save-as-PDF
+|--------------------------------------------------------------------------
+| The recap page is meant to be printable, so printing drops the site chrome
+| and keeps each answer card whole rather than split across a page break.
+*/
+@media print {
+  .recap-no-print {
+    display: none !important;
+  }
+
+  .recap-page {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  /* Sections can run across pages; a single answer card should not. */
+  .recap-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+}
