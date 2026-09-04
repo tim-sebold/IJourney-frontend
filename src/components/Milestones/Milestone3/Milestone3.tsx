@@ -1,44 +1,17 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { getMilestone, unlockNext } from '../../../controllers/courseController';
-import { submitMilestone } from '../../../controllers/courseController';
+import { unlockNext } from '../../../controllers/courseController';
 import toast from 'react-hot-toast';
 
+import { BookOpen, Target, Lightbulb } from 'lucide-react';
 import { CustomButton } from "../../../elements/buttons";
-import { Input } from '../../../elements/input';
 
-function CareerDiscovery() {
+function ONetAssessment() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [careers, setCareers] = useState<Record<string, string>>({
-        c1: '',
-        c2: '',
-        c3: ''
-    });
-
-    useEffect(() => {
-        if(user) {
-            const getResponse = async () => {
-                const response = await getMilestone('milestone3_3');
-                if(response) {
-                    setCareers(response.responses.careers as Record<string, string>);
-                }
-            }
-            getResponse();
-        }
-    }, [user])
-
-    const allFilled = Object.values(careers).every(value => value.trim() !== '');
-
-    const handleChange = (field: string, value: string) => {
-        setCareers(prev => ({ ...prev, [field]: value }));
-    };
-
     const next = async () => {
         if (user) {
             try {
-                await submitMilestone('milestone3_3', { userId: user?.uid, responses: { careers } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone3/4", prevMilestoneId: "milestone3/3" });
                 toast.success(result.message);
             } catch (error: any) {
@@ -58,38 +31,63 @@ function CareerDiscovery() {
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M3.3: Career Discovery Input</h3>
+                <h3 className="font-bold">M3.3: What is O*NET?</h3>
                 <h6></h6>
             </div>
-            <h6>This screen is where you take the findings from your external O*NET Interest Profiler and formally record them into the iJOURNEY platform. Enter three potential
-                career paths that aligned with your interests during the O*NET assessment.</h6>
+            <h6>Since the beginning of the iJOURNEY, a group of adventurous students would meet every day after school, at their favorite spot, Careerbucks Cafe,
+                discussing the highlights and dreaming about what career they wanted to pursue after high school.
+                One sunny afternoon a wise mentor happened to walk by and overheard their conversations. He decided to help them out.
+                "Haven't you taken the career assessments?" he stated, smiling warmly. He described career assessments as fun tools that help you discover your unique
+                skills and interests. "Think of it as a practical tool on your career journey that guides you closer to what makes you happy," he said.</h6>
             <div className="flex flex-col bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-6">
-                <ul className="flex flex-col gap-4 list-decimal list-inside">
-                    {['c1', 'c2', 'c3'].map((key, index) => (
-                        <li key={key} className="text-[20px]">
-                            <label className="font-bold">Career Path {index + 1}</label>
-                            <Input
-                                placeholder={`e.g, ${[
-                                    'Anthropologist',
-                                    'Equal Opportunity Officer',
-                                    'Archaeologist'
-                                ][index]}`}
-                                type="text"
-                                value={careers[key as keyof typeof careers]}
-                                onChange={(e: any) => handleChange(key, e.target.value)}
-                                className="border-0 border-b-2 px-2 border-ib rounded-none pb-1 focus-visible:ring-0 focus-visible:ring-offset-0"
-                            />
-                        </li>
-                    ))}
-                </ul>
+                <div className="flex flex-col gap-6 mb-8">
+                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                        <div className="flex items-center mb-4">
+                            <div className="bg-blue-100 p-2 rounded-lg mr-3">
+                                <BookOpen className="text-blue-600" size={24} />
+                            </div>
+                            <h3 className="text-xl font-semibold text-gray-900">What is O*NET?</h3>
+                        </div>
+                        <p className="text-gray-700">
+                            The U.S. Department of Labor's official career exploration tool that helps you discover careers based on your natural interests and preferences.
+                        </p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                        <div className="flex items-center mb-4">
+                            <div className="bg-green-100 p-2 rounded-lg mr-3">
+                                <Target className="text-green-600" size={24} />
+                            </div>
+                            <h3 className="text-xl font-semibold text-gray-900">Why It's Important</h3>
+                        </div>
+                        <p className="text-gray-700">
+                            It identifies careers based on your natural interests, not just what you think you should do. This helps you find paths that truly align with who you are.
+                        </p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                        <div className="flex items-center mb-4">
+                            <div className="bg-purple-100 p-2 rounded-lg mr-3">
+                                <Lightbulb className="text-purple-600" size={24} />
+                            </div>
+                            <h3 className="text-xl font-semibold text-gray-900">Assessment Goal</h3>
+                        </div>
+                        <p className="text-gray-700">
+                            To give you 3-5 potential career fields that match your interests and help guide your next steps in your career journey.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <h5 className='text-center font-bold'>These careers will populate your Career Research Log (M3.5) and Lifestyle Calculator </h5>
+            <h4 className='font-bold text-center hover:underline hover:cursor-pointer hover:text-ib-1'>
+                <a href='https://www.mynextmove.org/explore/ip' target='_blank' rel='noreferrer' className='text-ib-2 underline'>Discover My Interests — https://www.mynextmove.org/explore/ip</a>
+            </h4>
+            <h5 className='text-center font-bold'>This will open in a new tab so you won't lose your place in iJOURNEY</h5>
             <div className="flex justify-between w-full gap-2 text-center">
                 <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
-                <CustomButton onClickFunc={next} title='next' className={`rounded-none justify-end ${!allFilled ? 'opacity-50 cursor-not-allowed' : ''}`} type='move' disabled={!allFilled}></CustomButton>
+                <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move'></CustomButton>
             </div>
         </div>
     )
 }
 
-export default CareerDiscovery;
+export default ONetAssessment;

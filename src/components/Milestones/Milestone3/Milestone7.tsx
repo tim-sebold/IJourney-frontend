@@ -74,7 +74,7 @@ export default function App() {
     }
 
     const previous = () => {
-        navigate('/milestones/milestone3/4');
+        navigate('/milestones/milestone3/6');
     };
 
     const handleCommit = async () => {

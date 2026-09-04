@@ -77,11 +77,11 @@ export const sidebarData = {
         ],
         [
             { title: "M3.1: Intro: The Map", url: "/milestones/milestone3/1" },
-            { title: "M3.2: What is O*NET", url: "/milestones/milestone3/2" },
-            { title: "M3.3: Career Discovery Input", url: "/milestones/milestone3/3" },
-            { title: "M3.4: Lifestyle Calculator", url: "/milestones/milestone3/4" },
+            { title: "M3.2: Career Assessment", url: "/milestones/milestone3/2" },
+            { title: "M3.3: What is O*NET", url: "/milestones/milestone3/3" },
+            { title: "M3.4: Career Discovery Input", url: "/milestones/milestone3/4" },
             { title: "M3.5: Career Research Log", url: "/milestones/milestone3/5" },
-            { title: "M3.6: Career Assessment", url: "/milestones/milestone3/6" },
+            { title: "M3.6: Lifestyle Calculator", url: "/milestones/milestone3/6" },
             { title: "M3.7: Territory Summary & Commit", url: "/milestones/milestone3/7" }
         ],
         [

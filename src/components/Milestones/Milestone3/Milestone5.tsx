@@ -20,7 +20,16 @@ function CareerResearchLog() {
     useEffect(() => {
         if (user) {
             const loadData = async () => {
-                const careersMilestone = await getMilestone('milestone3_3');
+                // Career Discovery Input moved from M3.3 to M3.4; older students
+                // still have their careers stored under the previous key.
+                const careerSources = await Promise.all(
+                    ['milestone3_4', 'milestone3_3'].map((key) =>
+                        getMilestone(key).catch(() => null)
+                    )
+                );
+                const careersMilestone = careerSources.find(
+                    (response) => response?.responses?.careers
+                );
 
                 const careerList: string[] = Object.values(
                     careersMilestone?.responses?.careers || {}
