@@ -16,11 +16,11 @@ type Props = {
 export const TITLES: Record<number, string> = {
     1: "Journeyer's Statement",
     2: "Oasis Explorations",
-    3: "Unchartered Territory",
+    3: "Uncharted Territory",
     4: "Resources Roadways",
     5: "Navigating Education",
     6: "Envisioning the Future",
-    7: "Yielding Growth",
+    7: "Yielding to Growth",
 }
 
 const COLORS: Record<number, string> = {

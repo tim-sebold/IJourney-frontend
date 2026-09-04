@@ -4,13 +4,13 @@ import Instagram from "../assets/image/social/Instagram.svg";
 
 export const headerData = {
     solutions: [
-        { name: 'Milestone 1', title: "M1. Journeyer's Statement", description: 'Get a better understanding of your traffic', href: '/milestones/milestone1/1' },
-        { name: 'Milestone 2', title: "M2. Oasis Explorations", description: 'Speak directly to your customers', href: '/milestones/milestone2/1' },
-        { name: 'Milestone 3', title: "M3. Unchartered Territory", description: "Your customers' data will be safe and secure", href: '/milestones/milestone3/1' },
-        { name: 'Milestone 4', title: "M4. Resources Roadways", description: 'Connect with third-party tools', href: '/milestones/milestone4/1' },
-        { name: 'Milestone 5', title: "M5. Navigating Education", description: 'Build strategic funnels that will convert', href: '/milestones/milestone5/1' },
-        { name: 'Milestone 6', title: "M6. Envisioning the Future", description: 'Get a better understanding of your traffic', href: '/milestones/milestone6/1' },
-        { name: 'Milestone 7', title: "M7. Yielding to Growth", description: 'Your customers data will be safe and secure', href: '/milestones/milestone7/1' },
+        { name: 'Milestone 1', title: "M1. Journeyer's Statement", description: 'Discover your why', href: '/milestones/milestone1/1' },
+        { name: 'Milestone 2', title: "M2. Oasis Explorations", description: 'Explore emotional intelligence and your unique strengths', href: '/milestones/milestone2/1' },
+        { name: 'Milestone 3', title: "M3. Uncharted Territory", description: 'Research career pathways and calculate your desired lifestyle cost', href: '/milestones/milestone3/1' },
+        { name: 'Milestone 4', title: "M4. Resources Roadways", description: 'Map your network of mentors, friends, and experts', href: '/milestones/milestone4/1' },
+        { name: 'Milestone 5', title: "M5. Navigating Education", description: 'Navigate your education options', href: '/milestones/milestone5/1' },
+        { name: 'Milestone 6', title: "M6. Envisioning the Future", description: 'Create a visual presentation for your career path', href: '/milestones/milestone6/1' },
+        { name: 'Milestone 7', title: "M7. Yielding to Growth", description: 'Write SMART goals and celebrate your work', href: '/milestones/milestone7/1' },
     ],
 };
 
