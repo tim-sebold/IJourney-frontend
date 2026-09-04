@@ -11,45 +11,80 @@ import { CustomButton } from '../../../elements';
 import Image67 from '../../../assets/image/png/67.png';
 import Image68 from '../../../assets/image/png/68.png';
 
-// Mock data simulating what would come from Firestore after M3.3, M3.4, M3.5
-const MOCK_USER_DATA = {
-    careerPaths: [
-        {
-            id: 1,
-            title: "Environmental Engineer",
-            jobOutlook: "Much Faster than Average",
-            requiredEducation: "Bachelor's Degree in Environmental Engineering",
-        },
-        {
-            id: 2,
-            title: "High School Teacher",
-            jobOutlook: "Average",
-            requiredEducation: "Bachelor's Degree + Teaching Certification",
-        },
-        {
-            id: 3,
-            title: "Financial Analyst",
-            jobOutlook: "Much Faster than Average",
-            requiredEducation: "Bachelor's Degree in Finance or Related Field",
-        },
-    ],
+type CareerPath = {
+    id: number;
+    title: string;
+    jobOutlook: string;
+    requiredEducation: string;
 };
+
+/** Reads a milestone document, tolerating the 404 returned before a first save. */
+const readMilestone = (key: string) => getMilestone(key).catch(() => null);
+
+/**
+ * Finds the first of `keys` whose document actually carries `field`. Pages moved
+ * during the M3 reordering, so a student may have work under either the current
+ * key or the one the page used to live at, and both keys now exist with different
+ * shapes — the field is what identifies the right document.
+ */
+const findResponseWith = async (keys: string[], field: string) => {
+    const documents = await Promise.all(keys.map(readMilestone));
+    return documents.find((response) => response?.responses?.[field] !== undefined)?.responses;
+};
+
+const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
 
 export default function App() {
     const [selectedCareerId, setSelectedCareerId] = useState<number>();
     const [isCommitted, setIsCommitted] = useState<boolean>(false);
     const [requiredSalary, setRequiredSalary] = useState<number>(0);
+    const [careerPaths, setCareerPaths] = useState<CareerPath[]>([]);
     const navigate = useNavigate();
     const { user } = useAuth();
 
     useEffect(() => {
         if (user) {
             const getResponse = async () => {
-                const responsePrice = await getMilestone('milestone3_4');
-                if (responsePrice) {
-                    setRequiredSalary(responsePrice.responses.totalAnnual as number);
+                // The Lifestyle Calculator's gross salary — not its expense total,
+                // which is what this banner used to show.
+                const lifestyle = await findResponseWith(
+                    ['milestone3_6', 'milestone3_4'],
+                    'requiredSalary'
+                );
+                if (lifestyle) {
+                    setRequiredSalary(Number(lifestyle.requiredSalary) || 0);
                 }
-                const response = await getMilestone('milestone3_7');
+
+                // The three careers the student actually entered, filled in with
+                // the outlook and education they researched on the Career Research Log.
+                const discovery = await findResponseWith(
+                    ['milestone3_4', 'milestone3_3'],
+                    'careers'
+                );
+                const researchLog = await findResponseWith(['milestone3_5'], 'researchData');
+                const research = Array.isArray(researchLog?.researchData)
+                    ? (researchLog.researchData as Array<Record<string, string>>)
+                    : Object.values((researchLog?.researchData ?? {}) as Record<string, Record<string, string>>);
+
+                const careers = Object.values((discovery?.careers ?? {}) as Record<string, string>);
+                setCareerPaths(
+                    careers
+                        .map((title, index) => ({
+                            id: index + 1,
+                            title,
+                            jobOutlook: research[index]?.outlook || 'Not researched yet',
+                            requiredEducation: research[index]?.education || 'Not researched yet',
+                        }))
+                        .filter((career) => career.title?.trim())
+                );
+
+                const response = await readMilestone('milestone3_7');
                 if (response) {
                     setSelectedCareerId(response.responses.selectedCareerId as number);
                     setIsCommitted(true);
@@ -96,7 +131,7 @@ export default function App() {
         }
     };
 
-    const selectedCareer = MOCK_USER_DATA.careerPaths.find(c => c.id === selectedCareerId);
+    const selectedCareer = careerPaths.find(c => c.id === selectedCareerId);
 
     return (
         <div className="flex flex-col gap-10">
@@ -112,7 +147,7 @@ export default function App() {
                         <h4 className="text-xl font-semibold text-gray-800">
                             Required Annual Salary:{" "}
                             <span className="text-green-600 font-bold">
-                                ${requiredSalary}
+                                {formatCurrency(requiredSalary)}
                             </span>
                         </h4>
                     </div>
@@ -124,7 +159,20 @@ export default function App() {
                 {/* Career Paths Summary */}
                 <div className="space-y-6 mb-10">
                     <h4 className="font-bold text-center mb-6">Your Career Pathways</h4>
-                    {MOCK_USER_DATA.careerPaths.map((career: any, index: number) => (
+                    {careerPaths.length === 0 && (
+                        <p className="text-center text-gray-600">
+                            You haven't recorded any career paths yet.{" "}
+                            <button
+                                type="button"
+                                onClick={() => navigate('/milestones/milestone3/4')}
+                                className="font-bold text-ib-1 underline cursor-pointer"
+                            >
+                                Go back to M3.4
+                            </button>{" "}
+                            to add them.
+                        </p>
+                    )}
+                    {careerPaths.map((career, index: number) => (
                         <div
                             key={index}
                             className={`bg-white rounded-xl shadow-sm p-6 border-2 transition-all duration-200 cursor-pointer ${selectedCareerId === career.id
