@@ -104,7 +104,7 @@ function IdentifyTrueNorth() {
             </div>
             <div className="flex flex-col gap-2 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-8">
                 <h4 className='font-extrabold'>Journeyer's Statement</h4>
-                <h6 className=''>Utilize <span className='font-bold'>the Locating Your Finisher's Spark</span> worksheet to craft your Journeyers Statement. If you identify any demotivating feelings,
+                <h6 className=''>Utilize <span className='font-bold'>the Locating Your Finisher's Spark</span> prompt to craft your Journeyer's Statement. If you identify any demotivating feelings,
                     recognize them and take a moment to reflect on how you can progress despite these obstacles.</h6>
                 <div className="flex justify-center">
                     <img src={ImageMountain} alt="" className="w-40" />

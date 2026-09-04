@@ -87,7 +87,7 @@ function GuidingQuestions() {
             <div className="flex flex-col gap-2 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-6">
                 <h4 className='font-bold text-center'>Reflection Prompts</h4>
                 <div className="text-ib-5 font-normal flex flex-col gap-2">
-                    <span className="font-bold">Take a moment to consider these core questions from your iJourney manual:</span>
+                    <span className="font-bold">Take a moment to consider these core questions:</span>
                     <div className="flex flex-col justify-between md:flex-row items-center">
                         <ul className="list-decimal list-inside">
                             <li>What causes or ideas are you most passionate about?</li>

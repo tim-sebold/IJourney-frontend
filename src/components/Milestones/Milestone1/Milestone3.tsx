@@ -56,7 +56,7 @@ function ExploreEmotion() {
             </div>
             <div className="flex flex-col gap-4 px-6 pt-6 pb-8 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                 <h4 className='font-extrabold'>Locating your finisher's spark</h4>
-                <p className='text-ib-2 italic'>Below are examples of emotions Mia was feeling</p>
+                <p className='text-ib-2 italic'>Below are examples of emotions Kayla was feeling</p>
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col sm:flex-row justify-center gap-4 items-center">
                         <div className="">
