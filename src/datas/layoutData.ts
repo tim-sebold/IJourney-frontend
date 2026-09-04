@@ -71,10 +71,9 @@ export const sidebarData = {
             { title: "M2.7: What is Self-Esteem?", url: "/milestones/milestone2/7" },
             { title: "M2.8: Confidence", url: "/milestones/milestone2/8" },
             { title: "M2.9: Intro to Character", url: "/milestones/milestone2/9" },
-            { title: "M2.10: The 24 Character Strengths", url: "/milestones/milestone2/10" },
-            { title: "M2.11: Defining Your Strengths", url: "/milestones/milestone2/11" },
-            { title: "M2.12: Gems In Treasure Chest", url: "/milestones/milestone2/12" },
-            { title: "M2.13: Oasis Summary & Commit", url: "/milestones/milestone2/13" }
+            { title: "M2.10: Gems In Treasure Chest", url: "/milestones/milestone2/10" },
+            { title: "M2.11: The 24 Character Strengths", url: "/milestones/milestone2/11" },
+            { title: "M2.12: Oasis Summary & Commit", url: "/milestones/milestone2/12" }
         ],
         [
             { title: "M3.1: Intro: The Map", url: "/milestones/milestone3/1" },

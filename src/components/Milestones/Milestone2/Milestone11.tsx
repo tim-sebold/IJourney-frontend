@@ -1,174 +1,154 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { getMilestone, unlockNext, submitMilestone } from '../../../controllers/courseController';
+import { getMilestone, unlockNext } from '../../../controllers/courseController';
+import { submitMilestone } from '../../../controllers/courseController';
 import toast from 'react-hot-toast';
+import { milestoneData } from '../../../datas/milestoneData';
 
 import { CustomButton } from "../../../elements/buttons";
-import { Textarea } from '../../../elements/textarea';
+import { images } from '../../../lib/utils';
+import { Card, CardContent } from '../../../elements/card';
 
-const EQMatters = [
-    { title: "Humor" },
-    { title: "Honesty" },
-    { title: "Bravery" },
-    { title: "Kindness" },
-    { title: "Love" }
-];
+type CharacterStrength = {
+    title: string;
+    content: string[];
+};
 
-function DefiningStrength() {
+function IntroCharacter() {
     const navigate = useNavigate();
     const { user } = useAuth();
+    const [selectedCharacterStrengths, setSelectedCharacterStrengths] = useState<CharacterStrength[]>([]);
 
-    const [answers, setAnswers] = useState<Record<string, string>>({
-        Humor: "",
-        Honesty: "",
-        Bravery: "",
-        Kindness: "",
-        Love: ""
-    });
 
     useEffect(() => {
-        if (user) {
-            const getResponse = async () => {
-                // Nothing saved yet: the API 404s until the first submission.
-                const response = await getMilestone('milestone2_11').catch(() => null);
-                const saved = response?.responses?.answers as Record<string, string> | undefined;
-                if (saved) {
-                    setAnswers((prev) => ({ ...prev, ...saved }));
-                }
-            };
-            getResponse();
-        }
+        if (!user) return;
+
+        const getResponse = async () => {
+            // This page moved from M2.10 to M2.11, so anything saved before the
+            // move still lives under the old key — and the old M2.11 key now holds
+            // an unrelated document from the page that used to sit here. Match on
+            // the field rather than on the document existing, so a returning
+            // student keeps their selection either way.
+            const saved = await Promise.all(
+                ['milestone2_11', 'milestone2_10'].map((key) =>
+                    getMilestone(key).catch(() => null)
+                )
+            );
+            const strengths = saved.find(
+                (response) => response?.responses?.selectedCharacterStrengths
+            )?.responses?.selectedCharacterStrengths;
+
+            if (strengths) {
+                setSelectedCharacterStrengths(strengths as CharacterStrength[]);
+            }
+        };
+
+        getResponse();
     }, [user]);
 
-    const handleTextareaChange = (title: string, value: string) => {
-        setAnswers(prev => ({
-            ...prev,
-            [title]: value
-        }));
-    };
-
     const next = async () => {
-        if (!user) {
-            toast.error("You need to log in to unlock the next milestone.");
-            return;
-        }
-
-        try {
-            await submitMilestone('milestone2_11', {
-                userId: user.uid,
-                responses: { answers }
-            });
-
-            const result = await unlockNext({
-                userId: user.uid,
-                milestoneId: "milestone2/12",
-                prevMilestoneId: "milestone2/11"
-            });
-
-            toast.success(result.message);
+        if (user) {
+            try {
+                await submitMilestone('milestone2_11', { userId: user?.uid, responses: { selectedCharacterStrengths } });
+                const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/12", prevMilestoneId: "milestone2/11" });
+                toast.success(result.message);
+            } catch (error: any) {
+                console.log(error);
+                toast.error(error.message);
+            }
             navigate('/milestones/milestone2/12');
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.message);
+        } else {
+            toast.error("You need to log in to unlock the next milestone.");
         }
-    };
+    }
 
     const previous = () => {
         navigate('/milestones/milestone2/10');
     };
 
-    const allFilled = EQMatters.every(item => (answers[item.title] ?? "").trim() !== "");
+    const selectCharacters = (data: CharacterStrength) => {
+        setSelectedCharacterStrengths(prev => {
+            const alreadySelected = prev.some(item => item.title === data.title);
+
+            if (alreadySelected) {
+                // remove it
+                return prev.filter(item => item.title !== data.title);
+            } else {
+                // add it
+                return [...prev, data];
+            }
+        });
+    };
 
     return (
         <div className="flex flex-col gap-6">
-            {/* Header */}
             <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M2.11: Defining Your Strengths</h3>
-                <h6>
-                    This milestone is about turning your strengths from ideas into evidence by connecting them
-                    to real moments from your life.
-                </h6>
+                <h3 className="font-bold">M2.11: The 24 Character Strengths</h3>
+                <h6>Select the character strengths</h6>
             </div>
-
-            {/* Luisa Introduction */}
-            <div className="flex flex-col gap-2">
-                <h4 className='font-bold'>Meet Luisa</h4>
-                <h6>
-                    Earlier in the program, you met Luisa—a character on a journey to better understand herself.
-                    As she traveled through the Valley of Strengths and Virtues, she discovered that her strengths
-                    weren’t just labels. They showed up through her actions, choices, and responses to challenges.
-                </h6>
+            <div className="flex flex-col">
+                <h5>Pick character strengths that you believe you have</h5>
+                <a href='https://www.viacharacter.org/survey/account/register' target='blank' className='text-ib-2 font-bold underline'>https://www.viacharacter.org/survey/account/register</a>
             </div>
+            <div className="flex flex-col justify-center items-center gap-10">
+                <div className="grid sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {Object.entries(images).map(([path, src], index) => {
+                        const name = path.split('/').pop()?.replace(/\.[^/.]+$/, '') || 'image';
+                        const strength = milestoneData.characterStrengths[index];
 
-            {/* Inspiration Section */}
-            <div className="flex flex-col gap-2">
-                <h4 className='font-bold'>Inspiration from Luisa’s Journey</h4>
-                <h6>
-                    Luisa collected gems that represented her character strengths—such as Humor, Honesty, Bravery,
-                    Kindness, and Love. Each gem was earned by recognizing moments when she actively used those
-                    strengths in her daily life.
-                    <br /><br />
-                    Now it’s your turn to do the same.
-                </h6>
+                        const isSelected = selectedCharacterStrengths.some(
+                            item => item.title === strength.title
+                        );
+
+                        return (
+                            <Card key={index} onClick={() => selectCharacters(strength)} className={`flex flex-col w-full items-start rounded-0 overflow-hidden border-2 border-gray-300 border-dashed cursor-pointer hover:border-gray-500 active:scale-90 ${isSelected && 'border-gray-800'}`}>
+                                <CardContent className="flex flex-col items-start gap-2 pt-6 pb-5 px-6 relative w-full">
+                                    <div className="flex items-center justify-center w-full">
+                                        <img
+                                            key={name}
+                                            src={src}
+                                            alt={name}
+                                            className="rounded-xl border-4 border-ib-1 transition-transform hover:scale-105 w-1/2 min-w-[100px]"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-2 justify-between h-full w-full">
+                                        <div className="flex justify-center">
+                                            <h4 className='font-bold text-center text-ib-1'>{milestoneData.characterStrengths[index].title}</h4>
+                                        </div>
+                                        <ul className='list-decimal list-inside'>
+                                            {milestoneData.characterStrengths[index].content.map((item: any, index: number) => (
+                                                <li key={index}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
+                </div>
             </div>
-
-            {/* EQ Explanation */}
-            <div className="flex flex-col gap-2">
-                <h4 className='font-bold'>Why EQ Matters</h4>
-                <h6>
-                    Emotional Intelligence (EQ) matters because success in life, relationships, and careers often
-                    depends more on how you understand and manage emotions—your own and others’—than on technical
-                    skills alone.
-                </h6>
+            <div className="flex flex-row justify-between">
+                <div className="flex-1 flex justify-center">
+                    <img src='https://i.postimg.cc/d1tvNv6Q/42.png' alt='Image2' className='w-2/3' />
+                </div>
+                <div className="bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-6 flex-1">
+                    <h5 className='font-bold mb-5'>Selected Characters :</h5>
+                    <div className="flex flex-col gap-1 px-8">
+                        {
+                            selectedCharacterStrengths.map((item: any, index: number) => (
+                                <p key={index} className='text-ib-1 font-bold'>{item.title}</p>
+                            ))
+                        }
+                    </div>
+                </div>
             </div>
-
-            {/* Reflection Inputs */}
-            <div className="flex flex-col gap-4 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-6">
-                <ul className='flex flex-col gap-6'>
-                    {EQMatters.map((item, index) => (
-                        <li key={index} className='flex flex-col gap-2'>
-                            <h5 className='font-bold'>{`${index + 1}. ${item.title}`}</h5>
-                            {/* The space after </strong> has to be explicit: JSX drops
-                                whitespace that sits either side of a newline. */}
-                            <h6>
-                                Think about the past week. How did you demonstrate{" "}
-                                <strong>{item.title}</strong>{" "}
-                                through your actions, words, or decisions?
-                            </h6>
-                            <Textarea
-                                value={answers[item.title] ?? ""}
-                                onChange={(e) => handleTextareaChange(item.title, e.target.value)}
-                                placeholder={`Describe a specific situation where you showed ${item.title}...`}
-                                rows={5}
-                                className="resize-none text-gray-800 bg-white border-gray-500 placeholder:text-gray-400"
-                            />
-                            <p className='font-bold text-center'>
-                                Be specific — include what happened, what you did, and the impact it had.
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            {/* Navigation */}
             <div className="flex justify-between w-full gap-2 text-center">
-                <CustomButton
-                    onClickFunc={previous}
-                    title='previous'
-                    className='rounded-none justify-end'
-                    type='move'
-                />
-                <CustomButton
-                    onClickFunc={next}
-                    title='next'
-                    className='rounded-none justify-end'
-                    type='move'
-                    disabled={!allFilled}
-                />
+                <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
+                <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move' disabled={selectedCharacterStrengths.length === 0}></CustomButton>
             </div>
         </div>
-    );
+    )
 }
 
-export default DefiningStrength;
+export default IntroCharacter;
