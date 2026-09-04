@@ -111,7 +111,7 @@ function IdentifyTrueNorth() {
                 </div>
                 <div className="tracking-[0.4px] leading-7">
                     I, <span className="border-b-2 px-4 pb-1 font-bold">Kayla</span> officially declare that I have approached the creation of my <span className='font-bold text-ib-1'>Journeyer's Statement</span> with careful
-                    thought and reflection before deciding to proceed on my iJourney path. I recognize that my personal journey has left me feeling both hopeful and
+                    thought and reflection before deciding to proceed on my iJOURNEY path. I recognize that my personal journey has left me feeling both hopeful and
                     <span className="border-b-2 px-4 pb-1 font-bold">Insecure</span>,
                     and I choose to positively harness these feelings as motivation by <span className="border-b-2 px-4 pb-1 font-bold">focusing on my possibilities rather than blocking my own future with insecurities</span>
                     This workbook and journey hold significant value for me because <span className="border-b-2 px-4 pb-1 font-bold">I want the good things I find about myself to be the whispers I hear when I doubt myself.

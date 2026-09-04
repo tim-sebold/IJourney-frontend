@@ -22,7 +22,7 @@ function EnvisioningFuture() {
                 <div className="space-y-6">
                     <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
                         <h4 className="text-xl font-bold text-yellow-800 mb-3">Welcome to Milestone 6</h4>
-                        <p className="mb-4">This milestone helps you define your future self by creating an "iJourney Career Project Fair" presentation. The goal is to synthesize all the self-discovery work from previous milestones into a cohesive vision of your ideal future.</p>
+                        <p className="mb-4">This milestone helps you define your future self by creating an "iJOURNEY Career Project Fair" presentation. The goal is to synthesize all the self-discovery work from previous milestones into a cohesive vision of your ideal future.</p>
                         <div className="flex items-center gap-2 mt-4">
                             <Clock className="w-5 h-5 text-yellow-600" />
                             <span>Approximately 90 minutes to complete</span>
@@ -30,7 +30,7 @@ function EnvisioningFuture() {
                     </div>
 
                     <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-                        <h4 className="text-xl font-bold text-blue-800 mb-3">The iJourney Career Project Fair</h4>
+                        <h4 className="text-xl font-bold text-blue-800 mb-3">The iJOURNEY Career Project Fair</h4>
                         <p className="mb-4">You'll create a presentation (like a school project fair) that showcases your future career path and personal brand. Your presentation should include:</p>
                         <ul className="space-y-2 mb-4">
                             <li className="flex items-start gap-2"><Target className="w-4 h-4 text-blue-600 mt-1" /> <strong>Your Future Self:</strong> Who you envision becoming professionally and personally</li>
