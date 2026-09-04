@@ -39,7 +39,7 @@ export function CertificateCard({
                     <div className="flex items-start justify-between gap-4">
                         <div>
                             <h5 className="text-2xl font-extrabold tracking-tight text-indigo-950">
-                                iJourney: A Path to Purpose
+                                iJOURNEY: A Path to Purpose
                             </h5>
                             <p className="mt-1 text-sm font-medium text-indigo-800/70">
                                 Certificate of Completion
@@ -72,7 +72,7 @@ export function CertificateCard({
                                 </div>
 
                                 <p className="mt-4 text-sm text-zinc-600">
-                                    has successfully completed the iJourney program
+                                    has successfully completed the iJOURNEY program
                                 </p>
                             </div>
 

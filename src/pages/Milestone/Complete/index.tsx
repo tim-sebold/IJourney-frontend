@@ -33,7 +33,7 @@ function Complete() {
                             {displayName ? `Congratulations, ${displayName}!` : 'Congratulations, Graduate!'}
                         </h2>
                         <p className="mx-auto mt-3 max-w-xl text-zinc-700">
-                            You have finished <span className="font-bold">iJourney: A Path to Purpose</span> —
+                            You have finished <span className="font-bold">iJOURNEY: A Path to Purpose</span> —
                             all seven milestones, start to finish. This is the end of the programme, and
                             everything you wrote stays saved to your account.
                         </p>
@@ -85,7 +85,7 @@ function Complete() {
                                     to="/"
                                     className="flex items-center gap-3 rounded-xl border border-black/5 bg-white px-4 py-3 text-sm font-semibold text-zinc-800 shadow-sm transition-transform hover:-translate-y-0.5"
                                 >
-                                    <Home className="h-5 w-5 text-emerald-600" /> Back to the iJourney home page
+                                    <Home className="h-5 w-5 text-emerald-600" /> Back to the iJOURNEY home page
                                 </Link>
                             </div>
                         </div>

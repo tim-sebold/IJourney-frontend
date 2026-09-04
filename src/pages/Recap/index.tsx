@@ -225,7 +225,7 @@ function Recap() {
                             <span className="text-sm font-bold uppercase tracking-wide">Journey Recap</span>
                         </div>
                         <h1 className="mt-2 text-3xl font-extrabold text-zinc-900">
-                            {displayName ? `${displayName}'s iJourney` : 'Your iJourney'}
+                            {displayName ? `${displayName}'s iJOURNEY` : 'Your iJOURNEY'}
                         </h1>
                         <p className="mt-2 max-w-2xl text-sm text-zinc-600">
                             Everything you have written across all seven milestones, gathered in one place.

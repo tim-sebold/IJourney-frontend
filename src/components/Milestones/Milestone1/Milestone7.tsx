@@ -61,8 +61,10 @@ function StatementBuilder() {
         <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center">
                 <h3 className="font-bold text-center">M1.7: Journeyer's Statement Builder</h3>
-                <h6>Utilize the Locating Your Finisher's Spark worksheet to craft your Journeyers Statement. If you identify any demotivating feelings,
-                    recognize them and take a moment to reflect on how you can progress despite these obstacles.</h6>
+                <h6>This is where everything you have discovered comes together. Using the values you chose and the emotions you
+                    explored, fill in the blanks below to write your own Journeyer's Statement — the promise you make to yourself
+                    at the start of this journey. Write it in your own words, and be honest: this statement is the reminder you
+                    will come back to whenever the journey gets hard.</h6>
             </div>
             <div className="flex flex-col gap-2 mt-6">
                 <div className="">
@@ -74,7 +76,7 @@ function StatementBuilder() {
                         className="border-0 inline-flex w-auto shadow-none border-b-2 border-ib border-dashed rounded-none px-2 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                     &nbsp;Officially declare that I have approached the creation of my Journeyers Statement with careful thought and reflection before
-                    deciding to proceed on my iJourney path. I recognize that my personal journey has left me feeling both &nbsp;
+                    deciding to proceed on my iJOURNEY path. I recognize that my personal journey has left me feeling both &nbsp;
                     <Input
                         value={value2}
                         type="text"

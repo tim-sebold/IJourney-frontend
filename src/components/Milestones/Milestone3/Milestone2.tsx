@@ -1,12 +1,16 @@
+
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { unlockNext } from '../../../controllers/courseController';
 import toast from 'react-hot-toast';
 
-import { BookOpen, Target, Lightbulb } from 'lucide-react';
 import { CustomButton } from "../../../elements/buttons";
 
-function ONetAssessment() {
+import ImageNextMove from '../../../assets/image/milestones/nextmove.svg';
+import Image63 from "../../../assets/image/png/63.png";
+import Image64 from "../../../assets/image/png/64.png";
+
+function CareerResearchLog() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const next = async () => {
@@ -29,59 +33,124 @@ function ONetAssessment() {
     };
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 ">
             <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M3.2: What is O*NET?</h3>
+                <h3 className="font-bold">M3.2: Career Assessment</h3>
                 <h6></h6>
             </div>
-            <h6>Since the beginning of the iJOURNEY, a group of adventurous students would meet every day after school, at their favorite spot, Careerbucks Cafe,
-                discussing the highlights and dreaming about what career they wanted to pursue after high school.
-                One sunny afternoon a wise mentor happened to walk by and overheard their conversations. He decided to help them out.
-                "Haven't you taken the career assessments?" he stated, smiling warmly. He described career assessments as fun tools that help you discover your unique
-                skills and interests. "Think of it as a practical tool on your career journey that guides you closer to what makes you happy," he said.</h6>
-            <div className="flex flex-col bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-6">
-                <div className="flex flex-col gap-6 mb-8">
-                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
-                        <div className="flex items-center mb-4">
-                            <div className="bg-blue-100 p-2 rounded-lg mr-3">
-                                <BookOpen className="text-blue-600" size={24} />
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-900">What is O*NET?</h3>
-                        </div>
-                        <p className="text-gray-700">
-                            The U.S. Department of Labor's official career exploration tool that helps you discover careers based on your natural interests and preferences.
-                        </p>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
-                        <div className="flex items-center mb-4">
-                            <div className="bg-green-100 p-2 rounded-lg mr-3">
-                                <Target className="text-green-600" size={24} />
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-900">Why It's Important</h3>
-                        </div>
-                        <p className="text-gray-700">
-                            It identifies careers based on your natural interests, not just what you think you should do. This helps you find paths that truly align with who you are.
-                        </p>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
-                        <div className="flex items-center mb-4">
-                            <div className="bg-purple-100 p-2 rounded-lg mr-3">
-                                <Lightbulb className="text-purple-600" size={24} />
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-900">Assessment Goal</h3>
-                        </div>
-                        <p className="text-gray-700">
-                            To give you 3-5 potential career fields that match your interests and help guide your next steps in your career journey.
-                        </p>
-                    </div>
-                </div>
+            <h6>Emotional Intelligence (EQ) is guided by six foundational skills essential for navigating life's challenges and building strong relationships.</h6>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
+                <img src={Image63} alt="" className='w-1/3' />
+                <img src={Image64} alt="" className='w-1/3' />
             </div>
-            <h4 className='font-bold text-center hover:underline hover:cursor-pointer hover:text-ib-1'>
-                <a href='https://www.mynextmove.org/' target='_blank' rel='noreferrer' className='text-ib-2 underline'>https://onetinterestprofiler.org/</a>
-            </h4>
-            <h5 className='text-center font-bold'>This will open in a new tab so you won't lose your place in iJOURNEY</h5>
+            <div className="flex flex-col bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-6 gap-8">
+                <ul className='flex flex-col list-decimal list-inside gap-4'>
+                    <li>
+                        <span className='font-bold'>The O*NET Interest Profiler has 60 questions about work activities that some people do on their jobs.</span>
+                        <h6 className='px-4'>Please be sure to read each question carefully and decide how you would feel about doing each type of work.</h6>
+                    </li>
+                    <li>
+                        <span className='font-bold'>Try NOT to think about:</span>
+                        <h6 className='px-4'>Education or training needed or how much money you would make doing the work (just yet).</h6>
+                    </li>
+                    <li>
+                        <span className='font-bold'>For now, just think about if you would like or dislike doing the work.</span>
+                    </li>
+                    <li>
+                        <span className='font-bold'>Though it takes on average about 20 minutes to complete, there is no rush.</span>
+                    </li>
+                    <li>
+                        <span className='font-bold'>You are learning about your interests, so that you can explore work you might like and find rewarding!</span>
+                    </li>
+                </ul>
+                <h6 className='font-bold'>Your results will be displayed in a graph and numerical chart reflecting your Career Interest Categories (R, I , A, S, E, C).</h6>
+            </div>
+            <div className="flex justify-center">
+                <img src={ImageNextMove} alt="" />
+            </div>
+            <div className="flex flex-col gap-4 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-6">
+                <h4 className='font-bold'>Focus on your highest-ranked categories:</h4>
+                <ul className='px-6 list-disc list-inside'>
+                    <li className='px-6'>
+                        <span className='font-bold'>R</span> ( Realistic) : Enjoy hands-on work, including:
+                        <ul className='px-6 list-[circle] list-inside'>
+                            <li className='px-6'>Working with plants and animals</li>
+                            <li className='px-6'>Crafting with wood and tools</li>
+                            <li className='px-6'>Outdoor activities</li>
+                        </ul>
+                    </li>
+                    <li className='px-6'>
+                        <span className='font-bold'>I</span> (Investigative) : Prefer exploring ideas and solving problems, such as:
+                        <ul className='px-6 list-[circle] list-inside'>
+                            <li className='px-6'>
+                                Researching facts like a detective
+                                <ul className='px-6 list-[square] list-inside'>
+                                    <li className='px-6'>Tackling complex issues</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className='px-6'>
+                        <span className='font-bold'>A</span> (Artistic)
+                        <ul className='px-6 list-[circle] list-inside'>
+                            <li className='px-6'>Embracing creativity in acting, music, art, and design.</li>
+                            <li className='px-6'>
+                                They enjoy:
+                                <ul className='px-6 list-[square] list-inside'>
+                                    <li className='px-6'>Creative tasks</li>
+                                    <li className='px-6'>Free-spirited work</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className='px-6'>
+                        <span className='font-bold'>S</span> (Social)
+                        <ul className='px-6 list-[circle] list-inside'>
+                            <li>Thriving on teamwork and helping others. They prefer interaction over machines or numbers.</li>
+                            <li>
+                                They love:
+                                <ul className='px-6 list-[square] list-inside'>
+                                    <li className='px-6'>Teaching</li>
+                                    <li className='px-6'>Giving advice</li>
+                                    <li className='px-6'>Serving others</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className='px-6'>
+                        <span className='font-bold'>E</span> (Enterprising)
+                        <ul className='px-6 list-[circle] list-inside'>
+                            <li className='px-6'>Go-getters who launch business ventures and take action.</li>
+                            <li className='px-6'>
+                                They enjoy:
+                                <ul className='px-6 list-[square] list-inside'>
+                                    <li className='px-6'>Persuading others</li>
+                                    <li className='px-6'>Making bold decisions</li>
+                                    <li className='px-6'>Taking risks for profit</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className='px-6'>
+                        <span className='font-bold'>C</span> (Conventional)
+                        <ul className='px-6 list-[circle] list-inside'>
+                            <li className='px-6'>Favoring routine and structure over lofty ideas.</li>
+                            <li className='px-6'>
+                                They appreciate:
+                                <ul className='px-6 list-[square] list-inside'>
+                                    <li className='px-6'>Clear rules</li>
+                                    <li className='px-6'>Strong leadership</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
             <div className="flex justify-between w-full gap-2 text-center">
                 <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
                 <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move'></CustomButton>
@@ -90,4 +159,4 @@ function ONetAssessment() {
     )
 }
 
-export default ONetAssessment;
+export default CareerResearchLog;

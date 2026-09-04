@@ -66,7 +66,7 @@ function EQ() {
                     technically smart.</h6>
             </div>
             <div className="flex flex-col gap-1">
-                <h6 className='font-bold'>Personal Reflection</h6>
+                <h6 className='font-bold'>How does Emotional Intelligence affect your actions?</h6>
                 <Textarea
                     value={reflection}
                     placeholder="Share your thoughts about how your identified emotions influenced your actions, decisions, or interactions today......"
@@ -79,7 +79,6 @@ function EQ() {
             <div className="flex flex-col gap-6">
                 <h5 className=''>As anxiety and depression cast a growing shadow over teenagers, the need for emotional intelligence has never felt more urgent. 
                     It’s like equipping yourself with an emotional raincoat before the storm hits — so overwhelming feelings don’t leave you stuck, unable to move forward.
-                    Next, we’ll explore six guideposts that help strengthen emotional intelligence. 
                     Through the stories of Mia and Jordan, you’ll see how emotional intelligence acts like a trusted copilot on the roller coaster of emotions — helping you navigate the highs and lows with clarity and confidence.
                     High EQ becomes a wisdom compass from the heart, guiding you to understand and respond to your emotions in ways that build bridges, not walls.</h5>
             </div>

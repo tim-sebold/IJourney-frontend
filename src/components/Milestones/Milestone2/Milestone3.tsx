@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { CustomButton } from "../../../elements/buttons";
 import { Textarea } from '../../../elements/textarea';
 import { CircleAlert } from "lucide-react";
+import ReadAloud from '../../ReadAloud';
 
 import Image12 from "../../../assets/image/png/12.png";
 import Image13 from "../../../assets/image/png/13.png";
@@ -27,6 +28,9 @@ const guidePosts: any = [
         text: "When Mia felt overwhelmed by her emotions, she used to suppress them or give up. But through emotional intelligence, she learned to pause instead of reacting immediately. When she felt frustrated, she took a deep breath, accurately identified her emotions, and chose how to respond. By learning to manage her emotions, Mia was able to stay present even in difficult situations.",
     },
 ]
+
+const MIA_STORY =
+    "In a small middle school where everyone knew each other. there lived a teenager named Mia. She was smart, no doubt about it. With an IQ that placed her at the top of her class, she was known for acing tests and grasping complex concepts faster than most of her peers. But Mia often felt like something was missing. Despite her academic achievements, she struggled to connect with her classmates and often found herself feeling lonely. One day, Mia stumbled upon an old, dusty workbook in the back of her school library. The cover read \"Unlocking Your Emotional Intelligence: A Guide to Success: lntrigued, she decided to take it home. As she flipped through the pages, she discovered that EQ was just as important as IQ It was like having a map to navigate the sometimes tricky terrain of feelings-both her own and those of others. Mia learned that while IQ helped her understand math and science, EQ would help her build friendships and understand the emotions swirling around her. She read about exercises that encouraged self-reflection and asked her to consider how she reacted in different social situations. Each chapter made her realize how important it was to empathize with others and communicate effectively. 'Why were these important concepts not included in our curriculum?, she murmured, as she rolled her eyes, feeling educationally slighted by not receiving this information sooner. The more she worked on her emotional intelligence, the more fulfilled she felt. She started to notice the little things: the way her friends lit up when she praised them, the comfort they found in her listening ear during tough times, and the joy of shared laughter Mia learned that true success wasn't just about grades; it was about building relationships and navigating life's ups and downs with grace Mia knew she had woven the threads of her IQ and EQ into a beautiful tapestry. She was ready to take on the world-not just as a smart student but as a compassionate friend, a confident communicator, and a resilient young woman And that she realized, was the key to a rich and fulfilling life.";
 
 function MiaStory() {
     const navigate = useNavigate();
@@ -97,27 +101,8 @@ function MiaStory() {
                     </div>
                     <img src={Image12} alt="" className='w-20' />
                 </div>
-                <p className="">
-                    In a small middle school where everyone knew each other. there lived a teenager named Mia.
-                    She was smart, no doubt about it. With an IQ that placed her at the top of her class, she was Known for acing tests and grasping complex concepts
-                    faster than most of her peers. But Mia often felt like something was missing.
-                    Despite her academic achievements, she struggled to connect with her classmates and often found herself feeling lonely.
-
-                    One day, Mia stumbled upon an old, dusty workbook in the back of her school library. The cover read "Unlocking Your Emotional Intelligence:
-                    A Guide to Success: lntrigued, she decided to take it home. As she flipped through the pages, she discovered that EQ was just as important as
-                    IQ It was like having a map to navigate the sometimes tricky terrain of feelings-both her own and those of others.
-                    Mia learned that while IQ helped her understand math and science, EQ would help her build friendships and understand the emotions swirling around her.
-                    She read about exercises that encouraged self-reflection and as"Ked her to consider how she reacted in different social situations. Each chapter
-                    made her realize how important it was to empathize with others and communicate effectively.
-                    'Why were these important concepts not included in our curriculum?, she murmured, as she rolled her eyes, feeling educationally slighted by not receiving
-                    this information sooner.
-                    The more she worked on her emotional intelligence, the more fulfilled she felt. She started to notice the little things: the way her friends lit up
-                    when she praised them, the comfort they found in her listening ear during tough times, and the
-                    joy of shared laughter Mia learned that true success wasn't just about grades; it was about building relationships and navigating
-                    life's ups and downs with grace Mia knew she had woven the threads of her IQ and EQ into a beautiful tapestry. She was ready to take on the world-not
-                    just as a smart student but as a compassionate friend, a confident communicator, and a resilient young woman And that she realized,
-                    was the key to a rich and fulfilling life.
-                </p>
+                <ReadAloud text={MIA_STORY} label="Mia's story" className="justify-center" />
+                <p className="">{MIA_STORY}</p>
                 <div className="">
                     <h4 className='font-bold'>The Problem</h4>
                     <h6>Mia was academically gifted, but she felt lonely and disconnected. When setbacks happened, she quickly became frustrated and often

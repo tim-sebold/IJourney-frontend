@@ -8,12 +8,12 @@ function Video() {
                             <div className="relative items-center text-white">
                                 <div className="flex items-center justify-center gap-3 px-[25px] py-5 relative bg-[#2ecc7199] rounded-tap border-2 border-solid border-[#5ee088]">
                                     <div className="uppercase relative flex items-center font-bold justify-center flex-1 -mt-0.5 font-ib-3 text-[14px] tracking-[1.2px] leading-[normal]">
-                                        Purpose of iJourney
+                                        Purpose of iJOURNEY
                                     </div>
                                 </div>
                             </div>
-                            <p className='text-center'>At <span className="font-bold text-red-500 uppercase">Rize</span>&nbsp;<span className="font-bold text-green-500">Prevention</span>, we want to inspire and equip you to make smart choices and have a strong purpose on
-                                the path in lifee</p>
+                            <p className='text-center'>At <span className="font-bold text-ib-2">RIZE</span>&nbsp;<span className="font-bold text-green-500">Prevention</span>, we want to inspire and equip you to make smart choices and have a strong purpose on
+                                the path in life</p>
                         </div>
                         <div className="flex w-full max-w-5xl flex-col items-center justify-center px-4 z-3">
                             <div className="flex flex-col relative w-full justify-center items-center">

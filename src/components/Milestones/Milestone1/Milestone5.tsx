@@ -104,14 +104,14 @@ function IdentifyTrueNorth() {
             </div>
             <div className="flex flex-col gap-2 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] p-8">
                 <h4 className='font-extrabold'>Journeyer's Statement</h4>
-                <h6 className=''>Utilize <span className='font-bold'>the Locating Your Finisher's Spark</span> worksheet to craft your Journeyers Statement. If you identify any demotivating feelings,
+                <h6 className=''>Utilize <span className='font-bold'>the Locating Your Finisher's Spark</span> prompt to craft your Journeyer's Statement. If you identify any demotivating feelings,
                     recognize them and take a moment to reflect on how you can progress despite these obstacles.</h6>
                 <div className="flex justify-center">
                     <img src={ImageMountain} alt="" className="w-40" />
                 </div>
                 <div className="tracking-[0.4px] leading-7">
                     I, <span className="border-b-2 px-4 pb-1 font-bold">Kayla</span> officially declare that I have approached the creation of my <span className='font-bold text-ib-1'>Journeyer's Statement</span> with careful
-                    thought and reflection before deciding to proceed on my iJourney path. I recognize that my personal journey has left me feeling both hopeful and
+                    thought and reflection before deciding to proceed on my iJOURNEY path. I recognize that my personal journey has left me feeling both hopeful and
                     <span className="border-b-2 px-4 pb-1 font-bold">Insecure</span>,
                     and I choose to positively harness these feelings as motivation by <span className="border-b-2 px-4 pb-1 font-bold">focusing on my possibilities rather than blocking my own future with insecurities</span>
                     This workbook and journey hold significant value for me because <span className="border-b-2 px-4 pb-1 font-bold">I want the good things I find about myself to be the whispers I hear when I doubt myself.

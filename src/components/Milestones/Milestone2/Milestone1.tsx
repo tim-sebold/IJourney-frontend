@@ -15,11 +15,11 @@ function Oasis() {
     const { user } = useAuth();
     const SQs = [
         {
-            title: "always",
+            title: "Always",
             selected: false
         },
         {
-            title: "sometimes",
+            title: "Sometimes",
             selected: false
         },
         {
@@ -27,7 +27,7 @@ function Oasis() {
             selected: false
         },
         {
-            title: "never",
+            title: "Never",
             selected: false
         },
     ];

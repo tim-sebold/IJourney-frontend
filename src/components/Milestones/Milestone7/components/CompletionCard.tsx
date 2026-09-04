@@ -9,8 +9,8 @@ type Props = {
 };
 
 export function CompletionCard({
-    title = "You've Completed Your iJourney!",
-    subtitle = `You've successfully completed "iJourney: A Path to Purpose" and have created a powerful foundation for your future.`,
+    title = "You've Completed Your iJOURNEY!",
+    subtitle = `You've successfully completed "iJOURNEY: A Path to Purpose" and have created a powerful foundation for your future.`,
     footnote = "One page to go — M7.5: The Road Ahead closes out your journey. Your certificate stays available there and on your completion page, so you never have to come back here for it.",
     accomplishments = [
         "Completed all 7 milestones of self-discovery",

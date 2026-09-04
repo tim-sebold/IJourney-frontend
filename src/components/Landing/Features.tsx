@@ -17,7 +17,7 @@ function Features() {
                         </div>
                         <p className="flex-1 font-ib-3 font-normal text-gray-700 text-xl text-center tracking-[0] leading-6 md:w-2/3">
                             <span className="font-bold">
-                                &quot;iJourney : A Path To Purpose&quot;
+                                &quot;iJOURNEY : A Path To Purpose&quot;
                             </span>
                             <span className="font-ib-3 font-normal text-md tracking-[0]">
                                 &nbsp;is a self-discovery course authored by <span className='font-bold'>Asha McMillan, LPC.</span> The course is designed to guide students on an introspective journey toward finding their purpose, framed as an explorer's journey.
