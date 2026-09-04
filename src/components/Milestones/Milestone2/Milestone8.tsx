@@ -21,6 +21,11 @@ type Trait = {
     /** The bolded name shown in the reference table; the checkbox shows `text` only. */
     lead?: string;
     text: string;
+    /**
+     * Wording this trait was saved under before it was rephrased as a "you"
+     * statement, so an answer submitted earlier still ticks the right box.
+     */
+    legacyText?: string;
 };
 
 type ConfidenceGroup = {
@@ -44,11 +49,31 @@ const CONFIDENCE_GROUPS: ConfidenceGroup[] = [
             'Feeling "better than" others. Overly focused on their self-importance and overlook their flaws. ' +
             'May act entitled. This attitude leads them to criticize others while seeking validation.',
         traits: [
-            { lead: 'Demanding', text: 'May demand special treatment or expect others to do things for them.' },
-            { lead: 'Ungrateful', text: 'May not show gratitude' },
-            { lead: 'Selfish', text: "May only see their own needs and feel the rules don't apply to them" },
-            { lead: 'Deserving', text: "May feel like they deserve something they haven't earned." },
-            { lead: 'Need for attention', text: 'May have a constant need to be the center of attention.' },
+            {
+                lead: 'Demanding',
+                text: 'You demand special treatment or expect others to do things for you.',
+                legacyText: 'May demand special treatment or expect others to do things for them.',
+            },
+            {
+                lead: 'Ungrateful',
+                text: 'You do not show gratitude',
+                legacyText: 'May not show gratitude',
+            },
+            {
+                lead: 'Selfish',
+                text: "You only see your own needs and feel the rules don't apply to you",
+                legacyText: "May only see their own needs and feel the rules don't apply to them",
+            },
+            {
+                lead: 'Deserving',
+                text: "You feel like you deserve something you haven't earned.",
+                legacyText: "May feel like they deserve something they haven't earned.",
+            },
+            {
+                lead: 'Need for attention',
+                text: 'You have a constant need to be the center of attention.',
+                legacyText: 'May have a constant need to be the center of attention.',
+            },
         ],
     },
     {
@@ -59,10 +84,22 @@ const CONFIDENCE_GROUPS: ConfidenceGroup[] = [
             'They have realistic expectations and normalize not succeeding at everything. They embrace their own unique ' +
             'abilities and appreciate the gifts of others.',
         traits: [
-            { text: 'Comfortable in expressing needs and opinions' },
-            { text: 'Confident in ability to make decisions' },
-            { text: 'Able to form secure and honest relationships, and stop unhealthy ones' },
-            { text: "Able to deal with life's curveballs and setbacks" },
+            {
+                text: 'You are comfortable expressing your needs and opinions',
+                legacyText: 'Comfortable in expressing needs and opinions',
+            },
+            {
+                text: 'You are confident in your ability to make decisions',
+                legacyText: 'Confident in ability to make decisions',
+            },
+            {
+                text: 'You form secure and honest relationships, and stop unhealthy ones',
+                legacyText: 'Able to form secure and honest relationships, and stop unhealthy ones',
+            },
+            {
+                text: "You deal with life's curveballs and setbacks",
+                legacyText: "Able to deal with life's curveballs and setbacks",
+            },
         ],
     },
     {
@@ -76,7 +113,7 @@ const CONFIDENCE_GROUPS: ConfidenceGroup[] = [
             { lead: 'All-or-nothing thinking', text: 'You see things as either all good or all bad' },
             { lead: 'Overgeneralization', text: 'You assume that one negative fact or event creates a general rule for your life' },
             { lead: 'Mental filtering', text: 'You focus only on the negative aspects of life, dwell on them' },
-            { text: 'Turning positives into negatives' },
+            { text: 'You turn positives into negatives', legacyText: 'Turning positives into negatives' },
             { lead: 'Jumping to negative conclusions', text: 'You assume the worst, even when you have no evidence to support it' },
             { lead: 'Mistaking feelings for facts', text: "You feel stupid, lazy, or ugly, so determine that it's true" },
             { lead: 'Personalizing everything', text: 'You assume everything negative has something to do with you' },
@@ -107,11 +144,13 @@ function Confidence() {
                     const groupIndex = GROUP_INDEX_BY_ID[groupId];
                     if (groupIndex === undefined || !Array.isArray(traits)) return;
 
-                    // Match saved trait text back to its checkbox; wording that has since
-                    // changed simply doesn't match and is left unchecked.
+                    // Match saved trait text back to its checkbox, accepting the
+                    // wording a trait was saved under before it was rephrased.
                     preChecked[groupIndex] = traits
                         .map((trait) =>
-                            CONFIDENCE_GROUPS[groupIndex].traits.findIndex((t) => t.text === trait)
+                            CONFIDENCE_GROUPS[groupIndex].traits.findIndex(
+                                (t) => t.text === trait || t.legacyText === trait
+                            )
                         )
                         .filter((i) => i !== -1);
                 });

@@ -1,7 +1,7 @@
 export const milestoneData = {
     characterStrengths: [
         {
-            title: "Appreciation or beauty & Excellence",
+            title: "Appreciation of Beauty & Excellence",
             content: [
                 "Feels awe and wonder in nature",
                 "Admires skills of others",

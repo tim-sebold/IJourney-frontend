@@ -95,7 +95,7 @@ function JordanStory() {
                         <img src={Image13} alt="" className='w-20' />
                         <h3 className='font-["Mogra"] text-[#3DDA16] text-[30px] font-bold uppercase'>Jordan's Story</h3>
                     </div>
-                    <img src={Image14} alt="" className='w-20' />
+                    <img src={Image14} alt="Jordan" className='w-32 md:w-44' />
                 </div>
                 <h5>Once upon a time in a bustling middle school, there was a boy named Jordon. He was an average student with a passion for music,
                     but when it came to science, he found himself struggling. The concepts felt foreign, and the numbers danced around in his mind,
@@ -172,8 +172,11 @@ function JordanStory() {
                     onChange={(e: any) => setFeeling(e.target.value)}
                     className="resize-none text-gray-800 bg-white border-gray-500 placeholder:text-gray-400"
                 />
-                <div className="flex justify-center">
+                <div className="flex flex-col items-center gap-2">
                     <CustomButton onClickFunc={save} title='save' className='rounded-full justify-end' type='red' disabled={!feeling}></CustomButton>
+                    <p className='font-bold text-center text-[#D42020]'>
+                        You must click <span className='uppercase'>save</span> before you can move on to the next page.
+                    </p>
                 </div>
             </div>
             <div className="flex justify-between w-full gap-2 text-center">
