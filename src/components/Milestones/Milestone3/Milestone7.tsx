@@ -136,7 +136,7 @@ export default function App() {
     return (
         <div className="flex flex-col gap-10">
             <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">Milestone 3.7: Territory Summary & Commit</h3>
+                <h3 className="font-bold">M3.7: Territory Summary & Commit</h3>
                 <h6>Review your career map and commit to your chosen direction to unlock Milestone 4: Resources Roadways.</h6>
             </div>
             <div className="flex flex-col gap-6">

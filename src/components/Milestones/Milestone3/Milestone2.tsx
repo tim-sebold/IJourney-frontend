@@ -64,6 +64,17 @@ function CareerResearchLog() {
                     </li>
                 </ul>
                 <h6 className='font-bold'>Your results will be displayed in a graph and numerical chart reflecting your Career Interest Categories (R, I , A, S, E, C).</h6>
+                <div className="flex flex-col gap-1">
+                    <h6 className='font-bold'>Discover my interests</h6>
+                    <a
+                        href='https://www.mynextmove.org/explore/ip'
+                        target='_blank'
+                        rel='noreferrer'
+                        className='text-ib-1 underline font-bold text-[12px] md:text-[16px]'
+                    >
+                        https://www.mynextmove.org/explore/ip
+                    </a>
+                </div>
             </div>
             <div className="flex justify-center">
                 <img src={ImageNextMove} alt="" />
