@@ -39,7 +39,7 @@ function IntroGuides() {
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M4.1: Intro Guides</h3>
+                <h3 className="font-bold">M4.1: Intro: The Guides</h3>
                 <h6>Create your personal "A Team" the people who will guide and cheer you on your journey to success.</h6>
             </div>
             <div className="p-8 flex flex-col gap-4">

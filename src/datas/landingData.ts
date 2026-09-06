@@ -140,7 +140,7 @@ export const milestoneData = {
             name: "Milestone 1",
             title: "Journeyer's Statement",
             description:
-                "Discover your why.",
+                "Discover your why",
             status: "completed",
             progress: 100,
             statusBadge: "Completed",
@@ -152,7 +152,7 @@ export const milestoneData = {
             name: "Milestone 2",
             title: "Oasis Explorations",
             description:
-                "Explore emotional intelligence and your unique strengths.",
+                "Explore emotional intelligence and your unique strengths",
             status: "completed",
             progress: 100,
             statusBadge: "Completed",
@@ -164,7 +164,7 @@ export const milestoneData = {
             name: "Milestone 3",
             title: "Uncharted Territory",
             description:
-                "Research career pathways and calculate your desired lifestyle cost.",
+                "Research career pathways and calculate your desired lifestyle cost",
             status: "continue",
             progress: 68,
             statusBadge: "Continue",
@@ -176,7 +176,7 @@ export const milestoneData = {
             name: "Milestone 4",
             title: "Resources Roadways",
             description:
-                "Map your network of mentors, friends, and experts.",
+                "Map your network of mentors, friends, and experts",
             status: "locked",
             progress: 0,
             statusBadge: "Locked",
@@ -188,7 +188,7 @@ export const milestoneData = {
             name: "Milestone 5",
             title: "Navigating Education",
             description:
-                "Navigate your education options.",
+                "Navigate your education options",
             status: "locked",
             progress: 0,
             statusBadge: "Locked",
@@ -200,7 +200,7 @@ export const milestoneData = {
             name: "Milestone 6",
             title: "Envisioning the Future",
             description:
-                "Create a visual presentation for your career path.",
+                "Create a visual presentation for your career path",
             status: "locked",
             progress: 0,
             statusBadge: "Locked",
@@ -212,7 +212,7 @@ export const milestoneData = {
             name: "Milestone 7",
             title: "Yielding to Growth",
             description:
-                "Write SMART goals and celebrate your work.",
+                "Write SMART goals and celebrate your work",
             status: "locked",
             progress: 0,
             statusBadge: "Locked",

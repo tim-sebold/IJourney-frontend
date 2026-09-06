@@ -54,7 +54,7 @@ export const sidebarData = {
     milestoneMenus: [
         [
             { title: "M1.1: Your Inner Compass", url: "/milestones/milestone1/1" },
-            { title: "M1.2: What's the Difference", url: "/milestones/milestone1/2" },
+            { title: "M1.2: What's the Difference?", url: "/milestones/milestone1/2" },
             { title: "M1.3: Exploring Your Emotions", url: "/milestones/milestone1/3" },
             { title: "M1.4: The Interactive Feelings Wheel", url: "/milestones/milestone1/4" },
             { title: "M1.5: Identifying Your True North", url: "/milestones/milestone1/5" },
@@ -69,7 +69,7 @@ export const sidebarData = {
             { title: "M2.5: EQ: Emotional Intelligence", url: "/milestones/milestone2/5" },
             { title: "M2.6: EQ Treasured Secrets", url: "/milestones/milestone2/6" },
             { title: "M2.7: What is Self-Esteem?", url: "/milestones/milestone2/7" },
-            { title: "M2.8: Confidence", url: "/milestones/milestone2/8" },
+            { title: "M2.8: Healthy Confidence & Confidence Compass", url: "/milestones/milestone2/8" },
             { title: "M2.9: Intro to Character", url: "/milestones/milestone2/9" },
             { title: "M2.10: Gems In Treasure Chest", url: "/milestones/milestone2/10" },
             { title: "M2.11: The 24 Character Strengths", url: "/milestones/milestone2/11" },
@@ -78,7 +78,7 @@ export const sidebarData = {
         [
             { title: "M3.1: Intro: The Map", url: "/milestones/milestone3/1" },
             { title: "M3.2: Career Assessment", url: "/milestones/milestone3/2" },
-            { title: "M3.3: What is O*NET", url: "/milestones/milestone3/3" },
+            { title: "M3.3: What is O*NET?", url: "/milestones/milestone3/3" },
             { title: "M3.4: Career Discovery Input", url: "/milestones/milestone3/4" },
             { title: "M3.5: Career Research Log", url: "/milestones/milestone3/5" },
             { title: "M3.6: Lifestyle Calculator", url: "/milestones/milestone3/6" },
@@ -99,7 +99,7 @@ export const sidebarData = {
             { title: "M5.5: Your Educational Journey Plan", url: "/milestones/milestone5/5" }
         ],
         [
-            { title: "M6.1: Create Your Career Project Fair", url: "/milestones/milestone6/1" },
+            { title: "M6.1: Envisioning Your Future", url: "/milestones/milestone6/1" },
             { title: "M6.2: Your Journeyer's Statement", url: "/milestones/milestone6/2" },
             { title: "M6.3: Draft Your Statement", url: "/milestones/milestone6/3" },
             { title: "M6.4: Refine & Finalize Your Statement", url: "/milestones/milestone6/4" },
