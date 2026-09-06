@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { CustomButton } from "../../../elements/buttons";
 
 import ImageOpenBook from '../../../assets/image/milestones/open-book.png';
+import ImageCloud from '../../../assets/image/milestones/cloud.png';
 import IconArrow from '../../../assets/image/milestones/arrow.svg';
 
 import ReadAloud from '../../ReadAloud';
@@ -103,6 +104,9 @@ function Difference() {
                 </div>
                 <ReadAloud text={KAYLA_STORY} label="Kayla's story" className="justify-center" />
                 <h6>{KAYLA_STORY}</h6>
+                <div className="flex justify-center">
+                    <img src={ImageCloud} alt="" className="w-32" />
+                </div>
             </div>
             <div className="flex justify-between w-full gap-2 text-center">
                 <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
