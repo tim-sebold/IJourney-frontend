@@ -26,7 +26,7 @@ function IntroMap() {
         }
     }
     const previous = () => {
-        navigate('/milestones/milestone2/12');
+        navigate('/milestones/milestone2/10');
     };
 
     return (
