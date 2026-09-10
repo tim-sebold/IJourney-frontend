@@ -98,14 +98,14 @@ export const sidebarData = {
         ],
         [
             { title: "M6.1: Envisioning Your Future", url: "/milestones/milestone6/1" },
-            { title: "M6.2: Your Journeyer's Statement", url: "/milestones/milestone6/2" },
-            { title: "M6.3: Draft Your Statement", url: "/milestones/milestone6/3" },
+            { title: "M6.2: Your Envisioning Your Future Statement", url: "/milestones/milestone6/2" },
+            { title: "M6.3: Draft Your Envisioning Your Future Statement", url: "/milestones/milestone6/3" },
             { title: "M6.4: Refine & Finalize Your Statement", url: "/milestones/milestone6/4" },
             { title: "M6.5: Create Your Career Project Fair", url: "/milestones/milestone6/5" },
         ],
         [
             { title: "M7.1: Yield to Growth", url: "/milestones/milestone7/1" },
-            { title: "M7.2: Oasis Exploration", url: "/milestones/milestone7/2" },
+            { title: "M7.2: SMART Goals", url: "/milestones/milestone7/2" },
             { title: "M7.3: Template & Reflection", url: "/milestones/milestone7/3" },
             { title: "M7.4: Celebration & Completion", url: "/milestones/milestone7/4" },
             { title: "M7.5: The Road Ahead", url: "/milestones/milestone7/5" }

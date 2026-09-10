@@ -15,7 +15,7 @@ function AboutUs() {
           <div className="flex flex-col gap-6">
             <div className="">
               <GoogleMapView />
-              <h6 className="font-bold mt-1">218 New Neely Ferry RdMauldin, SC 29680</h6>
+              <h6 className="font-bold mt-1">3104 Grandview Drive, Suite B, Simpsonville, SC 29680</h6>
             </div>
             <div className="flex flex-col md:flex-row gap-20">
               <div className="py-2 flex-1 cursor-pointer hover:scale-105 transition-all">
@@ -23,17 +23,17 @@ function AboutUs() {
               </div>
               <div className="py-2 flex-1 text-black flex flex-col gap-6">
                 <h5 className="font-medium">
-                  At iJOURNEY, RIZE Prevention’s program, we believe everyone deserves the chance to understand themselves and move toward a future filled with purpose.
-                  Our program was created to offer thoughtful guidance, emotional support, and practical tools that help individuals of all ages connect with their values,
+                  At iJOURNEY, RIZE Prevention’s program, we believe everybody deserves the chance to understand themselves and move toward a future filled with purpose.
+                  iJOURNEY was created to offer thoughtful guidance, emotional support, and practical tools that help individuals of all ages connect with their values,
                   strengths, and goals.
-                  From our home in Mauldin, South Carolina, we're proud to serve people seeking growth, healing, or direction. <br />
+                  From our home in Simpsonville, South Carolina, we're proud to serve people seeking growth, healing, or direction. <br />
                   We are incredibly grateful to the Rotary Club of the Reedy River Greenville for their generous support of our iJOURNEY program and the broader RIZE Prevention mission. Their commitment to community service empowers us to provide vital resources and mentorship to youth, helping them navigate life's challenges with resilience.
                 </h5>
 
                 <h5>
                   <span className="font-bold text-ib-1">You'll find our team at:</span><br />
-                  <span>218 New Neely Ferry Rd</span>
-                  <span>Mauldin, SC 29680</span>
+                  <span>3104 Grandview Drive, Suite B</span><br />
+                  <span>Simpsonville, SC 29680</span>
                 </h5>
 
                 <h5 className="font-bold italic">

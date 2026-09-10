@@ -10,9 +10,10 @@ const containerStyle: React.CSSProperties = {
     height: "500px",
 };
 
+// 3104 Grandview Drive, Suite B, Simpsonville, SC 29680
 const defaultCenter: LatLngLiteral = {
-    lat: 34.7836,
-    lng: -82.3168
+    lat: 34.7311439,
+    lng: -82.2668475
 };
 
 const GoogleMapView: React.FC = () => {

@@ -57,7 +57,7 @@ function NavigatingEducation() {
                     <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
                         <h4 className="text-xl font-bold text-blue-800 mb-2">Career Education Requirements</h4>
                         <p className="mb-4">After high school, you'll need to make many decisions about your future. Some choices are based on what's different from high school and some are similar.</p>
-                        <p className="mb-4">Before entering the workforce, you've learned a lot about yourself. You've determined how you want to live your life. Now you're ready to explore your options for education after high school.</p>
+                        <p className="mb-4">You've learned a lot about yourself. You've determined how you want to live your life. Now, you're ready to explore your options for education after high school.</p>
                         <p className="mb-4">If you want to be a teacher, you'll need to go to college to get a degree. If you want to be a mechanic, you might need to attend a trade school or get certified through an apprenticeship program. There are many different paths you can take!</p>
                         <div className="flex items-center gap-2 mt-4">
                             <BookOpen className="w-5 h-5 text-blue-600" />
@@ -67,8 +67,8 @@ function NavigatingEducation() {
                             <BookOpen className="w-5 h-5 text-blue-600" />
                             <span className="text-sm">Dual Enrollment (college classes while in high school)</span>
                         </div>
-                        <a href="https://sc.gov/residents/learning-sc/colleges-and-universities-list" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-blue-600 hover:text-blue-800 underline">
-                            Learn more about South Carolina's "Earn a Degree in High School" program
+                        <a href="https://early-college.gvltec.edu/" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-blue-600 hover:text-blue-800 underline">
+                            Learn how to earn college credit — and even a degree — while you're still in high school
                         </a>
                     </div>
 

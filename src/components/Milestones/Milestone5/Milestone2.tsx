@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 import { Lightbulb, CheckCircle } from "lucide-react";
 import { CustomButton } from "../../../elements/buttons";
+import { MilitaryPathsCard } from "../shared/MilitaryPathsCard";
 
 function EducationalJourneys() {
     const navigate = useNavigate();
@@ -79,6 +80,8 @@ function EducationalJourneys() {
                         </div>
                     </div>
 
+                    <MilitaryPathsCard />
+
                     <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
                         <h4 className="text-xl font-bold text-yellow-800 mb-3">Benefits of Early College / Dual Enrollment</h4>
                         <ul className="space-y-2">
@@ -90,13 +93,6 @@ function EducationalJourneys() {
                         </ul>
                     </div>
 
-                    <div className="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500">
-                        <h4 className="text-xl font-bold text-orange-800 mb-3">Spartanburg Community College (For Middle Schoolers)</h4>
-                        <p className="mb-3">Introduces the concept of "Early College" for middle schoolers. Encourages exploration of career paths early.</p>
-                        <a href="https://early-college.gvltec.edu/" target="_blank" rel="noopener noreferrer" className="inline-block font-bold text-orange-600 hover:text-orange-800 underline">
-                            Learn more about SCC's Early College Program
-                        </a>
-                    </div>
                 </div>
             </div>
             <div className="flex justify-between w-full gap-2 text-center">

@@ -6,7 +6,7 @@ import { unlockNext } from '../../../controllers/courseController';
 import toast from 'react-hot-toast';
 
 import { CustomButton } from "../../../elements/buttons";
-import ImageResource from '../../../assets/image/milestones/resource.png'
+import { GuidesGraphic } from './components/GuidesGraphic';
 
 function IntroGuides() {
     const navigate = useNavigate();
@@ -98,7 +98,7 @@ function IntroGuides() {
                     )}
                 </div>
                 <div className="flex justify-center">
-                    <img src={ImageResource} alt="resource" className='w-2/3' />
+                    <GuidesGraphic />
                 </div>
                 <div className="text-center">
                     <p className="text-gray-600 mb-6">

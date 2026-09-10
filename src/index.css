@@ -389,10 +389,27 @@ body {
     max-width: none !important;
   }
 
+  /* The hero's gradient is screen dressing; on paper it just eats toner. */
+  .recap-hero,
+  .recap-hero * {
+    background: #ffffff !important;
+    color: #18181b !important;
+    box-shadow: none !important;
+  }
+
+  .recap-hero {
+    border-bottom: 2px solid #16697a !important;
+    border-radius: 0 !important;
+  }
+
   /* Sections can run across pages; a single answer card should not. */
   .recap-card {
     break-inside: avoid;
     box-shadow: none !important;
+  }
+
+  .recap-section {
+    break-inside: auto;
   }
 
   body {

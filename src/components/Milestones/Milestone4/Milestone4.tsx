@@ -125,6 +125,12 @@ function ResourceInventory() {
             color: 'bg-purple-500',
             resources: [
                 {
+                    id: 'rize_prevention',
+                    name: 'RIZE Prevention',
+                    description: 'Local prevention and mental wellness programs for youth and families, including iRIZE in Schools, mentorship, and healthy-choices support.',
+                    url: 'https://rizeprevention.org/'
+                },
+                {
                     id: 'crisis_hotlines',
                     name: 'Crisis Hotlines',
                     description: 'Immediate support for mental health emergencies. Available 24/7.',
@@ -240,7 +246,7 @@ function ResourceInventory() {
                 <div className="text-center mb-8">
                     <h3 className="text-3xl font-bold text-gray-800 mb-2">M4.4: Resource Inventory</h3>
                     <p className="text-gray-600 max-w-2xl mx-auto">
-                        Systematically identify and take stock of the non-human resources and services available to you that can aid your journey toward purpose and career goals.
+                        Systematically identify and take stock of the resources and services available to you that can aid your journey toward purpose and career goals.
                     </p>
                 </div>
 

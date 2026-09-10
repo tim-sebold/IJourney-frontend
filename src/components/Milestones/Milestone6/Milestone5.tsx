@@ -39,7 +39,7 @@ function CreateCareerProjectFair() {
                 <div className="space-y-6">
                     <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
                         <h4 className="text-xl font-bold text-green-800 mb-3">Design Your Career Project Fair</h4>
-                        <p className="mb-4">Now that you have your Journeyer's Statement, create a visual presentation that brings your future vision to life. This could be a digital poster, slideshow, video, or interactive webpage.</p>
+                        <p className="mb-4">Now that you have your Envisioning Your Future Statement, create a visual presentation that brings your future vision to life. This could be a digital poster, slideshow, video, or interactive webpage.</p>
                         <p className="mb-4">Your presentation should include:</p>
                         <ul className="space-y-2 mb-4">
                             <li className="flex items-start gap-2"><Target className="w-4 h-4 text-green-600 mt-1" /> <strong>Your Future Self:</strong> A visual representation of who you'll become</li>
@@ -74,7 +74,7 @@ function CreateCareerProjectFair() {
 
                     <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
                         <h4 className="text-xl font-bold text-yellow-800 mb-3">AI-Powered Presentation Assistant</h4>
-                        <p className="mb-4">Our AI chatbot can help you create your presentation by suggesting content, layout ideas, and design elements based on your Journeyer's Statement.</p>
+                        <p className="mb-4">Our AI chatbot can help you create your presentation by suggesting content, layout ideas, and design elements based on your Envisioning Your Future Statement.</p>
                         <div className="space-y-2">
                             <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Ask for layout suggestions based on your content</div>
                             <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Get color scheme recommendations based on your personal brand</div>
