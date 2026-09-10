@@ -12,7 +12,7 @@ function YieldGrowth() {
     return (
         <MilestonePageShell
             title='M7.1: Yield to Growth'
-            subtitle="Setting SMART Goals for Your Purpose-Driven Journey"
+            subtitle="Setting SMART Goals for Your Purpose-Driven Journey and Managing Stress Along the Way"
             onPrevious={previous}
             onNext={next}
             isNextLoading={isNextLoading}
@@ -59,8 +59,7 @@ function YieldGrowth() {
                 <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
                     <h4 className="text-xl font-bold text-yellow-800 mb-3">Examples of SMART Goals</h4>
                     <div className="bg-white p-4 rounded-lg">
-                        <p className="text-sm mb-2"><strong>Example:</strong> "I will journal Monday through Friday. Once per day, I will take my emotions and reflect in my journal. I will turn off electronics 30 minutes earlier each night to journal."</p>
-                        <p className="text-sm">This will help me identify emotional triggers and become more self-aware over the next three months.</p>
+                        <p className="text-sm"><strong>Example:</strong> "I will journal Monday through Friday. Once per day, I will take my emotions and reflect in my journal. I will turn off electronics 30 minutes earlier each night to journal. This will help me identify emotional triggers and become more self-aware over the next three months."</p>
                     </div>
                 </div>
             </div>

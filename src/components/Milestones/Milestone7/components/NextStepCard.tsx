@@ -18,12 +18,12 @@ export function NextStepsCard({
     steps = [
         {
             title: "Review Your Dashboard",
-            description: "Access your saved responses, Journeyer's Statement, and SMART goals anytime.",
+            description: "Access your saved responses, your statements, and your SMART goals anytime.",
             icon: LayoutDashboard,
         },
         {
             title: "Connect with Community",
-            description: "Join our alumni network to share experiences and support each other.",
+            description: "Continue connecting with mentors and share your experiences with them.",
             icon: Users,
         },
         {
@@ -70,12 +70,9 @@ export function NextStepsCard({
                         return (
                             <div
                                 key={s.title}
-                                className={[
-                                    "group relative overflow-hidden rounded-2xl border border-black/5 bg-white p-5",
-                                    "shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-[0_14px_35px_rgba(16,185,129,0.16)]",
-                                ].join(" ")}
+                                className="relative overflow-hidden rounded-2xl border border-black/5 bg-white p-5 shadow-sm"
                             >
-                                <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-emerald-200/40 blur-xl transition-opacity group-hover:opacity-100 opacity-70" />
+                                <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-emerald-200/40 blur-xl opacity-70" />
 
                                 <div className="flex items-start gap-4">
                                     <div className="relative grid h-12 w-12 place-items-center rounded-2xl bg-emerald-400 text-white shadow-[0_14px_30px_rgba(16,185,129,0.30)] ring-4 ring-white">

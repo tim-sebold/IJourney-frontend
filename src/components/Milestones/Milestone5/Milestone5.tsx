@@ -1,12 +1,13 @@
 
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Lightbulb } from "lucide-react";
+import { Lightbulb, ListChecks } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../../context/AuthContext';
 import { getMilestone, submitMilestone, unlockNext } from "../../../controllers/courseController";
 import toast from "react-hot-toast";
 import { CustomButton } from "../../../elements/buttons";
+import { MilitaryPathsCard } from "../shared/MilitaryPathsCard";
 
 const ACTION_STEPS = [
     "Research 3 colleges/programs that match my interests",
@@ -16,14 +17,19 @@ const ACTION_STEPS = [
     "Schedule a meeting with my counselor",
 ] as const;
 
-type ActionStepKey = `step${number}`;
+const TOP_PATHWAY_PLACEHOLDERS = [
+    "e.g., Greenville Technical College — Nursing",
+    "e.g., The Citadel — Criminal Justice",
+    "e.g., Local HVAC apprenticeship",
+] as const;
 
 interface PlanState {
     preferredPath: string;
     scholarships: string;
     grants: string;
     loanStrategy: string;
-    steps: Record<ActionStepKey, boolean>;
+    /** The participant's three shortlisted schools, programmes, or training paths. */
+    topPathways: string[];
 }
 
 const initialPlanState: PlanState = {
@@ -31,13 +37,7 @@ const initialPlanState: PlanState = {
     scholarships: "",
     grants: "",
     loanStrategy: "",
-    steps: {
-        step1: false,
-        step2: false,
-        step3: false,
-        step4: false,
-        step5: false,
-    },
+    topPathways: ["", "", ""],
 };
 
 const EducationalPlan: React.FC = () => {
@@ -54,7 +54,12 @@ const EducationalPlan: React.FC = () => {
                 console.log(response);
                 
                 if (response) {
-                    setPlan(response.responses.plan as PlanState);
+                    const saved = (response.responses.plan ?? {}) as Partial<PlanState>;
+                    setPlan({
+                        ...initialPlanState,
+                        ...saved,
+                        topPathways: [0, 1, 2].map((i) => saved.topPathways?.[i] ?? ""),
+                    });
                 }
             }
             getResponse();
@@ -63,17 +68,14 @@ const EducationalPlan: React.FC = () => {
 
     // Derived state: is the form complete?
     const isFormComplete = useMemo(() => {
-        const { preferredPath, scholarships, grants, loanStrategy, steps } = plan;
-
-        const allStepsChecked =
-            steps.step1 && steps.step2 && steps.step3 && steps.step4 && steps.step5;
+        const { preferredPath, scholarships, grants, loanStrategy, topPathways } = plan;
 
         return (
             preferredPath.trim() !== "" &&
             scholarships.trim() !== "" &&
             grants.trim() !== "" &&
             loanStrategy.trim() !== "" &&
-            allStepsChecked
+            topPathways.every((pathway) => pathway.trim() !== "")
         );
     }, [plan]);
 
@@ -99,14 +101,11 @@ const EducationalPlan: React.FC = () => {
         []
     );
 
-    const handleCheckboxChange = useCallback(
-        (key: ActionStepKey) => {
+    const handleTopPathwayChange = useCallback(
+        (index: number, value: string) => {
             setPlan((prev) => ({
                 ...prev,
-                steps: {
-                    ...prev.steps,
-                    [key]: !prev.steps[key],
-                },
+                topPathways: prev.topPathways.map((pathway, i) => (i === index ? value : pathway)),
             }));
         },
         []
@@ -187,6 +186,7 @@ const EducationalPlan: React.FC = () => {
                                 <option value="associate">Associate Degree</option>
                                 <option value="bachelor">Bachelor&apos;s Degree</option>
                                 <option value="graduate">Graduate/Professional Degree</option>
+                                <option value="military">Military School / Service Academy</option>
                                 <option value="other">Other</option>
                             </select>
                         </div>
@@ -242,29 +242,49 @@ const EducationalPlan: React.FC = () => {
                         </div>
 
                         {/* Action Steps */}
-                        <div className="rounded-lg bg-white p-4 shadow">
+                        <div className="mb-6 rounded-lg bg-white p-4 shadow">
                             <h5 className="mb-2 font-semibold">Action Steps</h5>
+                            <ul className="list-disc space-y-2 pl-5 text-sm">
+                                {ACTION_STEPS.map((label) => (
+                                    <li key={label}>{label}</li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Top 3 Educational Pathways */}
+                        <div className="rounded-lg bg-white p-4 shadow">
+                            <div className="mb-2 flex items-center gap-2">
+                                <ListChecks className="h-5 w-5 text-blue-600" />
+                                <h5 className="font-semibold">My Top 3 Educational Pathways</h5>
+                            </div>
+                            <p className="mb-4 text-sm text-gray-600">
+                                List the three schools, programs, or training paths you are most serious about
+                                — for example a college, a technical program, a military path, or an apprenticeship.
+                            </p>
                             <div className="space-y-3">
-                                {ACTION_STEPS.map((label, index) => {
-                                    const key = `step${index + 1}` as ActionStepKey;
-                                    return (
-                                        <div key={key} className="flex items-start gap-2">
-                                            <input
-                                                id={key}
-                                                type="checkbox"
-                                                checked={plan.steps[key]}
-                                                onChange={() => handleCheckboxChange(key)}
-                                                className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                            />
-                                            <label htmlFor={key} className="cursor-pointer text-sm">
-                                                {label}
-                                            </label>
-                                        </div>
-                                    );
-                                })}
+                                {plan.topPathways.map((pathway, index) => (
+                                    <div key={index}>
+                                        <label
+                                            htmlFor={`top-pathway-${index}`}
+                                            className="mb-1 block text-sm font-medium text-gray-700"
+                                        >
+                                            Pathway {index + 1}
+                                        </label>
+                                        <input
+                                            id={`top-pathway-${index}`}
+                                            type="text"
+                                            value={pathway}
+                                            onChange={(e) => handleTopPathwayChange(index, e.target.value)}
+                                            placeholder={TOP_PATHWAY_PLACEHOLDERS[index]}
+                                            className="w-full rounded-md border p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
+
+                    <MilitaryPathsCard />
 
                     {/* AI Chatbot Assistance */}
                     <div className="rounded-lg border-l-4 border-green-500 bg-green-50 p-6">

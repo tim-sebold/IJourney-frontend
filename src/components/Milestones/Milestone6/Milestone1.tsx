@@ -1,7 +1,7 @@
 import { MilestonePageShell } from '../MilestonePageShell';
 import { useMilestoneNav } from '../../../hooks/useMilestoneNav';
 
-import { Clock, Target, Users, Star, Heart, GraduationCap, Flag } from 'lucide-react';
+import { Clock, Target, Users, Star, Heart, GraduationCap, Gift } from 'lucide-react';
 
 function EnvisioningFuture() {
     const { previous, next, isNextLoading } = useMilestoneNav({
@@ -31,6 +31,10 @@ function EnvisioningFuture() {
 
                     <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
                         <h4 className="text-xl font-bold text-blue-800 mb-3">The iJOURNEY Career Project Fair</h4>
+                        <div className="mb-4 flex flex-wrap items-center gap-2">
+                            <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">Optional</span>
+                            <span className="text-sm font-semibold text-blue-900">This activity is optional — but worth doing.</span>
+                        </div>
                         <p className="mb-4">You'll create a presentation (like a school project fair) that showcases your future career path and personal brand. Your presentation should include:</p>
                         <ul className="space-y-2 mb-4">
                             <li className="flex items-start gap-2"><Target className="w-4 h-4 text-blue-600 mt-1" /> <strong>Your Future Self:</strong> Who you envision becoming professionally and personally</li>
@@ -40,27 +44,15 @@ function EnvisioningFuture() {
                             <li className="flex items-start gap-2"><Heart className="w-4 h-4 text-blue-600 mt-1" /> <strong>Your Impact:</strong> What difference you want to make in the world through your work</li>
                         </ul>
                         <p className="mt-4">This isn't just about a job title; it's about creating a fulfilling life and career that aligns with your core values and passions.</p>
+                        <div className="mt-4 flex items-start gap-3 rounded-lg bg-white p-4 shadow">
+                            <Gift className="mt-0.5 h-5 w-5 shrink-0 text-blue-600" />
+                            <p className="text-sm">
+                                <strong>Finish it and win a prize!</strong> Anyone who completes the Career Project Fair
+                                can send it to <strong>RIZE Prevention</strong> to receive a prize.
+                            </p>
+                        </div>
                     </div>
 
-                    <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
-                        <h4 className="text-xl font-bold text-green-800 mb-3">Key Principles</h4>
-                        <div className="flex flex-wrap gap-4 mb-4">
-                            <div className="bg-white px-4 py-2 rounded-full border border-green-300">
-                                <span className="font-medium text-green-700">HUMBLE</span>
-                            </div>
-                            <div className="bg-white px-4 py-2 rounded-full border border-green-300">
-                                <span className="font-medium text-green-700">CONFIDENT</span>
-                            </div>
-                            <div className="bg-white px-4 py-2 rounded-full border border-green-300">
-                                <span className="font-medium text-green-700">CAPABLE</span>
-                            </div>
-                        </div>
-                        <p className="mb-4">These are the core attributes we aim to cultivate throughout your journey.</p>
-                        <div className="flex items-center gap-2">
-                            <Flag className="w-6 h-6 text-green-600" />
-                            <span className="font-bold text-green-800">I BELIEVE IN MYSELF</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </MilestonePageShell>

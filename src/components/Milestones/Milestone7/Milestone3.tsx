@@ -4,6 +4,7 @@ import { MilestonePageShell } from "../MilestonePageShell";
 import { useMilestoneNav } from "../../../hooks/useMilestoneNav";
 import { getMilestone } from "../../../controllers/courseController";
 import { useAuth } from "../../../context/AuthContext";
+import { StressManagementCard } from "./components/StressManagementCard";
 
 interface SmartGoal {
     goal: string;
@@ -79,6 +80,8 @@ function TemplateReflection() {
                         </div>
                     ))}
                 </div>
+
+                <StressManagementCard />
 
                 <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
                     <h4 className="text-xl font-bold text-blue-800 mb-3">Reflection Questions</h4>

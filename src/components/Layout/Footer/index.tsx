@@ -202,11 +202,10 @@ function Footer() {
                                         <p className="flex items-center self-stretch font-subheading-as-typed-s8 text-primaryp-600 [font-style:var(--subheading-as-typed-s8-font-style)]">
                                             UNITED STATE
                                         </p>
-                                        <p className="flex items-center justify-center font-body-b5 [font-style:var(--body-b5-font-style)] text-[#E8E8E8]">
-                                            3104 Grandview Drive
-                                            Suite B
+                                        <address className="not-italic font-body-b5 [font-style:var(--body-b5-font-style)] text-[#E8E8E8]">
+                                            3104 Grandview Drive, Suite B<br />
                                             Simpsonville, SC 29680
-                                        </p>
+                                        </address>
                                     </div>
                                 </div>
                             </div>

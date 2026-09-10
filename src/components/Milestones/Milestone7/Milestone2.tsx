@@ -20,7 +20,7 @@ const INITIAL_SMART_GOALS: SmartGoal[] = [
 
 type SmartGoalField = keyof Pick<SmartGoal, "goal" | "deadline" | "accountabilityPartner">;
 
-function OasisExploration() {
+function SmartGoals() {
     const { user } = useAuth();
     const [smartGoals, setSmartGoals] = useState<SmartGoal[]>(INITIAL_SMART_GOALS);
 
@@ -65,7 +65,7 @@ function OasisExploration() {
 
     return (
         <MilestonePageShell
-            title="M7.2: Oasis Exploration"
+            title="M7.2: SMART Goals"
             subtitle="Creating Your Personal Growth Plan"
             onPrevious={previous}
             onNext={next}
@@ -128,7 +128,7 @@ function OasisExploration() {
                             "Is your goal specific enough to know exactly what you're working toward?",
                             "How will you measure your progress toward this goal?",
                             "Is this goal achievable given your current resources and constraints?",
-                            "How does this goal connect to your Journeyer's Statement?",
+                            "How does this goal connect to your Envisioning Your Future Statement?",
                             "What's your deadline for achieving this goal?",
                         ].map((q) => (
                             <li key={q} className="flex items-start gap-2">
@@ -142,4 +142,4 @@ function OasisExploration() {
     );
 }
 
-export default OasisExploration;
+export default SmartGoals;

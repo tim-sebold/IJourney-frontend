@@ -3,7 +3,7 @@ import { useMilestoneNav } from '../../../hooks/useMilestoneNav';
 
 import { Lightbulb } from 'lucide-react';
 
-function JourneyerStatement() {
+function EnvisioningFutureStatement() {
     const { previous, next, isNextLoading } = useMilestoneNav({
         previousRoute: "/milestones/milestone6/1",
         nextRoute: "/milestones/milestone6/3",
@@ -12,7 +12,7 @@ function JourneyerStatement() {
 
     return (
         <MilestonePageShell
-            title="M6.2: Your Journeyer's Statement"
+            title="M6.2: Your Envisioning Your Future Statement"
             subtitle="Crafting Your Personal Mission Statement"
             onPrevious={previous}
             onNext={next}
@@ -21,8 +21,8 @@ function JourneyerStatement() {
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
-                        <h4 className="text-xl font-bold text-purple-800 mb-3">What is a Journeyer's Statement?</h4>
-                        <p className="mb-4">Your Journeyer's Statement is your personal mission statement that reflects your core values, aspirations, and desired impact. It's a declaration of who you are, what you stand for, and what kind of future you want to create.</p>
+                        <h4 className="text-xl font-bold text-purple-800 mb-3">What is an Envisioning Your Future Statement?</h4>
+                        <p className="mb-4">Your Envisioning Your Future Statement is your personal mission statement that reflects your core values, aspirations, and desired impact. It's a declaration of who you are, what you stand for, and what kind of future you want to create.</p>
                         <p className="mb-4">Be honest, specific, and inspiring. Answer questions like: Who am I? What do I stand for? What kind of future do I want to create?</p>
                     </div>
 
@@ -84,7 +84,7 @@ function JourneyerStatement() {
 
                     <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
                         <h4 className="text-xl font-bold text-blue-800 mb-3">AI Writing Assistant</h4>
-                        <p className="mb-4">Our AI chatbot can help you craft your Journeyer's Statement by asking probing questions:</p>
+                        <p className="mb-4">Our AI chatbot can help you craft your Envisioning Your Future Statement by asking probing questions:</p>
                         <ul className="space-y-2 mb-4">
                             <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-blue-600 mt-1" /> "What core value is most important to you?"</li>
                             <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-blue-600 mt-1" /> "How do you want to be remembered?"</li>
@@ -97,4 +97,4 @@ function JourneyerStatement() {
     )
 }
 
-export default JourneyerStatement;
+export default EnvisioningFutureStatement;

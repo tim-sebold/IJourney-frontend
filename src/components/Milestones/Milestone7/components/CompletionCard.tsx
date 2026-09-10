@@ -14,7 +14,7 @@ export function CompletionCard({
     footnote = "One page to go — M7.5: The Road Ahead closes out your journey. Your certificate stays available there and on your completion page, so you never have to come back here for it.",
     accomplishments = [
         "Completed all 7 milestones of self-discovery",
-        "Created your personal Journeyer's Statement",
+        "Created your personal Envisioning Your Future Statement",
         "Developed your Career Project Fair presentation",
         "Set 3 SMART goals for your continued growth",
         "Built a network of accountability partners",

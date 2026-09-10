@@ -5,6 +5,7 @@ import { unlockNext } from '../../../controllers/courseController';
 import toast from 'react-hot-toast';
 
 import { CustomButton } from "../../../elements/buttons";
+import { MilitaryPathsCard } from "../shared/MilitaryPathsCard";
 
 import { Users, Search, GraduationCap, CheckCircle } from 'lucide-react';
 
@@ -54,7 +55,7 @@ function LoansSelecting() {
                     <div className="bg-purple-100 p-6 rounded-lg border-l-4 border-purple-500">
                         <h4 className="text-xl font-bold text-purple-800 mb-3">Selecting Your Journey</h4>
                         <ol className="space-y-3">
-                            <li className="flex items-start gap-2"><span className="font-bold text-purple-600">1.</span> Make a List of Colleges or Programs – Research options that match your interests.</li>
+                            <li className="flex items-start gap-2"><span className="font-bold text-purple-600">1.</span> Make a List of Colleges, Programs, or Military Paths – Research options that match your interests.</li>
                             <li className="flex items-start gap-2"><span className="font-bold text-purple-600">2.</span> Check Admission Requirements – Ensure you meet GPA, test scores, etc.</li>
                             <li className="flex items-start gap-2"><span className="font-bold text-purple-600">3.</span> Look at Program Details – What will you study? How long? What's the cost?</li>
                             <li className="flex items-start gap-2"><span className="font-bold text-purple-600">4.</span> Check Financial Aid Options – Scholarships, grants, loans.</li>
@@ -62,6 +63,8 @@ function LoansSelecting() {
                             <li className="flex items-start gap-2"><span className="font-bold text-purple-600">6.</span> Apply! – Submit applications and financial aid forms.</li>
                         </ol>
                     </div>
+
+                    <MilitaryPathsCard />
 
                     <div className="bg-yellow-100 p-6 rounded-lg border-l-4 border-yellow-500">
                         <h4 className="text-xl font-bold text-yellow-800 mb-3">Research Space</h4>

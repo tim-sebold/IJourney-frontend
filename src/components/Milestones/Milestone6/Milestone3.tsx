@@ -86,13 +86,13 @@ function DraftStatement() {
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M6.3: Draft Your Statement</h3>
+                <h3 className="font-bold">M6.3: Draft Your Envisioning Your Future Statement</h3>
                 <h6>Begin Writing Your Personal Vision</h6>
             </div>
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <div className="bg-white p-6 rounded-lg shadow">
-                        <h4 className="text-xl font-bold text-gray-900 mb-4">Write Your Journeyer's Statement</h4>
+                        <h4 className="text-xl font-bold text-gray-900 mb-4">Write Your Envisioning Your Future Statement</h4>
 
                         <div className="space-y-6">
                             <div>
@@ -144,7 +144,7 @@ function DraftStatement() {
                                 <textarea
                                     value={journeyerStatement.iAmCapable}
                                     onChange={(e) => setJourneyerStatement({ ...journeyerStatement, iAmCapable: e.target.value })}
-                                    placeholder="I am capable of achieving my DraftStatements through dedication, resilience, and collaboration."
+                                    placeholder="Reinforce your self-efficacy. Example: 'I am capable of achieving my goals through dedication, resilience, and collaboration.'"
                                     className="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                                     rows={3}
                                 />
