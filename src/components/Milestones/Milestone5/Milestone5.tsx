@@ -1,7 +1,7 @@
 
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Lightbulb, ListChecks } from "lucide-react";
+import { ListChecks } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../../context/AuthContext';
 import { getMilestone, submitMilestone, unlockNext } from "../../../controllers/courseController";
@@ -51,10 +51,8 @@ const EducationalPlan: React.FC = () => {
         if(user) {
             const getResponse = async () => {
                 const response = await getMilestone('milestone5_5');
-                console.log(response);
-                
                 if (response) {
-                    const saved = (response.responses.plan ?? {}) as Partial<PlanState>;
+                    const saved = (response.responses?.plan ?? {}) as Partial<PlanState>;
                     setPlan({
                         ...initialPlanState,
                         ...saved,
@@ -112,7 +110,7 @@ const EducationalPlan: React.FC = () => {
     );
 
     const handlePrevious = useCallback(() => {
-        navigate("/milestones/milestone5/3");
+        navigate("/milestones/milestone5/4");
     }, [navigate]);
 
     const handleNext = useCallback(async () => {
@@ -285,32 +283,6 @@ const EducationalPlan: React.FC = () => {
                     </div>
 
                     <MilitaryPathsCard />
-
-                    {/* AI Chatbot Assistance */}
-                    <div className="rounded-lg border-l-4 border-green-500 bg-green-50 p-6">
-                        <h5 className="mb-3 text-xl font-bold">AI Chatbot Assistance</h5>
-                        <p className="mb-4">
-                            Our AI chatbot can help you with your educational journey planning:
-                        </p>
-                        <div className="space-y-2 text-sm">
-                            <div className="flex items-start gap-2">
-                                <Lightbulb className="mt-1 h-5 w-5" />
-                                Ask about specific colleges or programs
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <Lightbulb className="mt-1 h-5 w-5" />
-                                Get personalized scholarship recommendations
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <Lightbulb className="mt-1 h-5 w-5" />
-                                Help with financial planning questions
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <Lightbulb className="mt-1 h-5 w-5" />
-                                Connect you with resources for your specific interests
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

@@ -1,5 +1,6 @@
 import { Award, Sparkles, Stars } from 'lucide-react';
 import { Button } from '../../../../elements';
+import { OutstandingSteps } from '../../../Certificate/OutstandingSteps';
 
 type Props = {
     name?: string | null;
@@ -7,6 +8,7 @@ type Props = {
     signatureLabel?: string;
     downloadFunc: () => Promise<void>;
     loading: boolean;
+    outstanding?: string[];
 };
 
 export function CertificateCard({
@@ -15,6 +17,7 @@ export function CertificateCard({
     signatureLabel = "Asha McMillan, LPC",
     downloadFunc,
     loading,
+    outstanding = [],
 }: Props) {
     const displayName = name?.trim() || "—";
 
@@ -105,6 +108,7 @@ export function CertificateCard({
                     </span>
                 </Button>
             </div>
+            <OutstandingSteps steps={outstanding} />
         </div>
 
     );

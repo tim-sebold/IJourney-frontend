@@ -20,11 +20,8 @@ function EQ() {
             const getResponse = async () => {
                 const response = await getMilestone('milestone2_5');
 
-                if (response) {
-                    console.log("response:", response);
-                    
-                    setReflection(response.responses.reflection as string);
-                }
+                const saved = response?.responses?.reflection;
+                if (typeof saved === 'string') setReflection(saved);
             }
             getResponse();
         }
@@ -35,11 +32,11 @@ function EQ() {
                 await submitMilestone('milestone2_5', { userId: user?.uid, responses: { reflection } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/6", prevMilestoneId: "milestone2/5" });
                 toast.success(result.message);
+                navigate('/milestones/milestone2/6');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone2/6');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

@@ -8,6 +8,7 @@ export interface InputValues {
   email: string;
   password: string;
   confirmPassword: string;
+  schoolCode: string;
 }
 
 export interface AuthContextType {

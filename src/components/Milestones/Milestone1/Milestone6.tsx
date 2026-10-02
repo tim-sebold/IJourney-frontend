@@ -35,11 +35,11 @@ function GuidingQuestions() {
                 await submitMilestone('milestone1_6', { userId: user?.uid, responses: { emotion1, emotion2, associateFeeling1, associateFeeling2 } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone1/7", prevMilestoneId: "milestone1/6" });
                 toast.success(result.message);
+                navigate('/milestones/milestone1/7');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone1/7');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }
@@ -49,11 +49,12 @@ function GuidingQuestions() {
         if(user) {
             const getResponse = async () => {
                 const result = await getMilestone('milestone1_6');
-                if (result) {
-                    setEmotion1(result.responses.emotion1 as string);
-                    setEmotion2(result.responses.emotion2 as string);
-                    setAssociateFeeling1(result.responses.associateFeeling1 as string);
-                    setAssociateFeeling2(result.responses.associateFeeling2 as string);
+                if (result?.responses) {
+                    const saved = result.responses as Record<string, string | undefined>;
+                    setEmotion1(saved.emotion1 ?? "");
+                    setEmotion2(saved.emotion2 ?? "");
+                    setAssociateFeeling1(saved.associateFeeling1 ?? "");
+                    setAssociateFeeling2(saved.associateFeeling2 ?? "");
                 }
             }
             getResponse();

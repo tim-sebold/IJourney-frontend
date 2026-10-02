@@ -24,8 +24,9 @@ function StartingStatement() {
         if (user) {
             const getComment = async () => {
                 const result = await getMilestone('milestone0_2');
-                if (result) {
-                    setComment(result.responses.statement as string);
+                const statement = result?.responses?.statement;
+                if (typeof statement === 'string') {
+                    setComment(statement);
                     setbuttonDisabledStatus(false);
                 }
             }
@@ -38,11 +39,11 @@ function StartingStatement() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone1/1", prevMilestoneId: "milestone0/2" });
                 toast.success(result.message);
+                navigate('/milestones/milestone1/1');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone1/1');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

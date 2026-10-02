@@ -137,10 +137,10 @@ function RefineFinalize() {
             }
             const result = await unlockNext({ userId: user.uid, milestoneId: "milestone6/5", prevMilestoneId: "milestone6/4" });
             toast.success(result.message);
+            navigate('/milestones/milestone6/5');
         } catch (error: unknown) {
             toast.error(error instanceof Error ? error.message : "Could not unlock the next milestone.");
         }
-        navigate('/milestones/milestone6/5');
     };
 
     const previous = () => {

@@ -1,6 +1,5 @@
 import Header from '../components/Layout/Header';
 import Sidebar from '../components/Layout/Sidebar';
-import Chatbot from '../components/Chatbot';
 import RouteTransition from '../components/Loader/RouteTransition';
 import LoadingSpinner from '../components/Loader';
 import { Suspense, useEffect, useState } from 'react';
@@ -41,7 +40,6 @@ function MilestoneLayout() {
                     </main>
                 </div>
             </div>
-            <Chatbot />
         </div>
     );
 };

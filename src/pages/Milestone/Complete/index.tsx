@@ -4,6 +4,7 @@ import { Award, BookOpenCheck, GraduationCap, Home, Sparkles, User } from 'lucid
 import { useAuth } from '../../../context/AuthContext';
 import { useCertificateDownload } from '../../../hooks/useCertificateDownload';
 import { CustomButton } from '../../../elements/buttons';
+import { OutstandingSteps } from '../../../components/Certificate/OutstandingSteps';
 
 /**
  * The single, unambiguous end of the programme. M7.4 congratulates the participant
@@ -13,7 +14,7 @@ import { CustomButton } from '../../../elements/buttons';
  */
 function Complete() {
     const { user } = useAuth();
-    const { download, loading } = useCertificateDownload();
+    const { download, loading, outstanding } = useCertificateDownload();
 
     const displayName = user?.displayName?.trim();
 
@@ -60,6 +61,7 @@ function Complete() {
                                             loading={loading}
                                         />
                                     </div>
+                                    <OutstandingSteps steps={outstanding} />
                                 </div>
                             </div>
                         </div>

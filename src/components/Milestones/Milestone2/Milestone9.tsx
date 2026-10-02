@@ -58,15 +58,15 @@ function IntroCharacter() {
             </div>
 
             <div className="flex justify-center">
-                <img src={Image25} className='w-1/4' />
-                <img src={Image26} className='w-1/4' />
-                <img src={Image28} className='w-1/4' />
-                <img src={Image27} className='w-1/4' />
+                <img alt="" src={Image25} className='w-1/4' />
+                <img alt="" src={Image26} className='w-1/4' />
+                <img alt="" src={Image28} className='w-1/4' />
+                <img alt="" src={Image27} className='w-1/4' />
             </div>
 
             <div className="flex flex-col gap-4 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-6">
                 <div className="flex items-center gap-2">
-                    <img src={ImageBook} className='w-30' />
+                    <img alt="" src={ImageBook} className='w-30' />
                     <h3 className='font-extrabold italic'>
                         <span className='text-[#18E930]'>KAI</span> +
                         <span className='text-[#FA3131]'> TALIA’S</span>

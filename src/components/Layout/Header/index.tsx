@@ -8,7 +8,6 @@ import { useProgress } from "../../../context/ProgressContext";
 
 import {
     ChevronDownIcon,
-    SearchIcon,
     MenuIcon,
     XIcon,
     CheckCircle,
@@ -17,11 +16,10 @@ import {
     UserCircle2,
     BookOpenCheck,
     LucideChartNoAxesCombined,
-    Settings,
+    School,
     LogOut,
 } from "lucide-react";
 
-import { Input } from "../../../elements/input";
 import { Button } from "../../../elements/buttons/button";
 
 import LandingLogo from "../../../assets/image/landing-logo.png";
@@ -125,7 +123,7 @@ export default function Header() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { user, userProfile, logout } = useAuth();
+    const { user, userProfile, logout, isAdmin } = useAuth();
     const { progress, currentMilestone, currentMilestoneChild } = useProgress();
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -249,10 +247,15 @@ export default function Header() {
                                             <span>My Recap</span>
                                         </li>
 
-                                        <li className="group relative flex items-center gap-x-4 px-6 py-3 text-gray-500 hover:bg-gray-200">
-                                            <Settings size={20} />
-                                            <span>Settings</span>
-                                        </li>
+                                        {isAdmin && (
+                                            <li
+                                                className="group relative flex cursor-pointer items-center gap-x-4 px-6 py-3 text-gray-500 hover:bg-gray-200"
+                                                onClick={() => navigate("/admin")}
+                                            >
+                                                <School size={20} />
+                                                <span>School Codes</span>
+                                            </li>
+                                        )}
 
                                         <li className="border border-gray-300" />
 
@@ -282,6 +285,7 @@ export default function Header() {
                         className="cursor-pointer lg:hidden"
                         onClick={() => setMobileMenuOpen((v) => !v)}
                         aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={mobileMenuOpen}
                     >
                         {mobileMenuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
                     </Button>
@@ -361,19 +365,51 @@ export default function Header() {
                             </li>
                         );
                     })}
-
-                    <li className="relative cursor-pointer py-4 transition-opacity hover:opacity-80">
-                        <div className="hidden items-center gap-2 border-l-2 border-[#ff6f61] bg-white/10 px-4 backdrop-blur-sm md:flex lg:xl-6">
-                            <SearchIcon className="h-6 w-6 font-bold text-[#ff6f61]" />
-                            <Input
-                                type="text"
-                                placeholder="Search..."
-                                className="hidden h-auto border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 xl:block"
-                            />
-                        </div>
-                    </li>
                 </ul>
             </div>
+
+            {/* Below `lg` the pill navigation above is hidden, so this is the only way
+                to reach the course map or About Us on a phone. */}
+            {mobileMenuOpen && (
+                <div className="w-full bg-white text-black shadow-[0px_4px_4px_rgba(0,0,0,0.25)] lg:hidden">
+                    <ul className="flex max-h-[calc(100vh-70px)] flex-col overflow-y-auto py-2 font-ib-1">
+                        {NAV_ITEMS.filter((item) => !item.hasDropdown).map((item) => (
+                            <li key={item.label}>
+                                <button
+                                    type="button"
+                                    onClick={() => { setMobileMenuOpen(false); onNavigateItem(item); }}
+                                    className={classNames(
+                                        "w-full cursor-pointer px-8 py-3 text-left font-semibold hover:bg-gray-200",
+                                        item.label === activeLabel && "text-[#ff6f61]"
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            </li>
+                        ))}
+                        <li className="border-t border-gray-200 px-8 pb-1 pt-3 text-xs font-bold uppercase text-gray-500">
+                            Course Map
+                        </li>
+                        {headerData.solutions.map((m, idx) => (
+                            <li key={m.href}>
+                                <button
+                                    type="button"
+                                    onClick={() => { setMobileMenuOpen(false); onClickMilestone(m, idx); }}
+                                    className="flex w-full cursor-pointer items-center gap-x-3 px-8 py-2 text-left hover:bg-gray-200"
+                                >
+                                    <MilestoneIcon
+                                        userLoggedIn={!!user}
+                                        index={idx}
+                                        currentMilestone={currentMilestone ?? null}
+                                        percent={progress?.summary?.percent}
+                                    />
+                                    <span className="text-[14px] font-bold text-gray-800">{m.title}</span>
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </section>
     );
 }

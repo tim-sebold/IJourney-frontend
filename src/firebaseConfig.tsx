@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -15,7 +14,9 @@ const firebaseConfig = {
   measurementId: 'G-5EK2FHV1BY',
 };
 
+// No Firestore client here on purpose: every read and write of user data goes
+// through the API, which is where authorization lives. Importing the Firestore
+// SDK also added roughly a quarter of a megabyte to the first page load.
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
 export const storage = getStorage(app);

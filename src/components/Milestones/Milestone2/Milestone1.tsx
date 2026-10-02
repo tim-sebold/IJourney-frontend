@@ -69,9 +69,8 @@ function Oasis() {
         if(user) {
             const getResponse = async () => {
                 const result = await getMilestone('milestone2_1');
-                if (result) {
-                    setAccessments(result.responses.accessments as Array<object>);
-                }
+                const saved = result?.responses?.accessments;
+                if (Array.isArray(saved)) setAccessments(saved as Array<object>);
             }
             getResponse();
         }
@@ -87,11 +86,11 @@ function Oasis() {
                 await submitMilestone('milestone2_1', { userId: user?.uid, responses: { accessments } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/2", prevMilestoneId: "milestone2/1" });
                 toast.success(result.message);
+                navigate('/milestones/milestone2/2');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone2/2');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

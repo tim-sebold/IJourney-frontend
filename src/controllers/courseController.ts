@@ -1,4 +1,4 @@
-import { api, apiBlob } from '../lib/api';
+import { api, ApiError, apiBlob } from '../lib/api';
 
 export type Milestone = {
     id: string;
@@ -16,8 +16,24 @@ export type MilestoneResponse = {
 export const listMilestones = () =>
     api<{ milestones: Milestone[] }>("/api/courses");
 
-export const getMilestone = (milestoneId: string) =>
-    api<MilestoneResponse>(`/api/courses/${milestoneId}/getResponse`);
+/**
+ * The saved response for a milestone, or `null` when there is none to restore.
+ *
+ * A 404 is the normal answer on a first visit — nothing has been saved yet — so
+ * it is not an error here. Restoring saved work is optional behaviour: any other
+ * failure also resolves to `null`, leaving the page usable with empty fields
+ * rather than rejecting inside an effect where nothing can catch it.
+ */
+export const getMilestone = async (milestoneId: string): Promise<MilestoneResponse | null> => {
+    try {
+        return await api<MilestoneResponse>(`/api/courses/${milestoneId}/getResponse`);
+    } catch (error) {
+        if (!(error instanceof ApiError && error.status === 404)) {
+            console.error(`Could not load saved work for ${milestoneId}:`, error);
+        }
+        return null;
+    }
+};
 
 export const getMilestoneContent = (milestoneId: string) =>
     api<Milestone>(`/api/courses/${milestoneId}`);

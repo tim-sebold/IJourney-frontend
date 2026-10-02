@@ -187,11 +187,11 @@ function Confidence() {
                 await submitMilestone('milestone2_8', { userId: user?.uid, responses: { selected } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/9", prevMilestoneId: "milestone2/8" });
                 toast.success(result.message);
+                navigate('/milestones/milestone2/9');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone2/9');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

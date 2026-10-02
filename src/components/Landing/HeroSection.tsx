@@ -7,7 +7,8 @@ import { useProgress } from '../../context/ProgressContext';
 import { heroSectionData } from '../../datas/landingData';
 import { validateRegisterForm } from '../../lib/validation';
 import { register } from '../../controllers/authController';
-import { unlockNext } from '../../controllers/courseController';
+import { continueRouteFor, useContinueJourney } from '../../hooks/useContinueJourney';
+import { milestoneTitle } from '../../datas/milestoneTitles';
 
 import {
     Badge,
@@ -18,16 +19,18 @@ import {
     Label,
     Progress
 } from '../../elements';
-import BlindEye from '../../assets/image/blind-eye.svg';
-import BlindEyeOpen from '../../assets/image/blind-eye-open.svg';
+import { PasswordToggle } from "../../elements/passwordToggle";
 import ImageHeader from '../../assets/image/guide-posts/title.png';
 import ImageBook from '../../assets/image/book.png';
-import { sidebarData } from '../../datas/layoutData';
 
 
 function HeroSection() {
     const { user, loginWithEmailPassword } = useAuth();
-    const { refreshProgress, progress, currentMilestone, currentMilestoneChild } = useProgress();
+    const { progress } = useProgress();
+    const handleContinue = useContinueJourney();
+    const summary = progress?.summary;
+    const continueRoute = continueRouteFor(summary);
+    const isComplete = continueRoute === "/milestones/complete";
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState<Array<boolean>>([false, false]);
     const [inputValues, setInputValues] = useState<InputValues>({
@@ -35,6 +38,7 @@ function HeroSection() {
         email: "",
         password: "",
         confirmPassword: "",
+        schoolCode: "",
     });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
@@ -42,8 +46,8 @@ function HeroSection() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const { name, email, password, confirmPassword } = inputValues;
-        const { isValid, errors } = validateRegisterForm(name, email, password, confirmPassword);
+        const { name, email, password, confirmPassword, schoolCode } = inputValues;
+        const { isValid, errors } = validateRegisterForm(name, email, password, confirmPassword, schoolCode);
 
         if (!isValid) {
             setErrors(errors);
@@ -54,13 +58,13 @@ function HeroSection() {
         setLoading(true);
 
         try {
-            const data = await register(name, email, password);
+            const data = await register(name, email, password, schoolCode);
 
             if (data.success) {
                 toast.success(data.message);
 
                 await loginWithEmailPassword(email, password);
-                setInputValues({ name: "", email: "", password: "", confirmPassword: "" });
+                setInputValues({ name: "", email: "", password: "", confirmPassword: "", schoolCode: "" });
                 navigate('/');
             } else {
                 toast.error(data.message);
@@ -76,25 +80,6 @@ function HeroSection() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setInputValues((prev) => ({ ...prev, [id]: value }));
-    }
-
-    const handleContinue = async () => {
-        if (user) {
-            if (currentMilestone) {
-                navigate(`/milestones/milestone${currentMilestone}/${currentMilestoneChild}`);
-            } else {
-                try {
-                    const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone0/1", prevMilestoneId: "start" });
-                    console.log(result)
-                    toast.success(result.message);
-                    await refreshProgress();
-                    navigate('/milestones/milestone0/1');
-                } catch (error: any) {
-                    console.log(error);
-                    toast.error(error.message);
-                }
-            }
-        }
     }
 
     return (
@@ -157,13 +142,12 @@ function HeroSection() {
                                                         type={field.type === "password" ? (showPassword[index - 2] ? "text" : "password") : field.type}
                                                         placeholder={field.placeholder}
                                                         onChange={handleChange}
-                                                        autoComplete={field.id}
+                                                        autoComplete={field.autoComplete}
                                                         className="w-full rounded-none border text-[16px] border-solid px-3 py-6 border-gray-300 font-ib-1 font-normal tracking-[0.20px] bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
                                                     />
                                                     {field.type === "password" && (
                                                         <>
-                                                            <img src={BlindEye} onClick={() => { setShowPassword(showPassword.map((item, i) => i === index - 2 ? !item : item)) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[index - 2] ? "hidden" : "show"}`} />
-                                                            <img src={BlindEyeOpen} onClick={() => { setShowPassword(showPassword.map((item, i) => i === index - 2 ? !item : item)) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[index - 2] ? "show" : "hidden"}`} />
+                                                            <PasswordToggle visible={showPassword[index - 2]} onToggle={() => setShowPassword(showPassword.map((item, i) => i === index - 2 ? !item : item))} />
                                                         </>
                                                     )}
                                                 </div>
@@ -204,7 +188,7 @@ function HeroSection() {
                                         </p>
                                         <div className="font-bold text-[#252b42] text-[14px] md:text-[16px] wrap-anyway flex flex-col sm:flex-row md:gap-2">
                                             <span className='font-bold'>Current Milestone:</span>
-                                            <p className='text-ib-1'>{currentMilestone && currentMilestoneChild ? sidebarData.milestoneMenus[currentMilestone - 1][currentMilestoneChild - 1].title : Math.floor(progress?.summary.percent) === 100 ? "Completed" : "Start"}</p>
+                                            <p className='text-ib-1'>{isComplete ? "Completed" : continueRoute ? milestoneTitle(summary.currentMilestone) : "Start"}</p>
                                         </div>
                                     </div>
 
@@ -224,7 +208,7 @@ function HeroSection() {
                                         <div className="flex-1 h-px bg-gray-300" />
                                         <Button onClick={handleContinue} className="px-8 py-3 bg-[#ff6f61] hover:bg-[#ff6f61]/90 rounded-full cursor-pointer active:scale-95">
                                             <span className="text-white">
-                                                {currentMilestone ?  "Continue Your Course" : Math.floor(progress?.summary.percent) === 100 ? "Continue Your Course" : "Start Your Course"}
+                                                {isComplete ? "View Your Certificate" : continueRoute ? "Continue Your Course" : "Start Your Course"}
                                             </span>
                                         </Button>
                                         <div className="flex-1 h-px bg-gray-300" />

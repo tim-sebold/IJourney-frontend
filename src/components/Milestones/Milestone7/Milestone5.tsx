@@ -7,12 +7,13 @@ import { useCertificateDownload } from '../../../hooks/useCertificateDownload';
 
 import { MilestonePageShell } from '../MilestonePageShell';
 import { CustomButton } from "../../../elements/buttons";
+import { OutstandingSteps } from '../../Certificate/OutstandingSteps';
 import { Star, Heart, Target, Users, Lightbulb, Award } from 'lucide-react';
 
 function RoadAhead() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const { download, loading } = useCertificateDownload();
+    const { download, loading, outstanding } = useCertificateDownload();
 
     const previous = () => {
         navigate('/milestones/milestone7/4');
@@ -76,6 +77,7 @@ function RoadAhead() {
                                     type='green'
                                     loading={loading}
                                 />
+                                <OutstandingSteps steps={outstanding} />
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import { ProgressProvider } from './context/ProgressContext';
 
@@ -12,21 +13,26 @@ import {
 
 import Landing from './pages/Landing';
 import NotFound from './pages/NotFound';
-import AboutUs from './pages/AboutUs';
-import Recap from './pages/Recap';
 import {
   Login,
   Register,
   ForgotPassword,
   UpdatePassword,
   Welcome,
-  ProfilePage
 } from './pages';
 import { IAM, StartingStatement, Complete } from './pages';
 
 import { generateMilestoneRoutes } from './routes/MilestoneRoute';
 import VerifyCertificatePage from './pages/Auth/VerifyCertificatePage';
 import ProtectedRoute from './routes/ProtectedRoute';
+import { AdminRoute } from './routes/AdminRoute';
+
+// Pages most visitors never open are split out of the first load. About Us alone
+// brings the Google Maps client with it.
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const Recap = lazy(() => import('./pages/Recap'));
+const ProfilePage = lazy(() => import('./pages/Auth/Profile'));
+const Admin = lazy(() => import('./pages/Admin'));
 
 const MAX_VISIBLE_TOASTS = 3;
 
@@ -52,6 +58,7 @@ const router = createBrowserRouter([
       { path: "aboutus", element: <AboutUs /> },
       { path: "user-profile", element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
       { path: "recap", element: <ProtectedRoute><Recap /></ProtectedRoute> },
+      { path: "admin", element: <AdminRoute><Admin /></AdminRoute> },
       { path: "verify/:certificateId", element: <VerifyCertificatePage /> },
       { path: "verify-certificate/:certificateId", element: <VerifyCertificatePage /> }
     ]
@@ -79,11 +86,6 @@ const router = createBrowserRouter([
     ],
   },
 
-  // {
-  //   path: "/dashboard",
-  //   element: <MainLayout />,
-  //   children: [{ index: true, element: <Dashboard /> }],
-  // },
   ...generateMilestoneRoutes(),
 
   { path: "*", element: <NotFound /> },
@@ -93,7 +95,10 @@ export default function App() {
   return (
     <AuthProvider>
       <ProgressProvider>
-        <RouterProvider router={router} />
+        {/* Honours the OS "reduce motion" setting for every framer-motion animation. */}
+        <MotionConfig reducedMotion="user">
+          <RouterProvider router={router} />
+        </MotionConfig>
       </ProgressProvider>
       <ToastLimit />
       <Toaster

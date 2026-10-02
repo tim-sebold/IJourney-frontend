@@ -19,8 +19,9 @@ export const registerData = {
     formFields: [
         {
             id: "name",
-            label: "Username*",
-            placeholder: "",
+            // Printed on the certificate, so it asks for a name, not a handle.
+            label: "Your Name*",
+            placeholder: "As it should appear on your certificate",
             type: "text",
         },
         {
@@ -40,6 +41,12 @@ export const registerData = {
             label: "Confirm Password *",
             placeholder: "",
             type: "password",
+        },
+        {
+            id: "schoolCode",
+            label: "School Code (optional)",
+            placeholder: "From your teacher — leave blank if you don't have one",
+            type: "text",
         }
     ]
 }

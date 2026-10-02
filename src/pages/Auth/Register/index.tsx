@@ -13,8 +13,7 @@ import {
     Label,
     Badge
 } from '../../../elements';
-import BlindEye from "../../../assets/image/blind-eye.svg";
-import BlindEyeOpen from "../../../assets/image/blind-eye-open.svg";
+import { PasswordToggle } from "../../../elements/passwordToggle";
 import ImageBrand from "../../../assets/image/landing.jpg";
 import IconLeftArrow from "../../../assets/image/left-arrow.svg";
 
@@ -27,6 +26,7 @@ function Register() {
         email: "",
         password: "",
         confirmPassword: "",
+        schoolCode: "",
     });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
@@ -34,9 +34,9 @@ function Register() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const { name, email, password, confirmPassword } = inputValues;
+        const { name, email, password, confirmPassword, schoolCode } = inputValues;
 
-        const { isValid, errors } = validateRegisterForm(name, email, password, confirmPassword);
+        const { isValid, errors } = validateRegisterForm(name, email, password, confirmPassword, schoolCode);
         if (!isValid) {
             setErrors(errors);
             return;
@@ -46,14 +46,12 @@ function Register() {
         setLoading(true);
 
         try {
-            const data = await register(name, email, password);
-            setInputValues({ name: "", email: "", password: "", confirmPassword: "" });
+            const data = await register(name, email, password, schoolCode);
 
             if (data.success) {
                 toast.success(data.message);
 
                 await loginWithEmailPassword(email, password);
-                setInputValues({ name: "", email: "", password: "", confirmPassword: "" });
                 navigate('/');
             } else {
                 toast.error(data.message);
@@ -107,8 +105,7 @@ function Register() {
                                                 />
                                                 {field.type === "password" && (
                                                     <>
-                                                        <img src={BlindEye} onClick={() => { setShowPassword(showPassword.map((item, i) => i === index - 2 ? !item : item)) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[index - 2] ? "hidden" : "show"}`} />
-                                                        <img src={BlindEyeOpen} onClick={() => { setShowPassword(showPassword.map((item, i) => i === index - 2 ? !item : item)) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[index - 2] ? "show" : "hidden"}`} />
+                                                        <PasswordToggle visible={showPassword[index - 2]} onToggle={() => setShowPassword(showPassword.map((item, i) => i === index - 2 ? !item : item))} />
                                                     </>
                                                 )}
                                             </div>

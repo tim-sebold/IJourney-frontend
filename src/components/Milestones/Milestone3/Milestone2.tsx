@@ -18,11 +18,11 @@ function CareerResearchLog() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone3/3", prevMilestoneId: "milestone3/2" });
                 toast.success(result.message);
+                navigate('/milestones/milestone3/3');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone3/3');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

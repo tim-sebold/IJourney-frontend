@@ -22,11 +22,11 @@ function IntroGuides() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone4/2", prevMilestoneId: "milestone4/1" });
                 toast.success(result.message);
+                navigate('/milestones/milestone4/2');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone4/2');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

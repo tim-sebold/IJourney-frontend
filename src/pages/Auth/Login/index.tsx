@@ -11,8 +11,7 @@ import {
     Label,
     Badge
 } from '../../../elements';
-import BlindEye from '../../../assets/image/blind-eye.svg';
-import BlindEyeOpen from '../../../assets/image/blind-eye-open.svg';
+import { PasswordToggle } from "../../../elements/passwordToggle";
 import Image from '../../../assets/image/landing.jpg';
 import ImageLogo from '../../../assets/image/logo-1.svg';
 import IconLeftArrow from "../../../assets/image/left-arrow.svg";
@@ -116,8 +115,7 @@ function Login() {
                                                 />
                                                 {field.type === "password" && (
                                                     <>
-                                                        <img src={BlindEye} onClick={() => { setShowPassword(!showPassword) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword ? "hidden" : "show"}`} />
-                                                        <img src={BlindEyeOpen} onClick={() => { setShowPassword(!showPassword) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword ? "show" : "hidden"}`} />
+                                                        <PasswordToggle visible={showPassword} onToggle={() => setShowPassword(!showPassword)} />
                                                     </>
                                                 )}
                                             </div>

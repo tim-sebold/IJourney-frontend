@@ -11,6 +11,7 @@ import { RECAP_GROUPS } from '../../datas/recapData';
 import { HIDDEN_RESPONSE_KEYS, questionFor } from '../../datas/recapQuestions';
 import { CustomButton } from '../../elements/buttons';
 import LoadingSpinner from '../../components/Loader';
+import { OutstandingSteps } from '../../components/Certificate/OutstandingSteps';
 
 /** `careerPaths` -> `Career paths`; good enough for every answer key we store. */
 const humanize = (key: string) =>
@@ -227,7 +228,7 @@ function StepCard({ stepKey, title, href, entry }: { stepKey: string; title: str
 function Recap() {
     const { user, userProfile } = useAuth();
     const { progress } = useProgress();
-    const { download, loading: downloading } = useCertificateDownload();
+    const { download, loading: downloading, outstanding } = useCertificateDownload();
 
     const [entries, setEntries] = useState<Record<string, RecapEntry>>({});
     const [loading, setLoading] = useState(true);
@@ -317,6 +318,9 @@ function Recap() {
                                 loading={downloading}
                             />
                         </div>
+                    </div>
+                    <div className="recap-no-print">
+                        <OutstandingSteps steps={outstanding} />
                     </div>
                 </div>
 

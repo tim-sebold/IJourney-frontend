@@ -17,6 +17,11 @@ type AuthContextValue = {
     user: User | null;
     userProfile: UserProfile | null;
     loading: boolean;
+    /**
+     * True when the ID token carries the admin claim. This only decides what the
+     * UI offers; every admin endpoint checks the claim again on the server.
+     */
+    isAdmin: boolean;
     getIdToken: () => Promise<string | null>;
     loginWithEmailPassword: (email: string, password: string) => Promise<void>;
     loginWithGoogle: () => Promise<void>;
@@ -32,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const refreshProfile = useCallback(async () => {
         if (!auth.currentUser) return;
@@ -53,14 +59,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(u);
             try {
                 if (u) {
-                    const profile = await getProfile();
+                    const [profile, token] = await Promise.all([getProfile(), u.getIdTokenResult()]);
                     setUserProfile(profile as UserProfile);
+                    setIsAdmin(token.claims.role === 'admin');
                 } else {
                     setUserProfile(null);
+                    setIsAdmin(false);
                 }
             } catch (err) {
                 console.error("Failed to fetch backend profile:", err);
                 setUserProfile(null);
+                setIsAdmin(false);
             } finally {
                 setLoading(false);
             }
@@ -125,6 +134,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             user,
             userProfile,
             loading,
+            isAdmin,
             getIdToken,
             loginWithEmailPassword,
             loginWithGoogle,
@@ -132,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             patchUserProfile,
             refreshProfile
         }),
-        [user, userProfile, loading, getIdToken, refreshProfile]
+        [user, userProfile, loading, isAdmin, getIdToken, refreshProfile]
     );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

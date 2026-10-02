@@ -16,11 +16,11 @@ function EducationalJourneys() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone5/3", prevMilestoneId: "milestone5/2" });
                 toast.success(result.message);
+                navigate('/milestones/milestone5/3');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone5/3');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

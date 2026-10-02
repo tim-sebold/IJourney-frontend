@@ -19,9 +19,8 @@ function NavigatingEducation() {
         if(user) {
             const getResponse = async () => {
                 const response = await getMilestone('milestone5_1');
-                if(response) {
-                    setGoal(response.responses.goal as string);
-                }
+                const saved = response?.responses?.goal;
+                if (typeof saved === 'string') setGoal(saved);
             }
             getResponse();
         }
@@ -32,11 +31,11 @@ function NavigatingEducation() {
                 await submitMilestone('milestone5_1', { userId: user?.uid, responses: { goal } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone5/2", prevMilestoneId: "milestone5/1" });
                 toast.success(result.message);
+                navigate('/milestones/milestone5/2');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone5/2');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

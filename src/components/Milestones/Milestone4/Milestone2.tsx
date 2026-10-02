@@ -36,8 +36,9 @@ function MappingNet() {
         if (user) {
             const getResponse = async () => {
                 const response = await getMilestone('milestone4_2');
-                if (response) {
-                    setSupports(response.responses.supports as Array<object>);
+                const saved = response?.responses?.supports;
+                if (Array.isArray(saved)) {
+                    setSupports(saved as Array<object>);
                     setIsSaved(true);
                 }
             }
@@ -50,11 +51,11 @@ function MappingNet() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone4/3", prevMilestoneId: "milestone4/2" });
                 toast.success(result.message);
+                navigate('/milestones/milestone4/3');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone4/3');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }
