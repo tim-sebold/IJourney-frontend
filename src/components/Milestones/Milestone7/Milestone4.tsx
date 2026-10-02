@@ -10,7 +10,7 @@ import { NextStepsCard } from './components/NextStepCard';
 
 function CelebrationCompletion() {
     const { user } = useAuth();
-    const { download, loading } = useCertificateDownload();
+    const { download, loading, outstanding } = useCertificateDownload();
 
     const { previous, next, isNextLoading } = useMilestoneNav({
         previousRoute: "/milestones/milestone7/3",
@@ -29,7 +29,7 @@ function CelebrationCompletion() {
             <div className="flex flex-col gap-6">
                 <div className="space-y-6">
                     <CompletionCard />
-                    <CertificateCard name={user?.displayName} downloadFunc={download} loading={loading} />
+                    <CertificateCard name={user?.displayName} downloadFunc={download} loading={loading} outstanding={outstanding} />
                     <NextStepsCard />
                 </div>
             </div>

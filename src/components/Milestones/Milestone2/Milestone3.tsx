@@ -45,7 +45,7 @@ function MiaStory() {
                 const response = await getMilestone('milestone2_3');
 
                 if(response) {
-                    setFeeling(response.responses.feeling as string);
+                    setFeeling(typeof response.responses?.feeling === 'string' ? response.responses.feeling : "");
                     setnextButtonDisabledState(false);
                 }
             }
@@ -58,11 +58,11 @@ function MiaStory() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/4", prevMilestoneId: "milestone2/3" });
                 toast.success(result.message);
+                navigate('/milestones/milestone2/4');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone2/4');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

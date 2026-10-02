@@ -1,8 +1,8 @@
+import { Suspense } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
-import Chatbot from '../components/Chatbot';
 import LoadingSpinner from '../components/Loader';
 import RouteTransition from '../components/Loader/RouteTransition';
 
@@ -16,11 +16,12 @@ function Layout() {
                 <Header />
             </div>
             <main className='relative'>
-                <RouteTransition />
+                <Suspense fallback={<LoadingSpinner />}>
+                    <RouteTransition />
+                </Suspense>
             </main>
             <div className="recap-no-print">
                 <Footer />
-                <Chatbot />
             </div>
         </div>
     );

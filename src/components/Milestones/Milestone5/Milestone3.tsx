@@ -15,18 +15,18 @@ function InvestingEducation() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone5/4", prevMilestoneId: "milestone5/3" });
                 toast.success(result.message);
+                navigate('/milestones/milestone5/4');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone5/4');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }
     }
 
     const previous = () => {
-        navigate('/milestones/milestone5/4');
+        navigate('/milestones/milestone5/2');
     };
 
 

@@ -1,6 +1,5 @@
 
 import Header from '../components/Layout/Header';
-import Chatbot from "../components/Chatbot";
 
 import LogoImage from "../assets/image/milestones/logo.png";
 import RouteTransition from "../components/Loader/RouteTransition";
@@ -21,7 +20,6 @@ function IntroductionLayout() {
                     </div>
                 </div>
             </div>
-            <Chatbot />
         </div>
 
     )

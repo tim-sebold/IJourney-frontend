@@ -194,10 +194,9 @@ function ResourceInventory() {
             const getResponse = async () => {
                 const response = await getMilestone('milestone4_4');
 
-                if (response) {
-                    setSelectedResources(new Set(response.responses.resources as Array<string>));
-                    setCustomResources(response.responses.customResources as Array<string>);
-                }
+                const saved = response?.responses;
+                if (Array.isArray(saved?.resources)) setSelectedResources(new Set(saved.resources as Array<string>));
+                if (Array.isArray(saved?.customResources)) setCustomResources(saved.customResources as Array<string>);
             }
             getResponse();
         }
@@ -225,11 +224,11 @@ function ResourceInventory() {
                 await submitMilestone('milestone4_4', { userId: user?.uid, responses: { resources: finalResources, customResources: customResources } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone4/5", prevMilestoneId: "milestone4/4" });
                 toast.success(result.message);
+                navigate('/milestones/milestone4/5');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone4/5');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

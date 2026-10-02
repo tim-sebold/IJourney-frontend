@@ -13,17 +13,6 @@ import {
     changePassword,
 } from "../../../services/securityService";
 
-import {
-    // fetchSessions,
-    logoutAllDevices,
-} from "../../../services/sessionService";
-
-import {
-    // updatePrivacySettings,
-    requestDataExport,
-    requestAccountDeletion,
-} from "../../../services/privacyService";
-
 import { ProfileShell } from "../../../components/Profile/ProfileShell";
 import { TopNavIcons } from "../../../components/Profile/Overview/TopNavIcons";
 import { ProfileIdentityRow } from "../../../components/Profile/Overview/ProfileIdentityRow";
@@ -33,9 +22,9 @@ import { ProfileActions } from "../../../components/Profile/Overview/ProfileActi
 import { SecurityPrivacy } from "../../../components/Profile/Security/SecurityPrivacy";
 
 import { useProfileDraft } from "../../../hooks/useProfileDraft";
-import { doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
+import { updateProfile as saveProfile } from "../../../controllers/userController";
 
 function ProfileSkeleton() {
     return (
@@ -62,10 +51,11 @@ export default function ProfilePage() {
     const safeOnSaveProfile = async (patch: Partial<UserProfile>) => {
         if (!user) throw new Error("Not authenticated");
 
-        await updateDoc(doc(db, "users", user.uid), patch);
-        await updateProfile(auth.currentUser!, {
-            displayName: patch.displayName ?? patch.name,
-        });
+        // Saved through the API, which allowlists the fields a user may change
+        // about themselves, rather than written to Firestore from the browser.
+        await saveProfile(patch);
+        const displayName = patch.displayName ?? patch.name;
+        if (displayName) await updateProfile(auth.currentUser!, { displayName });
         patchUserProfile(patch);
         await refreshProfile();
         toast.success("Your profile was updated successfully.")
@@ -166,11 +156,6 @@ export default function ProfilePage() {
                                         profile={draft}
                                         loading={!isReady}
                                         onChangePassword={changePassword}
-                                        // onFetchSessions={fetchSessions}
-                                        onLogoutAllDevices={logoutAllDevices}
-                                        // onUpdatePrivacy={updatePrivacySettings}
-                                        onRequestDataExport={requestDataExport}
-                                        onRequestAccountDeletion={requestAccountDeletion}
                                     />
                                 )}
                             </>

@@ -416,3 +416,22 @@ body {
     background: #ffffff !important;
   }
 }
+
+/*
+ * Respect "reduce motion". This is a wellbeing product used in classrooms, and
+ * movement on every page change is a vestibular trigger for some students, so
+ * the preference turns off every CSS animation and transition here; the
+ * JavaScript-driven ones are handled by <MotionConfig reducedMotion="user"> in
+ * App.tsx. Anything animated that is added later inherits both.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

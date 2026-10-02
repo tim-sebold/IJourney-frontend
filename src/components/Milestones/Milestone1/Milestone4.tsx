@@ -31,8 +31,9 @@ function InteractiveFeelingsWheel() {
             const getResponse = async () => {
                 try {
                     const result = await getMilestone('milestone1_4');
-                    if (result) {
-                        setSavedEntry(result.responses.entries as EmotionNode[]);
+                    const entries = result?.responses?.entries;
+                    if (Array.isArray(entries)) {
+                        setSavedEntry(entries as EmotionNode[]);
                         setbuttonDisabledStatus(false);
                         setnextButtonDisabledState(false);
                     }
@@ -49,11 +50,11 @@ function InteractiveFeelingsWheel() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone1/5", prevMilestoneId: "milestone1/4" });
                 toast.success(result.message);
+                navigate('/milestones/milestone1/5');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone1/5');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

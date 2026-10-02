@@ -51,9 +51,8 @@ function IdentifyTrueNorth() {
         if (user) {
             const getResponse = async () => {
                 const result = await getMilestone('milestone1_5');
-                if (result) {
-                    setCheckedItems(result.responses.trueNorth as Array<object>);
-                }
+                const trueNorth = result?.responses?.trueNorth;
+                if (Array.isArray(trueNorth)) setCheckedItems(trueNorth);
             }
             getResponse();
         }
@@ -65,11 +64,11 @@ function IdentifyTrueNorth() {
                 await submitMilestone('milestone1_5', { userId: user?.uid, responses: { trueNorth: checkedItems } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone1/6", prevMilestoneId: "milestone1/5" });
                 toast.success(result.message);
+                navigate('/milestones/milestone1/6');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone1/6');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

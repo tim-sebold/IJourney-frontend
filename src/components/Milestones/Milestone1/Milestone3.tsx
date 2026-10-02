@@ -22,11 +22,11 @@ function ExploreEmotion() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone1/4", prevMilestoneId: "milestone1/3" });
                 toast.success(result.message);
+                navigate('/milestones/milestone1/4');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone1/4');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

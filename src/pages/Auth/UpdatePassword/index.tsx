@@ -10,8 +10,7 @@ import { Label } from "../../../elements/label";
 import Logo from "../../../assets/image/logo.svg";
 import Auth1 from "../../../assets/image/auth1.png";
 import leftArrow from "../../../assets/image/left-arrow.svg";
-import BlindEye from "../../../assets/image/blind-eye.svg";
-import BlindEyeOpen from "../../../assets/image/blind-eye-open.svg";
+import { PasswordToggle } from "../../../elements/passwordToggle";
 import { auth } from "../../../firebaseConfig";
 import { validateConfirmPassword, validatePassword } from "../../../lib/validation";
 
@@ -126,8 +125,7 @@ function UpdatePassword() {
                                                             type={showPassword[0] ? "text" : "password"}
                                                             className="border-0 border-b border-ib rounded-none px-0 h-auto pb-2 w-full"
                                                         />
-                                                        <img src={BlindEye} onClick={() => { setShowPassword([!showPassword[0], showPassword[1]]) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[0] ? "hidden" : "show"}`} />
-                                                        <img src={BlindEyeOpen} onClick={() => { setShowPassword([!showPassword[0], showPassword[1]]) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[0] ? "show" : "hidden"}`} />
+                                                        <PasswordToggle visible={showPassword[0]} onToggle={() => setShowPassword([!showPassword[0], showPassword[1]])} />
                                                     </div>
                                                 </div>
                                                 <div className="w-full justify-between z-4 flex flex-col max-w-[800px] items-start relative opacity-0 animate-fade-in [animation-delay:200ms]">
@@ -141,8 +139,7 @@ function UpdatePassword() {
                                                             type={showPassword[1] ? "text" : "password"}
                                                             className="border-0 border-b border-ib rounded-none px-0 h-auto pb-2 w-full"
                                                         />
-                                                        <img src={BlindEye} onClick={() => { setShowPassword([showPassword[0], !showPassword[1]]) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[1] ? "hidden" : "show"}`} />
-                                                        <img src={BlindEyeOpen} onClick={() => { setShowPassword([showPassword[0], !showPassword[1]]) }} alt="" className={`absolute cursor-pointer top-[calc(50%-12px)] right-2.5 w-5 h-5 text-ib ${showPassword[1] ? "show" : "hidden"}`} />
+                                                        <PasswordToggle visible={showPassword[1]} onToggle={() => setShowPassword([showPassword[0], !showPassword[1]])} />
                                                     </div>
                                                 </div>
                                                 <Button type="submit" loading={loading} disabled={codeStatus !== "valid" || loading} className="h-auto items-center cursor-pointer text-white px-6 py-2 relative w-full z-3 opacity-0 bg-custom border-custom rounded-xl hover:bg-white border-2 hover:border-ib-1 hover:text-ib-1 disabled:opacity-60 disabled:cursor-not-allowed transition-colors animate-fade-in [animation-delay:300ms]">

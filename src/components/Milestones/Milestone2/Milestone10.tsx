@@ -1,61 +1,141 @@
-
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { unlockNext } from '../../../controllers/courseController';
-import toast from 'react-hot-toast';
+import { getMilestone } from '../../../controllers/courseController';
+import { useMilestoneNav } from '../../../hooks/useMilestoneNav';
+import { MilestonePageShell } from '../MilestonePageShell';
 
-import { CustomButton } from "../../../elements/buttons";
+/** The groups M2.8 saves its ticked traits under, in the order they are shown. */
+const CONFIDENCE_GROUPS = [
+    { id: 'healthy', label: 'Healthy confidence' },
+    { id: 'overlyHigh', label: 'Overly high confidence' },
+    { id: 'low', label: 'Low confidence' },
+] as const;
 
+type Reflection = { question: string; answer: string; href: string };
+
+/**
+ * The close of Milestone 2. Everything on it is the student's own work, read
+ * back from the steps that collected it — the traits ticked on the Confidence
+ * Compass (M2.8) and the reflections written on M2.5 and M2.9. Where a step has
+ * nothing saved, the page says so and links to it rather than filling the gap.
+ */
 function SummaryOasis() {
-    const navigate = useNavigate();
     const { user } = useAuth();
-    const next = async () => {
-        if (user) {
-            try {
-                const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone3/1", prevMilestoneId: "milestone2/10" });
-                toast.success(result.message);
-            } catch (error: any) {
-                console.log(error);
-                toast.error(error.message);
-            }
-            navigate('/milestones/milestone3/1');
-        } else {
-            toast.error("You need to log in to unlock the next milestone.");
-        }
-    }
+    const [traits, setTraits] = useState<Record<string, string[]>>({});
+    const [reflections, setReflections] = useState<Reflection[]>([]);
+    const [loaded, setLoaded] = useState(false);
 
-    const previous = () => {
-        navigate('/milestones/milestone2/9');
-    };
+    const { previous, next, isNextLoading } = useMilestoneNav({
+        previousRoute: "/milestones/milestone2/9",
+        nextRoute: "/milestones/milestone3/1",
+        unlock: { milestoneId: "milestone3/1", prevMilestoneId: "milestone2/10" },
+    });
+
+    useEffect(() => {
+        if (!user) return;
+        let active = true;
+
+        (async () => {
+            const [compass, eq, character] = await Promise.all([
+                getMilestone('milestone2_8'),
+                getMilestone('milestone2_5'),
+                getMilestone('milestone2_9'),
+            ]);
+            if (!active) return;
+
+            const selected = (compass?.responses?.selected ?? {}) as Record<string, unknown>;
+            setTraits(Object.fromEntries(
+                CONFIDENCE_GROUPS.map(({ id }) => [
+                    id,
+                    Array.isArray(selected[id])
+                        ? (selected[id] as unknown[]).filter((trait): trait is string => typeof trait === 'string')
+                        : [],
+                ])
+            ));
+
+            const answerOf = (value: unknown) => (typeof value === 'string' ? value.trim() : '');
+            setReflections([
+                {
+                    question: 'How does Emotional Intelligence affect your actions?',
+                    answer: answerOf(eq?.responses?.reflection),
+                    href: '/milestones/milestone2/5',
+                },
+                {
+                    question: 'A time your character was tested, and the traits you showed',
+                    answer: answerOf(character?.responses?.reflection),
+                    href: '/milestones/milestone2/9',
+                },
+            ]);
+            setLoaded(true);
+        })();
+
+        return () => { active = false; };
+    }, [user]);
+
+    const hasTraits = CONFIDENCE_GROUPS.some(({ id }) => (traits[id] ?? []).length > 0);
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col items-center text-center">
-                <h3 className="font-bold">M2.10: Oasis Summary & Commit</h3>
-                <h6>In here, I will give you current confidence level.</h6>
+        <MilestonePageShell
+            title="M2.10: Oasis Summary & Commit"
+            subtitle="A look back at what you discovered about yourself in your Oasis."
+            onPrevious={previous}
+            onNext={next}
+            isNextLoading={isNextLoading}
+        >
+            <div>
+                <h4 className='font-bold'>My Confidence Compass</h4>
+                {!loaded ? (
+                    <h6>Loading what you chose...</h6>
+                ) : hasTraits ? (
+                    <div className="mt-2 flex flex-col gap-3">
+                        <h6>These are the statements you chose as true for you right now:</h6>
+                        {CONFIDENCE_GROUPS.filter(({ id }) => (traits[id] ?? []).length > 0).map(({ id, label }) => (
+                            <div key={id}>
+                                <h6 className='font-bold text-ib-1'>{label}</h6>
+                                <ul className="list-disc pl-6">
+                                    {traits[id].map((trait) => <li key={trait}>{trait}</li>)}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <h6>
+                        You have not chosen any statements on the Confidence Compass yet.{' '}
+                        <Link to="/milestones/milestone2/8" className="font-bold text-ib-1 underline">Go to M2.8</Link>
+                    </h6>
+                )}
             </div>
-            <div className="">
-                <h4 className='font-bold'>My Confidence Compass Rating</h4>
-                <h6>Your current confidence level across all dimensions: <span className='font-bold text-ib-1'>8.2 / 10</span></h6>
-                <h6>This represents your healthy confidence in navigating your personal and professional journey.</h6>
-            </div>
-            <div className="">
+
+            <div>
                 <h4 className='font-bold'>My Oasis Reflection Notes</h4>
-                <h6>Through my journey of self-discovery, I've learned that my emotional intelligence allows me to connect deeply with others while maintaining healthy boundaries.
-                    My self-esteem is rooted in my authentic values and character strengths, not external validation.
-                    I recognize that I am designed to thrive, and I have abundant resources to share with others from my personal oasis.
-                    This foundation gives me joy, happiness, and security in the fullness of my creation.
-                </h6>
+                {!loaded ? (
+                    <h6>Loading what you wrote...</h6>
+                ) : (
+                    <div className="mt-2 flex flex-col gap-4">
+                        {reflections.map(({ question, answer, href }) => (
+                            <div key={href}>
+                                <h6 className='font-bold'>{question}</h6>
+                                {answer ? (
+                                    <p className="whitespace-pre-wrap">{answer}</p>
+                                ) : (
+                                    <h6>
+                                        Nothing written yet.{' '}
+                                        <Link to={href} className="font-bold text-ib-1 underline">Write it now</Link>
+                                    </h6>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
-            <div className="flex flex-col gap-2">
-                
-            </div>
-            <div className="flex justify-between w-full gap-2 text-center">
-                <CustomButton onClickFunc={previous} title='previous' className='rounded-none justify-end' type='move'></CustomButton>
-                <CustomButton onClickFunc={next} title='next' className='rounded-none justify-end' type='move'></CustomButton>
-            </div>
-        </div>
-    )
+
+            <h6>
+                Your Oasis is yours to return to. When you are ready, press Next to carry
+                what you have learned about yourself into Milestone 3.
+            </h6>
+        </MilestonePageShell>
+    );
 }
 
 export default SummaryOasis;

@@ -15,11 +15,11 @@ function CreateCareerProjectFair() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone7/1", prevMilestoneId: "milestone6/5" });
                 toast.success(result.message);
+                navigate('/milestones/milestone7/1');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone7/1');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }
@@ -69,17 +69,6 @@ function CreateCareerProjectFair() {
                                     <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-blue-600 mt-1" /> Add images that represent your vision</li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
-                        <h4 className="text-xl font-bold text-yellow-800 mb-3">AI-Powered Presentation Assistant</h4>
-                        <p className="mb-4">Our AI chatbot can help you create your presentation by suggesting content, layout ideas, and design elements based on your Envisioning Your Future Statement.</p>
-                        <div className="space-y-2">
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Ask for layout suggestions based on your content</div>
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Get color scheme recommendations based on your personal brand</div>
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Generate image ideas for your visual elements</div>
-                            <div className="flex items-start gap-2"><Lightbulb className="w-5 h-5 text-yellow-600 mt-1" /> Help you write compelling captions and descriptions</div>
                         </div>
                     </div>
                 </div>

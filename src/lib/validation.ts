@@ -6,7 +6,9 @@ export interface ValidationResult {
 
 export const validateName = (name: string): string => {
   if (!name) return "Name is required.";
-  if (name.length < 6) return "Name must be at least 6 characters long.";
+  // Matches the server, which accepts two characters: a six-character minimum
+  // turned away anyone called Sam or Maria.
+  if (name.trim().length < 2) return "Name must be at least 2 characters long.";
   return "";
 }
 
@@ -31,6 +33,14 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
   return "";
 };
 
+/** Mirrors the server's rule; the server is still what decides the code is real. */
+export const validateSchoolCode = (schoolCode: string): string => {
+  const code = schoolCode.trim().replace(/[\s-]+/g, "");
+  if (!code) return "";
+  if (!/^[A-Za-z0-9]{4,20}$/.test(code)) return "A school code is 4 to 20 letters and numbers.";
+  return "";
+};
+
 export const validateLoginForm = (email: string, password: string): ValidationResult => {
   const errors: Record<string, string> = {};
 
@@ -50,7 +60,8 @@ export const validateRegisterForm = (
   name: string,
   email: string,
   password: string,
-  confirmPassword: string
+  confirmPassword: string,
+  schoolCode = ""
 ): ValidationResult => {
   const errors: Record<string, string> = {};
 
@@ -65,6 +76,9 @@ export const validateRegisterForm = (
 
   const confirmError = validateConfirmPassword(password, confirmPassword);
   if (confirmError) errors.confirmPassword = confirmError;
+
+  const schoolCodeError = validateSchoolCode(schoolCode);
+  if (schoolCodeError) errors.schoolCode = schoolCodeError;
 
   return {
     isValid: Object.keys(errors).length === 0,

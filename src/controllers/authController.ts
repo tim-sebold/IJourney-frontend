@@ -17,14 +17,15 @@ export const login = async (idToken: string) => {
     }
 }
 
-export const register = async (name: string, email: string, password: string) => {
+export const register = async (name: string, email: string, password: string, schoolCode = "") => {
     try {
         const data = await api<{ message: string; uid: string, success: boolean }>(`/api/auth/register`, {
             method: "POST",
             body: JSON.stringify({
                 email,
                 password,
-                name
+                name,
+                ...(schoolCode.trim() ? { schoolCode: schoolCode.trim() } : {}),
             }),
         });
         return data;

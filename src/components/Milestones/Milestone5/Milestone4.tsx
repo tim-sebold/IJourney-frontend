@@ -17,11 +17,11 @@ function LoansSelecting() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone5/5", prevMilestoneId: "milestone5/4" });
                 toast.success(result.message);
+                navigate('/milestones/milestone5/5');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone5/5');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

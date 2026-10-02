@@ -121,11 +121,11 @@ function DefiningRoles() {
                 await submitMilestone('milestone4_3', { userId: user?.uid, responses: { network } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone4/4", prevMilestoneId: "milestone4/3" });
                 toast.success(result.message);
+                navigate('/milestones/milestone4/4');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone4/4');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

@@ -21,11 +21,11 @@ function SelfEsteem() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/8", prevMilestoneId: "milestone2/7" });
                 toast.success(result.message);
+                navigate('/milestones/milestone2/8');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone2/8');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

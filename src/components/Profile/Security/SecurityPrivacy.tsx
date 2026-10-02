@@ -14,12 +14,6 @@ type Props = {
     loading?: boolean;
 
     onChangePassword: (currentPassword: string, newPassword: string) => Promise<void>;
-    onUnlinkProvider?: (providerId: string) => Promise<void>;
-    // onFetchSessions: () => Promise<SessionInfo[]>;
-    onLogoutAllDevices: () => Promise<void>;
-    // onUpdatePrivacy: (patch: Partial<PrivacyState>) => Promise<void>;
-    onRequestDataExport: () => Promise<void>;
-    onRequestAccountDeletion: (confirmText: string) => Promise<void>;
 };
 
 export function SecurityPrivacy({

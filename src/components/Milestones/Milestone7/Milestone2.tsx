@@ -28,9 +28,8 @@ function SmartGoals() {
         if (!user) return;
         (async () => {
             const response = await getMilestone("milestone7_2");
-            if (response?.responses?.smartGoals) {
-                setSmartGoals(response.responses.smartGoals as SmartGoal[]);
-            }
+            const saved = response?.responses?.smartGoals;
+            if (Array.isArray(saved)) setSmartGoals(saved as SmartGoal[]);
         })();
     }, [user]);
 

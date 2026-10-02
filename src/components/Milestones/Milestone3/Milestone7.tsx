@@ -98,11 +98,11 @@ export default function App() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone4/1", prevMilestoneId: "milestone3/7" });
                 toast.success(result.message);
+                navigate('/milestones/milestone4/1');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone4/1');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

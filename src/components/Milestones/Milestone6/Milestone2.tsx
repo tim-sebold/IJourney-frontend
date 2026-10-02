@@ -83,8 +83,8 @@ function EnvisioningFutureStatement() {
                     </div>
 
                     <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-                        <h4 className="text-xl font-bold text-blue-800 mb-3">AI Writing Assistant</h4>
-                        <p className="mb-4">Our AI chatbot can help you craft your Envisioning Your Future Statement by asking probing questions:</p>
+                        <h4 className="text-xl font-bold text-blue-800 mb-3">Questions to Get You Started</h4>
+                        <p className="mb-4">Ask yourself these questions as you craft your Envisioning Your Future Statement:</p>
                         <ul className="space-y-2 mb-4">
                             <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-blue-600 mt-1" /> "What core value is most important to you?"</li>
                             <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-blue-600 mt-1" /> "How do you want to be remembered?"</li>

@@ -25,12 +25,13 @@ function StatementBuilder() {
         if(user) {
             const getResponse = async () => {
                 const result = await getMilestone('milestone1_7');
-                if (result) {
-                    setValue1(result.responses.value1 as string);
-                    setValue2(result.responses.value2 as string);
-                    setValue3(result.responses.value3 as string);
-                    setValue4(result.responses.value4 as string);
-                    setValue5(result.responses.value5 as string);
+                if (result?.responses) {
+                    const saved = result.responses as Record<string, string | undefined>;
+                    setValue1(saved.value1 ?? "");
+                    setValue2(saved.value2 ?? "");
+                    setValue3(saved.value3 ?? "");
+                    setValue4(saved.value4 ?? "");
+                    setValue5(saved.value5 ?? "");
                 }
             }
             getResponse();
@@ -43,11 +44,11 @@ function StatementBuilder() {
                 await submitMilestone('milestone1_7', { userId: user?.uid, responses: { value1, value2, value3, value4, value5 } });
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone2/1", prevMilestoneId: "milestone1/7" });
                 toast.success(result.message);
+                navigate('/milestones/milestone2/1');
             } catch (error: any) {
-                console.log(error); 
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone2/1');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

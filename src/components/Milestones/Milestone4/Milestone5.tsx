@@ -19,15 +19,23 @@ function RoadwaysSummary() {
     useEffect(() => {
         if(user) {
             const getResponse = async () => {
-                const responseRoles = await getMilestone('milestone4_3');
-                setContract(responseRoles.responses.network as Array<object>);
+                // Each of these may be absent: the page is reachable before the earlier
+                // steps were saved, and every read is independent of the others.
+                const [responseRoles, responseResources, response] = await Promise.all([
+                    getMilestone('milestone4_3'),
+                    getMilestone('milestone4_4'),
+                    getMilestone('milestone4_5'),
+                ]);
 
-                const responseResources = await getMilestone('milestone4_4');
-                setResources(responseResources.responses.resources as string[]);
+                const network = responseRoles?.responses?.network;
+                if (Array.isArray(network)) setContract(network as Array<object>);
 
-                const response = await getMilestone('milestone4_5');
-                if (response) {
-                    setReflection(response.responses.reflection as string);
+                const savedResources = responseResources?.responses?.resources;
+                if (Array.isArray(savedResources)) setResources(savedResources as string[]);
+
+                const savedReflection = response?.responses?.reflection;
+                if (typeof savedReflection === 'string') {
+                    setReflection(savedReflection);
                     setIsCompleted(true);
                 }
             }
@@ -39,11 +47,11 @@ function RoadwaysSummary() {
             try {
                 const result = await unlockNext({ userId: user?.uid, milestoneId: "milestone5/1", prevMilestoneId: "milestone4/5" });
                 toast.success(result.message);
+                navigate('/milestones/milestone5/1');
             } catch (error: any) {
-                console.log(error);
+                console.error(error);
                 toast.error(error.message);
             }
-            navigate('/milestones/milestone5/1');
         } else {
             toast.error("You need to log in to unlock the next milestone.");
         }

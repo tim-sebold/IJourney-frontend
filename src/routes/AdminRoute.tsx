@@ -1,32 +1,19 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { api } from '../lib/api';
 
 import LoadingSpinner from '../components/Loader';
 
+/**
+ * Keeps the admin pages out of reach of accounts without the admin claim. It is
+ * a convenience, not the security boundary: `/api/admin/*` verifies the claim on
+ * every request, so a forged client state gets an empty page and a 403.
+ */
 export function AdminRoute({ children }: { children: React.ReactNode }) {
-    const { user, loading } = useAuth();
-    const [allowed, setAllowed] = useState<boolean | null>(null);
+    const { user, loading, isAdmin } = useAuth();
+    const location = useLocation();
 
-    useEffect(() => {
-        let mounted = true;
-
-        (async () => {
-            if (loading) return;
-            if (!user) return setAllowed(false);
-            try {
-                await api(`/api/admin/analytics`, { method: "GET" });
-                if (mounted) setAllowed(true);
-            } catch {
-                if (mounted) setAllowed(false);
-            }
-        })();
-        
-        return () => { mounted = false; };
-    }, [loading, user]);
-
-    if (loading || allowed === null) return <LoadingSpinner />;
-    if (!allowed) return <Navigate to="/" replace />;
+    if (loading) return <LoadingSpinner />;
+    if (!user) return <Navigate to="/login" replace state={{ from: location }} />;
+    if (!isAdmin) return <Navigate to="/" replace />;
     return children;
 }
